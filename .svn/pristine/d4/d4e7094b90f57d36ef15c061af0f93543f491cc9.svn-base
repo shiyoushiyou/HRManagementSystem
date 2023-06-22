@@ -1,0 +1,122 @@
+ <!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+  <title>HRManagementSystem</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <link rel="stylesheet" type="text/css" th:href="@{/css/styleindex.css}" href="../../static/css/styleindex.css" />
+  <script type="text/javascript" th:src="@{/js/jquery.min.js}" src="../../static/js/jquery.min.js"></script>
+  <style>
+	form {
+  	background-color: #ffffff; 
+  	padding: 25px 8px;
+  	border-radius: 50px; 
+  	margin:0 auto;
+	}
+
+	.tittle {
+  	font-size: 42px; 
+	}
+
+	label {
+  	display: inline-block;
+  	width: 75px; /* 设置标签元素的宽度 */
+  	font-weight: bold; /* 设置标签元素的字体加粗 */
+ 	font-size: 16.5px; /* 设置标签元素的字体大小 */
+	}
+
+	input[type="text"], input[type="date"] {
+  	border: 1px solid #ccc; /* 设置输入元素的边框样式*/
+  	padding: 5px; /* 设置输入元素内边距*/
+  	width: 75%; /* 设置输入元素的宽度*/
+  	box-sizing: border-box; 
+  	font-size: 16.5px;
+	}
+
+	select {
+  	width: 75%; /* 设置下拉框的宽度 */
+  	padding: 5px; /* 设置下拉框的内边距 */
+  	font-size: 16.5px; /* 设置下拉框的字体大小 */
+	}
+
+	button {
+  	background-color: darkred; 
+  	color: white; 
+  	border: none; 
+  	padding: 8px 16px; /* 设置按钮的内边距 */
+  	font-weight: bold; /* 设置按钮的字体加粗 */
+  	cursor: pointer;
+  	border-radius: 3px;
+  	font-size: 16.5px; /* 设置按钮的字体大小 */
+	}
+  </style>
+</head>
+
+<body>
+  <table>
+    <tr>
+      <td colspan="2" rowspan="2">
+        <div id="content">
+            <div class="tittle">休暇申請</div>
+            <span th:text="${msg}" id="msg"></span>
+			<form action="#" th:action="@{/request}" th:object="${leaveRequest}" method="post" onsubmit="return checkForm();">
+             <br>
+        <div>
+        <label for="leaveTypeId">休暇類型:</label>
+		<select id="leaveTypeId" name="leaveTypeId" th:field="*{leaveTypeId}">
+		<option value="1" th:selected="${leaveTypeId == 1}">事由休暇</option>
+		<option value="2" th:selected="${leaveTypeId == 2}">病気休暇</option>
+		<option value="3" th:selected="${leaveTypeId == 3}">年次有給休暇</option>
+		<option value="4" th:selected="${leaveTypeId == 4}">その他</option>
+		</select>
+		</div>
+		<br>
+		<div>
+			<label for="startDate">開始日:</label>
+			<input type="date" id="startDate" name="startDate" th:field="*{startDate}">
+			</div>
+			<br>
+			<div>
+			<label for="endDate">終了日:</label>
+			<input type="date" id="endDate" name="endDate" th:field="*{endDate}">
+			</div>
+			<br>
+		<div>
+		  <label for="reason">休暇理由:</label>
+    <input type="text" id="reason" name="reason" th:field="*{reason}" maxlength="20" title="休暇理由を文字で入力してください">
+		</div>
+		<br>
+		<button type="submit" >提出</button>
+	 	</form>
+	 	
+         <script>
+    	function checkForm() {
+    	var reason = document.getElementById("reason").value;
+
+    	// 确保输入不包含奇怪的符号
+   		if (/[\u0021-\u002f\u003a-\u0040\u005b-\u0060\u007b-\u007e]/.test(reason)) {
+        alert("休暇理由には特殊な文字を入力しないでください。");
+        return false;
+    }
+
+    	// 确保日期输入不为空
+    	var startDate = $("#startDate").val();
+    	var endDate = $("#endDate").val();
+    	if (!startDate || !endDate) {
+        alert("日付は正しく入力してください！");
+        return false;
+    }
+
+    	// 检查输入的内容是否符合要求
+    	if (!reason || /^[\u3000-\u303F\uFF00-\uFF9F\u0020-\u002F\u003A-\u0040\u005B-\u0060\u007B-\u007E]+$/.test(reason)) {
+        alert("休暇理由を文字で入力してください。");
+        return false;
+    }
+
+    	// 提交表单确认弹窗
+    	return confirm("申請は確認しますか？確認後、申請は変更できません。");
+	}
+</script>
+</body>
+</html>

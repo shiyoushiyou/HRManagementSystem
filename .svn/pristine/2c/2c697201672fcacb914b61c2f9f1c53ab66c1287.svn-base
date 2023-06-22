@@ -1,0 +1,38 @@
+package jp.co.hrms.mapper;
+
+import java.time.LocalDateTime;
+
+import org.apache.ibatis.annotations.Mapper;
+
+import jp.co.hrms.model.Attendance;
+
+@Mapper
+public interface AttendanceMapper {
+	// 出勤
+	void checkIn(String login);
+
+	// 退勤
+	void checkOut(String login);
+
+	// 休息
+	void restIn(String login);
+
+	// 休息完了
+	void restOut(String login);
+
+	// 添加考勤记录
+	void insert(String login);
+
+	// 更新考勤记录
+	void update(String login);
+
+	// 删除考勤记录
+	void deleteAttendance(String login);
+
+	// 按照不同条件查询打卡记录
+	Attendance selectAttendanceByEmployeeId(String login);
+
+//	List<Attendance> selectAttendanceByEmployeeId(String employeeId);
+
+	Attendance selectByEmployeeIdAndDate(String employeeId, LocalDateTime date);
+}

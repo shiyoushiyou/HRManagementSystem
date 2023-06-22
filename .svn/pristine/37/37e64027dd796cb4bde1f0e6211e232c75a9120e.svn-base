@@ -1,0 +1,38 @@
+package jp.co.hrms.service;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import jp.co.hrms.mapper.EmployeesMapper;
+import jp.co.hrms.model.Employees;
+import jp.co.hrms.model.Search;
+
+@Service
+public class EmployeesService {
+	@Autowired
+	private EmployeesMapper mapper;
+	
+	public List<Employees> getEmployeesByUserid(String loginId) {
+		//抓取員工個人資訊
+		return mapper.getEmployeesByUserid(loginId);
+		
+	}
+	
+	public boolean pwdChange(String pwd ,String newPassword) {
+		//變更密碼時的驗證及密碼UPDATE操作
+		String password = mapper.getPwdByPwd(pwd);
+		if(password.equals(pwd)) {
+			mapper.changePwd(pwd,newPassword);
+			return true;
+		}else{
+			return false;
+		}
+	}
+
+	public List<Employees> selectEmp(Search search) {
+			return mapper.selectEmp(search);
+		
+	}
+}

@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="jp.co.hrms.mapper.AttendanceMapper">
+
+  <insert id="insert" parameterType="String">
+    INSERT INTO attendance (employee_id, date_, check_in, check_out, rest_in, rest_out,status)
+    VALUES (#{login}, #{LocalDateTime}, #{LocalDateTime}, #{LocalDateTime}, #{LocalDateTime}, #{LocalDateTime},#{0})
+  </insert>
+
+  <update id="update" parameterType="Attendance">
+    UPDATE attendance SET
+    employee_id = #{employeeId},
+    date_ = #{date},
+    check_in = #{checkIn},
+    check_out = #{checkOut},
+    rest_in = #{restIn},
+    rest_out = #{restOut}
+    WHERE id = #{id}
+  </update>
+
+  <delete id="deleteAttendance" parameterType="int">
+    DELETE FROM attendance WHERE id = #{id}
+  </delete>
+
+  <select id="selectAttendanceById" resultType="Attendance" parameterType="int">
+    SELECT * FROM attendance WHERE id = #{id}
+  </select>
+
+  <select id="selectAttendanceByEmployeeId" resultType="Attendance" parameterType="String">
+    SELECT * FROM attendance WHERE employee_id = #{employeeId}
+  </select>
+
+  <select id="selectByEmployeeIdAndDate" resultType="Attendance">
+    SELECT * FROM attendance WHERE employee_id = #{employeeId} AND date_ = #{date}
+  </select>
+
+</mapper>

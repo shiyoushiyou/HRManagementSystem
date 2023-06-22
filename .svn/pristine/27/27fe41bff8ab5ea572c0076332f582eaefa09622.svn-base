@@ -1,0 +1,53 @@
+package jp.co.hrms.model;
+
+import java.io.Serializable;
+import java.time.LocalDateTime;
+
+import lombok.Data;
+
+@Data
+public class Attendance implements Serializable {
+//	private String id;
+	private String employeeId;
+	private LocalDateTime checkIn;
+	private LocalDateTime checkOut;
+	private LocalDateTime restIn;
+	private LocalDateTime restOut;
+	private String status;
+
+//	private List<AttendanceRecord> records;
+//
+//	public String getCheckIn1() {
+//		SimpleDateFormat sdf = new SimpleDateFormat("yyyy年MM月dd日 HH:mm:ss");
+//
+//		return this.status == 1 ? sdf.format(this.checkIn) : "";
+//	}
+//
+//	public String getCheckOut1() {
+//		SimpleDateFormat sdf = new SimpleDateFormat("yyyy年MM月dd日 HH:mm:ss");
+//
+//		return this.status == 1 ? sdf.format(this.checkOut) : "";
+//	}
+//
+//	public String getRestIn1() {
+//		SimpleDateFormat sdf = new SimpleDateFormat("yyyy年MM月dd日 HH:mm:ss");
+//
+//		return this.status == 1 ? sdf.format(this.restIn) : "";
+//	}
+//
+//	public String getRestOut1() {
+//		SimpleDateFormat sdf = new SimpleDateFormat("yyyy年MM月dd日 HH:mm:ss");
+//
+//		return this.status == 1 ? sdf.format(this.restOut) : "";
+//	}
+//
+//	public String getStatus1() {
+//		String status = null;
+//		if (this.status == 0) {
+//			status = "チェックイン済み";
+//		} else if (this.status == 1) {
+//			status = "未チェックイン";
+//		}
+//		return status;
+//	}
+}

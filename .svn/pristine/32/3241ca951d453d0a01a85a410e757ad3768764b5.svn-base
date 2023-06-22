@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--命名空間 實現與Mapper接口綁定-->
+<mapper namespace="jp.co.hrms.mapper.EmployeesMapper">
+	<!--id屬性與Mapper接口中方法綁定  -->
+	<select id ="getEmployeesByUserid" resultType="Employees" parameterType ="String">
+		SELECT 
+			E.ID
+			, E.NAME
+			, E.GENDER
+			, E.BIRTH
+			, E.ADDRESS
+			, E.PHONE_NUMBER
+			, E.STATUS
+			, D.NAME AS DEPARTMENT_NAME
+		    , P.NAME AS POSITION_NAME
+		    , E.HIRE_DATE
+		    , E.PASSWORD
+		FROM 
+			EMPLOYEES E
+		INNER JOIN 
+			DEPARTMENTS D 
+		ON 
+			E.DEPARTMENT_ID = D.ID
+		INNER JOIN 
+			POSITIONS P 
+		ON 
+			E.POSITION_ID = P.ID
+		WHERE E.ID = #{loginId};
+	</select>
+</mapper>

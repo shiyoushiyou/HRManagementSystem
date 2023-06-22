@@ -1,0 +1,42 @@
+package jp.co.hrms.service;
+
+import java.util.Date;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import jp.co.hrms.mapper.AttendanceMapper;
+import jp.co.hrms.model.Attendance;
+
+@Service
+public class AttendanceService {
+	@Autowired
+	private AttendanceMapper attendanceMapper;
+
+//	public List<Attendance> attendanceList(AttendanceCondition condition) {
+//		return attendanceMapper.attendanceList(condition);
+//	}
+
+	public Attendance getAttendanceByEmployeeIdAndDate(String employeeId,
+			Date date) {
+		return attendanceMapper.getAttendanceByEmployeeIdAndDate(employeeId,
+				date);
+	}
+
+	public void attendanceCheckIn(Attendance attendance) {
+		attendanceMapper.attendanceCheckIn(attendance);
+	}
+
+	public void attendanceCheckOut(Attendance attendance) {
+		attendanceMapper.attendanceCheckOut(attendance);
+	}
+
+	public void attendanceRestIn(Attendance attendance) {
+		attendanceMapper.attendanceRestIn(attendance);
+	}
+
+	public void attendanceRestOut(Attendance attendance) {
+		attendanceMapper.attendanceRestOut(attendance);
+	}
+
+}

@@ -1,0 +1,31 @@
+package jp.co.hrms.mapper;
+
+import java.util.List;
+
+import org.apache.ibatis.annotations.Mapper;
+
+import jp.co.hrms.model.Employees;
+import jp.co.hrms.model.Search;
+
+@Mapper
+public interface EmployeesMapper {
+	
+	List<Employees> getEmployeesByUserid(String loginId);//驗證用戶帳密
+	
+	String getPwdByPwd(String password);//驗證舊密碼
+	void changePwd(String pwd,String newPassword);//變更新密碼
+
+	List<Employees> selectEmp(Search search);//取得員工基礎訊息
+
+	void setData(Employees employee);//更新員工資料
+
+	String getPositionIdByName(String position);//獲取職位ID
+
+	String getDepartmentIdByName(String department);//獲取部門ID
+
+	void deleteById(String id);//刪除員工資料
+
+	int insertEmp(Employees employee);//新增員工
+
+}
+

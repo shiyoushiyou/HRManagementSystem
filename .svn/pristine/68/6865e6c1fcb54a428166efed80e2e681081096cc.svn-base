@@ -1,0 +1,99 @@
+ <!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+  <title>HRManagementSystem</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <link rel="stylesheet" type="text/css" th:href="@{/css/styleindex.css}" href="../../static/css/styleindex.css" />
+  <script type="text/javascript" th:src="@{/js/jquery.min.js}" src="../../static/js/jquery.min.js"></script>
+  <style>
+    form {
+      background-color: #ffffff;
+      padding: 5px 30px;
+      border-radius: 5px;
+
+    }
+
+    .tittle {
+      font-size: 32px;
+    }
+
+    label {
+      display: inline-block;
+      width: 100px;
+      font-weight: bold;
+      font-size: 16px;
+    }
+
+    input[type="text"],
+    input[type="date"] {
+      border: 1px solid #ccc;
+      padding: 5px;
+      width: 90%;
+      box-sizing: border-box;
+      font-size: 16px;
+    }
+
+    select {
+      width: 90%;
+      padding: 5px;
+      font-size: 16px;
+    }
+
+    button {
+      background-color: darkred;
+      color: white;
+      border: none;
+      padding: 8px 16px;
+      text-transform: uppercase;
+      font-weight: bold;
+      cursor: pointer;
+      border-radius: 3px;
+      font-size: 16px;
+    }
+  </style>
+</head>
+
+<body>
+  <table>
+    <tr>
+      <td colspan="2" rowspan="2">
+        <!--畫面的白色部分在這邊。-->
+        <div id="content">
+          <div class="tittle">休暇申請</div>
+          <span th:text="${msg}" id="msg"></span>
+          <form action="#" th:action="@{/request}" th:object="${leaveRequest}" method="post">
+            <div>
+              <label for="employeeId">社員番号:</label>
+              <input type="text" id="employeeId" name="employeeId" th:field="*{employeeId}">
+            </div>
+            <div>
+              <label for="leaveTypeId">休暇タイプ:</label>
+              <select id="leaveTypeId" name="leaveTypeId" th:field="*{leaveTypeId}">
+                <option value="1" th:selected="${leaveTypeId == 1}">事由休暇</option>
+                <option value="2" th:selected="${leaveTypeId == 2}">病気休暇</option>
+                <option value="3" th:selected="${leaveTypeId == 3}">年次有給休暇</option>
+                <option value="4" th:selected="${leaveTypeId == 4}">その他</option>
+              </select>
+            </div>
+            <div>
+              <label for="startDate">休暇開始日:</label>
+              <input type="date" id="startDate" name="startDate" th:field="*{startDate}">
+            </div>
+            <div>
+              <label for="endDate">休暇終了日:</label>
+              <input type="date" id="endDate" name="endDate" th:field="*{endDate}">
+            </div>
+            <div>
+              <label for="reason">休暇理由:</label>
+              <input type="text" id="reason" name="reason" th:field="*{reason}">
+            </div>
+            <button type="submit">提出</button>
+          </form>
+        </div>
+      </td>
+    </tr>
+  </table>
+</body>
+</html>

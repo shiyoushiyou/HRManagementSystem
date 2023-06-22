@@ -1,0 +1,86 @@
+package jp.co.hrms.controller;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.ModelAndView;
+
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
+import jp.co.hrms.model.Employees;
+import jp.co.hrms.model.Search;
+import jp.co.hrms.model.SystemSeting;
+import jp.co.hrms.model.User;
+import jp.co.hrms.service.EmployeesService;
+import jp.co.hrms.service.SystemService;
+
+@Controller
+public class EmployeesController {
+	@Autowired
+	private EmployeesService service;
+	@Autowired
+	private SystemService sysService;
+	
+	@GetMapping("/indexEmployees")
+	public  ModelAndView  indexEmployees(User user ,HttpSession session) {
+		//查詢員工個人資料時的跳轉
+		ModelAndView mav = new ModelAndView("indexEmployees");
+		String employee=(String) session.getAttribute("user");
+		List<Employees> EmpsInfo =service.getEmployeesByUserid(employee);
+		mav.addObject("EmpsInfo",EmpsInfo);
+		return mav;
+		
+	}
+	
+	@PostMapping("/indexEmployees")
+	public ModelAndView indexEmployees(HttpServletRequest request) {
+		//變更密碼時的post接收
+		String newPassword = request.getParameter("pwdComfirm");
+		String password = request.getParameter("pwdBefore");
+		ModelAndView mav = new ModelAndView("indexEmployees");
+		boolean result =service.pwdChange(password,newPassword);
+		if(result) {
+			mav.addObject("msg","パスワード変更済み");
+		}else {
+			mav.addObject("msg","旧パスワードは一致しません");
+		}
+		return mav;	
+	}
+	@PostMapping("/selectEmployees")
+	public ModelAndView select(Search search ) {
+		ModelAndView mav = new ModelAndView("selectEmployees");
+		List<Employees> Emp =service.selectEmp(search);
+		List<SystemSeting>statusList = sysService.getListByCode("status");
+		List<SystemSeting>departmentList = sysService.getListByCode("departmentId");
+		List<SystemSeting>positionList = sysService.getListByCode("positionId");
+		mav.addObject("statusList",statusList);
+		mav.addObject("Emp",Emp);
+		mav.addObject("search",search);
+		mav.addObject("departmentList",departmentList);
+		mav.addObject("positionList",positionList);
+		System.out.println(Emp);
+		System.out.println(search);
+		return mav;
+	}
+	
+	@RequestMapping("/index")
+	public String index() {
+		return"/index";
+	}
+	@GetMapping("/selectEmployees")
+	public ModelAndView selectEmployees() {
+		ModelAndView mav = new ModelAndView("selectEmployees");
+		List<SystemSeting>statusList = sysService.getListByCode("status");
+		List<SystemSeting>departmentList = sysService.getListByCode("departmentId");
+		List<SystemSeting>positionList = sysService.getListByCode("positionId");
+		mav.addObject("statusList",statusList);
+		mav.addObject("departmentList",departmentList);
+		mav.addObject("positionList",positionList);
+		return mav;
+	}
+
+}

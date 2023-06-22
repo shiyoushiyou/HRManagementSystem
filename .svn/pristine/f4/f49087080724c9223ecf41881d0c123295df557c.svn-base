@@ -1,0 +1,27 @@
+$(function() {
+	$("#loginBtn").click(loginCheck);
+})
+
+function loginCheck() {
+	var userid = $("#userid").val();
+	var password = $("#password").val();
+	// [\w-]
+	var useridRegExp = /^[a-zA-Z0-9_-]*$/;
+	var passwordRegExp = /^[a-zA-Z0-9]*$/;
+
+	if (userid == null || userid.length == 0) {
+		alert("ユーザIDを入力してください。");
+	} else if (!useridRegExp.test(userid)) {
+		alert("ユーザIDは「[a-z]、[A-Z]、[0-9]、「_」、「-」」のみで入力してください。");
+	} else if (userid.length < 8 || userid.length > 20) {
+		alert("ユーザIDは８～20文字で入力してください。");
+	} else if (password == null || password.length == 0) {
+		alert("パスワードを入力してください。");
+	} else if (!passwordRegExp.test(password)) {
+		alert("パスワードは「[a-z]、[A-Z]、[0-9]」のみで入力してください。");
+	} else if (password.length < 8 || password.length > 15) {
+		alert("パスワードは８～15文字で入力してください。");
+	} else {
+		$("#loginForm").submit();
+	}
+}

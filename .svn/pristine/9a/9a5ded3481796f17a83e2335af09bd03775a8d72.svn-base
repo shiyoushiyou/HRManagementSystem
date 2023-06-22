@@ -1,0 +1,65 @@
+package jp.co.hrms.model;
+
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.List;
+
+import lombok.Data;
+
+
+
+@Data
+public class Attendance {
+	private String id;
+	private String employeeId;
+	private LocalDateTime date;
+	private LocalDateTime checkIn;
+	private LocalDateTime checkOut;
+	private LocalDateTime restIn;
+	private LocalDateTime restOut;
+	private String status;
+
+	private List<AttendanceRecord> records;
+
+	
+	public String getDate1() {
+	    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy/MM/dd");
+	    return this.date != null ?  this.date.format(formatter) : "";
+	}
+	public String getCheckIn1() {
+	    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm");
+	    return this.checkIn != null ?  this.checkIn.format(formatter) : "";
+	}
+	public String getCheckOut1() {
+	    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm");
+	    return this.checkOut != null ?  this.checkOut.format(formatter) : "";
+	}
+	public String getRestIn1() {
+	    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm");
+	    return this.restIn != null ?  this.restIn.format(formatter) : "";
+	}
+	public String getRestOut1() {
+	    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm");
+	    return this.restOut != null ?  this.restOut.format(formatter) : "";
+	}
+//	public String getStatus1() {
+//		String status = null;
+//		if (this.status == 0) {
+//			status = "出勤";
+//		} else if (this.status == 1) {
+//			status = "退勤";
+//		} else if (this.status == 2) {
+//			status = "休憩";
+//		} else if (this.status == 3) {
+//			status = "休憩戻り";
+//		}
+//		return status;
+//	}
+//
+//	
+//	public String getDate() {
+//		// Date👉SimpleDateFormat👉String：sdf.format()
+//		SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
+//		return sdf.format(this.date);
+//	}
+}

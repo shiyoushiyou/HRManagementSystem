@@ -1,0 +1,111 @@
+package jp.co.hrms.controller;
+
+import java.time.LocalDateTime;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import jp.co.hrms.mapper.AttendanceMapper;
+import jp.co.hrms.model.Attendance;
+import jp.co.hrms.service.AttendanceService;
+
+@Controller
+@RequestMapping("/attendance")
+public class AttendanceController {
+
+	@Autowired
+	private AttendanceService service;
+	@Autowired
+	private AttendanceMapper mapper;
+
+	@GetMapping("/indexAttendance")
+	public String indexAttendance() {
+		return "indexAttendance";
+	}
+
+	@PostMapping("/checkIn")
+	@ResponseBody
+	public String checkIn(String employeeId) {
+		LocalDateTime now = LocalDateTime.now();
+		Attendance attendance = mapper.getEmployeeIdAndDate(employeeId, now);
+		if (attendance == null) {
+			attendance = new Attendance();
+			attendance.setEmployeeId(employeeId);
+			attendance.setCheckIn(LocalDateTime.now());
+			attendance.setStatus("checkIn");
+			mapper.insertAttendance(attendance);
+		} else {
+			throw new RuntimeException("チェックイン済み");
+		}
+		return "redirect:/attendance/index";
+	}
+
+	@PostMapping("/checkOut")
+	@ResponseBody
+	public String checkOut(String employeeId) {
+		LocalDateTime now = LocalDateTime.now();
+		Attendance attendance = mapper.getEmployeeIdAndDate(employeeId, now);
+		if (attendance == null) {
+			attendance = new Attendance();
+			attendance.setEmployeeId(employeeId);
+			attendance.setCheckOut(LocalDateTime.now());
+			attendance.setStatus("checkOut");
+			mapper.updateAttendance(attendance);
+		} else {
+			throw new RuntimeException("チェックアウト済み");
+		}
+		return "redirect:/attendance/index";
+	}
+
+	@PostMapping("/restIn")
+	@ResponseBody
+	public String restIn(String employeeId) {
+		LocalDateTime now = LocalDateTime.now();
+		Attendance attendance = mapper.getEmployeeIdAndDate(employeeId, now);
+		if (attendance == null) {
+			attendance = new Attendance();
+			attendance.setEmployeeId(employeeId);
+			attendance.setRestIn(LocalDateTime.now());
+			attendance.setStatus("restIn");
+			mapper.insertAttendance(attendance);
+		} else {
+			throw new RuntimeException("休憩中");
+		}
+		return "redirect:/attendance/index";
+	}
+
+	@PostMapping("/restOut")
+	@ResponseBody
+	public String restOut(String employeeId) {
+		LocalDateTime now = LocalDateTime.now();
+		Attendance attendance = mapper.getEmployeeIdAndDate(employeeId, now);
+		if (attendance == null) {
+			attendance = new Attendance();
+			attendance.setEmployeeId(employeeId);
+			attendance.setRestOut(LocalDateTime.now());
+			attendance.setStatus("restOut");
+			mapper.updateAttendance(attendance);
+		} else {
+			throw new RuntimeException("休憩戻り");
+		}
+		return "redirect:/attendance/index";
+	}
+
+//	@GetMapping("/insert")
+//	@ResponseBody
+//	public String insertAttendance(Attendance attendance) {
+//		service.insertAttendance(attendance);
+//		return "redirect:/attendance/index";
+//	}
+//
+//	@GetMapping("/update")
+//	@ResponseBody
+//	public String updateAttendance(Attendance attendance) {
+//		service.updateAttendance(attendance);
+//		return "redirect:/attendance/index";
+//	}
+}

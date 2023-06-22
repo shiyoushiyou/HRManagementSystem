@@ -1,0 +1,54 @@
+package jp.co.hrms.model;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.util.Date;
+
+import lombok.Data;
+
+@Data
+
+public class LeaveRequest {
+    private String id;
+    private String employeeId;
+    private int leaveTypeId;
+    private int positionId;
+    private String departmentId;
+    private String leaveTypeName;
+    private Date startDate;
+    private Date endDate;
+    private String reason;
+    private String status;
+    private LocalDateTime createdAt;
+    private LocalDateTime updatedAt;
+
+    public void setCreatedAt(LocalDateTime createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    public void setUpdatedAt(LocalDateTime updatedAt) {
+        this.updatedAt = updatedAt;
+    }
+
+    
+    public void setStartDate(String startDateString) {
+    SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+    try {
+        Date startDate = formatter.parse(startDateString);
+        this.startDate = startDate;
+    } catch (ParseException e) {
+        // 处理日期转换异常
+    }
+}
+ 
+public void setEndDate(String endDateString) {
+    SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+    try {
+        Date endDate = formatter.parse(endDateString);
+        this.endDate = endDate;
+    } catch (ParseException e) {
+        // 处理日期转换异常
+    }
+} 
+}

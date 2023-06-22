@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="jp.co.hrms.mapper.LeaveRequestMapper">
+    <resultMap id="LeaveRequestResultMap" type="jp.co.hrms.model.LeaveRequest">
+        <id column="id" property="id"/>
+        <result column="employee_id" property="employeeId"/>
+        <result column="leave_type_id" property="leaveTypeId"/>
+        <result column="start_date" property="startDate"/>
+         <result column="end_date" property="endDate"/>
+        <result column="reason" property="reason"/>
+        <result column="status" property="status"/>
+        <result column="created_at" property="createdAt"/>
+        <result column="updated_at" property="updatedAt"/>
+    </resultMap>
+
+    <select id="getAllLeaveRequests" resultMap="LeaveRequestResultMap" parameterType="String">
+        SELECT * FROM LEAVE_REQUESTS
+    </select>
+
+    <select id="getLeaveRequestById" resultMap="LeaveRequestResultMap" parameterType="int">
+        SELECT * FROM LEAVE_REQUESTS WHERE ID = #{id}
+    </select>
+
+    <insert id="addLeaveRequest" parameterType="LeaveRequest">
+        INSERT INTO LEAVE_REQUESTS (EMPLOYEE_ID, LEAVE_TYPE_ID, START_DATE, END_DATE, REASON, STATUS)
+        VALUES (#{employeeId}, #{leaveTypeId}, #{startDate}, #{endDate}, #{reason}, '未審査')
+    </insert>
+
+    <update id="updateLeaveRequestStatus" parameterType="map">
+        UPDATE LEAVE_REQUESTS SET STATUS = #{status}, UPDATED_AT = CURRENT_TIMESTAMP WHERE ID = #{id}
+    </update>
+
+    <select id="getLeaveRequestsByStatus" parameterType="String">
+        SELECT * FROM LEAVE_REQUESTS WHERE STATUS = #{status}
+    </select>
+</mapper>
+
+
+
+   
+
+   

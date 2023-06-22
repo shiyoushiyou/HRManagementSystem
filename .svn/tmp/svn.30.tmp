@@ -1,0 +1,263 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--命名空間 實現與Mapper接口綁定-->
+<mapper namespace="jp.co.hrms.mapper.SalaryMapper">
+	<!--id屬性與Mapper接口中方法綁定  -->
+	<select id ="selectSalary" resultType="Salary" parameterType ="String">
+		SELECT 
+        ID 
+        , EMPLOYEE_ID
+        , MONTH_
+        , SALARY_DATE 
+        , BASIC_SALARY 
+        , BONUS 
+        , ALLOWANCE 
+        , SOCIAL_INSURANCE 
+        , HOUSING_FUND
+        , TAX   
+        , TOTAL_SALARY
+        FROM
+        SALARY_RECORDS
+       WHERE EMPLOYEE_ID = #{number}
+       AND MONTH_ = #{month}
+	</select>
+
+    <insert id="generateSalary" parameterType ="String">
+
+    INSERT EMPLOYEE_ID VALUES (#{employeeId}); 
+    INSERT 
+    INTO SALARY_RECORDS(MONTH_) 
+    VALUES ( 
+    CAST( 
+        DATE_FORMAT(DATE_SUB(NOW(), INTERVAL 1 MONTH), '%m') AS UNSIGNED
+    )
+) 
+    WHERE
+    EMPLOYEE_ID = #{employeeId};
+    INSERT 
+    INTO SALARY_RECORDS(SALARY_DATE) 
+    VALUES (DATE_FORMAT(NOW(), '%Y-%m-10'));
+    INSERT 
+    INTO SALARY_RECORDS(BASIC_SALARY) 
+    VALUES ( 
+    ( 
+        SELECT
+            SUM(TIMESTAMPDIFF(SECOND, CHECK_IN, CHECK_OUT)) / 3600 AS total_hours 
+        FROM
+            attendance_records 
+        WHERE
+            employee_id = #{employeeId} 
+            AND CHECK_IN >= DATE_FORMAT(NOW() - INTERVAL 1 MONTH, '%Y-%m-01 00:00:00') 
+            AND CHECK_OUT < DATE_FORMAT(NOW(), '%Y-%m-01 00:00:00');
+    ) * ( 
+        SELECT
+            BASE_SALARY 
+        FROM
+            SALARY_RULES 
+        WHERE
+            EMPLOYEE_ID = #{id}
+        ORDER BY ID DESC
+        LIMIT 1;
+    );
+) WHERE
+    EMPLOYEE_ID = #{employeeId};     
+INSERT 
+INTO SALARY_RECORD(BONUS) 
+VALUES ( 
+    ( 
+        ( 
+            SELECT
+                BONUS_RATE 
+            FROM
+                SALARY_RULES 
+            WHERE
+                EMPLOYEE_ID =#{employeeId}
+            ORDER BY ID DESC
+            LIMIT 1;
+
+        ) AS BONUS_RATE * ( 
+            ( 
+                SELECT
+                    SUM(TIMESTAMPDIFF(SECOND, CHECK_IN, CHECK_OUT)) / 3600 AS total_hours 
+                FROM
+                    attendance_records 
+                WHERE
+                    employee_id = #{employeeId} 
+                    AND CHECK_IN >= DATE_FORMAT(NOW() - INTERVAL 1 MONTH, '%Y-%m-01 00:00:00') 
+                    AND CHECK_OUT < DATE_FORMAT(NOW(), '%Y-%m-01 00:00:00');
+            ) * ( 
+                SELECT
+                    BASE_SALARY 
+                FROM
+                    SALARY_RULES 
+                WHERE
+                    EMPLOYEE_ID = #{employeeId}
+                ORDER BY ID DESC
+                LIMIT 1;
+            );
+        ) AS BASE_SALARY
+    )
+) WHERE
+    EMPLOYEE_ID = #{employeeId};
+INSERT 
+INTO SALARY_RECORD(BONUS) 
+VALUES ( 
+    ( 
+        ( 
+            SELECT
+                ALLOWANCE_RATE 
+            FROM
+                SALARY_RULES 
+            WHERE
+                EMPLOYEE_ID =  #{employeeId}
+            ORDER BY ID DESC
+            LIMIT 1;
+        ) AS ALLOWANCE_RATE  * ( 
+            ( 
+                SELECT
+                    SUM(TIMESTAMPDIFF(SECOND, CHECK_IN, CHECK_OUT)) / 3600 AS total_hours 
+                FROM
+                    attendance_records 
+                WHERE
+                    employee_id = #{employeeId} 
+                    AND CHECK_IN >= DATE_FORMAT(NOW() - INTERVAL 1 MONTH, '%Y-%m-01 00:00:00') 
+                    AND CHECK_OUT < DATE_FORMAT(NOW(), '%Y-%m-01 00:00:00');
+            ) AS SOCAIL_INSURANCE * ( 
+                SELECT
+                    BASE_SALARY 
+                FROM
+                    SALARY_RULES 
+                WHERE
+                    EMPLOYEE_ID = #{employeeId}
+                ORDER BY ID DESC
+                LIMIT 1;
+            );
+        ) AS BASE_SALARY
+    )
+) WHERE
+    EMPLOYEE_ID = #{employeeId};  
+INSERT 
+INTO SALARY_RECORD(ALLOWANCE_RATE) 
+VALUES ( 
+    ( 
+        ( 
+            SELECT
+                SOCAIL_INSURANCE_RATE 
+            FROM
+                SALARY_RULES 
+            WHERE
+                EMPLOYEE_ID = #{employeeId}
+            ORDER BY ID DESC
+            LIMIT 1;
+
+        ) AS SOCAIL_INSURANCE  * ( 
+            ( 
+                SELECT
+                    SUM(TIMESTAMPDIFF(SECOND, CHECK_IN, CHECK_OUT)) / 3600 AS total_hours 
+                FROM
+                    attendance_records 
+                WHERE
+                    employee_id = #{employeeId}
+                    AND CHECK_IN >= DATE_FORMAT(NOW() - INTERVAL 1 MONTH, '%Y-%m-01 00:00:00') 
+                    AND CHECK_OUT < DATE_FORMAT(NOW(), '%Y-%m-01 00:00:00');
+            ) * ( 
+                SELECT
+                    BASE_SALARY 
+                FROM
+                    SALARY_RULES 
+                WHERE
+                    EMPLOYEE_ID = #{employeeId}
+                ORDER BY ID DESC
+                LIMIT 1;
+            );
+        ) AS BASE_SALARY
+    )
+)WHERE
+    EMPLOYEE_ID = #{employeeId};
+INSERT 
+INTO SALARY_RECORD(HOUSING_FUND_RATE) 
+VALUES ( 
+    ( 
+        ( 
+            SELECT
+                HOUSING_FUND_RATE 
+            FROM
+                SALARY_RULES 
+            WHERE
+                EMPLOYEE_ID = #{employeeId}
+            ORDER BY ID DESC
+            LIMIT 1;
+        ) AS HOUSING_FUND * ( 
+            ( 
+                SELECT
+                    SUM(TIMESTAMPDIFF(SECOND, CHECK_IN, CHECK_OUT)) / 3600 AS total_hours 
+                FROM
+                    attendance_records 
+                WHERE
+                    employee_id = #{employeeId}
+                    AND CHECK_IN >= DATE_FORMAT(NOW() - INTERVAL 1 MONTH, '%Y-%m-01 00:00:00') 
+                    AND CHECK_OUT < DATE_FORMAT(NOW(), '%Y-%m-01 00:00:00');
+            ) * ( 
+                SELECT
+                    BASE_SALARY 
+                FROM
+                    SALARY_RULES 
+                WHERE
+                    EMPLOYEE_ID = #{employeeId}
+                ORDER BY ID DESC
+                LIMIT 1;
+            );
+        ) AS BASE_SALARY
+    )
+)WHERE
+    EMPLOYEE_ID = #{employeeId};
+INSERT 
+INTO SALARY_RECORD(TAX_RATE) 
+VALUES ( 
+    ( 
+        ( 
+            SELECT
+                TAX_RATE 
+            FROM
+                SALARY_RULES 
+            WHERE
+                EMPLOYEE_ID = #{employeeId}
+            ORDER BY ID DESC
+            LIMIT 1;
+        ) AS TAX* ( 
+            ( 
+                SELECT
+                    SUM(TIMESTAMPDIFF(SECOND, CHECK_IN, CHECK_OUT)) / 3600 AS total_hours 
+                FROM
+                    attendance_records 
+                WHERE
+                    employee_id = #{employeeId}
+                    AND CHECK_IN >= DATE_FORMAT(NOW() - INTERVAL 1 MONTH, '%Y-%m-01 00:00:00') 
+                    AND CHECK_OUT < DATE_FORMAT(NOW(), '%Y-%m-01 00:00:00');
+            ) * ( 
+                SELECT
+                    BASE_SALARY 
+                FROM
+                    SALARY_RULES 
+                WHERE
+                    EMPLOYEE_ID = #{employeeId}
+                ORDER BY ID DESC
+                LIMIT 1;
+            );
+        ) AS BASE_SALARY
+    )
+)WHERE
+    EMPLOYEE_ID = #{employeeId};
+INSERT 
+INTO SALARY_RECORDS(TOTAL_SALARY) 
+VALUES ( 
+    SELECT
+        BASE_SALARY + BONUS + ALLOWANCE - SOCIAL_INSURANCE - HOUSING_FUND - TAX 
+    FROM
+        SALARY_RECORDS
+) AS TOTAL_SALARY
+WHERE
+    EMPLOYEE_ID = #{employeeId};
+
+    </insert>
+</mapper>

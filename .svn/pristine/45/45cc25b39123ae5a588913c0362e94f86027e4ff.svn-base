@@ -1,0 +1,57 @@
+package jp.co.hrms.model;
+
+import java.io.Serializable;
+import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.util.Date;
+
+import lombok.Data;
+
+@Data
+public class Attendance implements Serializable {
+	private String id;
+	private String employeeId;
+	private Date date;
+	private LocalDateTime checkIn;
+	private LocalDateTime checkOut;
+	private LocalDateTime restIn;
+	private LocalDateTime restOut;
+	private int status;
+//	private List<AttendanceRecord> attendanceRecords;
+
+	public String getStatus1() {
+		String status = null;
+		if (this.status == 0) {
+			status = "チェックイン可能";
+		} else if (this.status == 1) {
+			status = "チェックイン済み";
+		} else if (this.status == 2) {
+			status = "押し済み";
+		} else if (this.status == 4) {
+			status = "戻り済み";
+		}
+		return status;
+	}
+
+	public String getCheckIn1() {
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy年MM月dd日 HH時:mm分:ss秒");
+		return this.status == 1 ? sdf.format(this.date) : "";
+
+	}
+
+	public String getCheckOut(LocalDateTime checkOut) {
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy年MM月dd日 HH時:mm分:ss秒");
+		return this.status == 0 ? sdf.format(this.date) : "";
+	}
+
+	public String getRestIn(LocalDateTime restIn) {
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy年MM月dd日 HH時:mm分:ss秒");
+		return this.status == 3 ? sdf.format(this.date) : "";
+	}
+
+	public String getRestOut(LocalDateTime restOut) {
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy年MM月dd日 HH時:mm分:ss秒");
+		return this.status == 4 ? sdf.format(this.date) : "";
+	}
+
+}

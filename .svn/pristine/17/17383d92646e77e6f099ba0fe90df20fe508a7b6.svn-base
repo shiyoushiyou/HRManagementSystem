@@ -1,0 +1,124 @@
+package jp.co.hrms.service;
+
+import java.time.LocalDateTime;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import jp.co.hrms.mapper.AttendanceMapper;
+import jp.co.hrms.model.Attendance;
+
+@Service
+public class AttendanceService {
+
+	@Autowired
+	private AttendanceMapper mapper;
+
+	// 接收一个参数，表示员工的考勤信息
+	public String checkIn(String login) {
+		// 获取当前时间
+		LocalDateTime now = LocalDateTime.now();
+
+		String msg = null;
+
+		// 通过员工id获取记录
+		Attendance existingAttendance = mapper
+				.selectAttendanceByEmployeeId(login);
+
+		// 如果还没有考勤记录，则进行出勤打卡操作
+		if (existingAttendance == null) {
+			msg = "未チェックイン";
+
+			// 将打卡记录插入数据库
+			mapper.insert(login);
+
+			// 如果已经有考勤记录，则抛出异常
+		} else {
+			msg = "チェックイン済みです";
+		}
+		System.out.println(msg);
+		return msg;
+	}
+
+	public String checkOut(String login) {
+		LocalDateTime now = LocalDateTime.now();
+		String msg = null;
+		Attendance existingAttendance = mapper
+				.selectAttendanceByEmployeeId(login);
+		Attendance attendance = new Attendance();
+		// 如果已经有退勤记录，则抛出异常
+		if (existingAttendance == null) {
+			msg = "退勤済み";
+			attendance.setCheckOut(now);
+			// 设置考勤状态为退勤
+			attendance.setStatus(1);
+			// 更新考勤记录
+			mapper.update(login);
+		}
+		return msg;
+	}
+
+//休息打卡
+	public String restIn(String login) {
+		LocalDateTime now = LocalDateTime.now();
+		String msg = null;
+		Attendance existingAttendance = mapper
+				.selectAttendanceByEmployeeId(login);
+		Attendance attendance = new Attendance();
+		if (existingAttendance == null) {
+			msg = "未チェックインです";
+		} else {
+			attendance.setRestIn(now);
+			attendance.setStatus(2);
+			mapper.update(login);
+		}
+		return msg;
+	}
+
+//休息完了打卡
+	public String restOut(String login) {
+		LocalDateTime now = LocalDateTime.now();
+		String msg = null;
+		Attendance existingAttendance = mapper
+				.selectAttendanceByEmployeeId(login);
+		Attendance attendance = new Attendance();
+		if (existingAttendance == null) {
+			msg = "未チェックインです";
+		} else {
+			attendance.setRestOut(now);
+			attendance.setStatus(3);
+			mapper.update(login);
+		}
+		return msg;
+	}
+
+	public Attendance selectByEmployeeIdAndDate(String employeeId,
+			LocalDateTime now) {
+		return mapper.selectByEmployeeIdAndDate(employeeId, now);
+	}
+
+//新增考勤记录
+	public String insertAttendance(String login) {
+		String msg = null;
+		Attendance existingAttendance = mapper
+				.selectAttendanceByEmployeeId(login);
+		if (existingAttendance != null) {
+			msg = "レコード既に存在しています";
+		}
+		mapper.insert(login);
+		return msg;
+	}
+
+//更新考勤记录
+	public String updateAttendance(String login) {
+		String msg = null;
+		Attendance existingAttendance = mapper
+				.selectAttendanceByEmployeeId(login);
+		if (existingAttendance == null) {
+			msg = "レコード存在していません";
+		}
+		mapper.update(login);
+		return msg;
+	}
+
+}

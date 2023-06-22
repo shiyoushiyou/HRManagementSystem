@@ -1,0 +1,144 @@
+package jp.co.hrms.controller;
+
+import java.time.LocalDateTime;
+import java.util.HashMap;
+import java.util.Map;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import jakarta.servlet.http.HttpSession;
+import jp.co.hrms.model.Attendance;
+import jp.co.hrms.service.AttendanceService;
+
+@Controller
+public class AttendanceController1 {
+	@Autowired
+	private AttendanceService attendanceService;
+
+	@GetMapping("/indexAttendance")
+	public String attendance() {
+		return "indexAttendance";
+	}
+
+	@PostMapping("/checkin")
+	@ResponseBody
+	public Map<String, String> attendanceCheckIn(HttpSession session) {
+		LocalDateTime date = LocalDateTime.now();
+		String employeeId = (String) session.getAttribute("user");
+		Map<String, String> resultMap = new HashMap<>();
+		// TODO 通过打卡记录取得员工现在的打卡状态
+		Attendance attendance = attendanceService
+				.getLatestAttendanceByEmployeeId(employeeId);
+		if (attendance == null) {
+			attendance = new Attendance();
+			attendance.setEmployeeId(employeeId);
+			attendance.setDate(date);
+			attendance.setCheckIn(date);
+			attendance.setStatus("出勤");
+			System.out.println(attendance);
+			attendanceService.checkIn(attendance);
+			resultMap.put("message", "出勤しました");
+		}
+		// 如果退勤为空，说明可能已经打过卡了
+		else if (attendance.getCheckOut() == null) {
+			resultMap.put("message", "チェックイン済みです");
+//		如果休息不为空并且退勤为空的话，说明在休息中
+		} else if (attendance.getRestIn() != null
+				&& attendance.getCheckOut() == null) {
+			resultMap.put("message", "休憩中です");
+		} else {
+			resultMap.put("message", "エラー発生");
+		}
+
+		return resultMap;
+	}
+
+	@PostMapping("/checkout")
+	@ResponseBody
+	public Map<String, String> checkOut(HttpSession session, Model model) {
+		String employeeId = (String) session.getAttribute("user");
+		LocalDateTime date = LocalDateTime.now();
+		Map<String, String> resultMap = new HashMap<>();
+		Attendance attendance = attendanceService
+				.getLatestAttendanceByEmployeeId(employeeId);
+//		如果打卡为空的话说明还没打卡出勤
+		if (attendance.getCheckIn() == null) {
+			resultMap.put("message", "まだ出勤していません");
+//				如果退勤不为空说明已经退勤打卡了
+		} else if (attendance.getCheckOut() != null) {
+			resultMap.put("message", "もう退勤済みです");
+//				如果休息不为空并且返回为空说明正在休息当中
+		} else if (attendance.getRestIn() != null
+				&& attendance.getRestOut() == null) {
+			resultMap.put("message", "まだ休憩中です");
+		} else {
+			attendance.setEmployeeId(employeeId);
+			attendance.setDate(date);
+			attendance.setCheckOut(date);
+			attendance.setStatus("退勤");
+			attendanceService.checkOut(attendance);
+			resultMap.put("message", "退勤しました");
+		}
+		return resultMap;
+	}
+
+	@PostMapping("/restin")
+	@ResponseBody
+	public Map<String, String> attendanceCheckOut(HttpSession session,
+			Model model) {
+		LocalDateTime date = LocalDateTime.now();
+		String employeeId = (String) session.getAttribute("user");
+		Map<String, String> resultMap = new HashMap<>();
+		Attendance attendance = attendanceService
+				.getLatestAttendanceByEmployeeId(employeeId);
+//				出勤为空还没打卡出勤
+		if (attendance.getCheckIn() == null) {
+			resultMap.put("message", "まだ出勤していません");
+//				休息不为空，正在休息
+		} else if (attendance.getRestIn() != null) {
+			resultMap.put("message", "休憩中です");
+//				退勤不为空，已经打卡下班
+		} else if (attendance.getCheckOut() != null) {
+			resultMap.put("message", "もう退勤しました");
+		} else {
+			attendance.setEmployeeId(employeeId);
+			attendance.setDate(date);
+			attendance.setRestIn(date);
+			attendance.setStatus("休憩");
+			attendanceService.restIn(attendance);
+			resultMap.put("message", "休憩入ります");
+		}
+		return resultMap;
+	}
+
+	@PostMapping("/restout")
+	@ResponseBody
+	public Map<String, String> restOut(HttpSession session, Model model) {
+		LocalDateTime date = LocalDateTime.now();
+		String employeeId = (String) session.getAttribute("user");
+		Map<String, String> resultMap = new HashMap<>();
+		Attendance attendance = attendanceService
+				.getLatestAttendanceByEmployeeId(employeeId);
+//			出勤为空，还没出勤
+		if (attendance == null) {
+			resultMap.put("message", "まだ出勤していません");
+//				休息为空或者返回不为空，还没进行休息
+		} else if (attendance.getRestIn() == null
+				|| attendance.getRestOut() != null) {
+			resultMap.put("message", "まだ休憩していません");
+		} else {
+			attendance.setEmployeeId(employeeId);
+			attendance.setDate(date);
+			attendance.setRestOut(date);
+			attendance.setStatus("戻り");
+			attendanceService.restOut(attendance);
+			resultMap.put("message", "戻りました");
+		}
+		return resultMap;
+	}
+}

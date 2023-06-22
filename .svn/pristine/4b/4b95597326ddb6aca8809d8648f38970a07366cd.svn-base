@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">  
+    <title>休暇管理</title>
+    <style>
+        th {
+            padding: 10px 20px; 
+        }      
+        td form {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100%;
+        }
+        td form button {
+            margin: 0 5px;
+        }
+    </style>
+</head>
+<body>
+    <h1>休暇管理</h1>
+    <table>
+        <tr>
+            <th>休暇番号</th>
+            <th>社員番号</th>
+            <th>休暇タイプ</th>
+            <th>休暇開始日</th>
+            <th>休暇終了日</th>
+            <th>休暇理由</th>
+            <th>審査状態</th>
+            <th>操作</th>
+        </tr>
+        <tr th:each="leave : ${leaves}">
+            <td th:text="${leave.id}"></td>
+            <td th:text="${leave.employeeId}"></td>
+            <td th:text="${leave.leaveTypeName}"></td>
+            <td th:text="${leave.startDate}"></td>
+            <td th:text="${leave.endDate}"></td>
+            <td th:text="${leave.reason}"></td>
+            <td th:text="${leave.status}"></td>
+            <td>
+    <form th:if="${positionId == 2 and leave.status == '未審査'}" action="/leave/approve" method="post">
+        <input type="hidden" name="leaveId" th:value="${leave.id}">
+        <input type="hidden" name="status" value="部長承認済み">
+        <button type="submit">承認</button>
+    </form>
+    <form th:if="${positionId == 2 and leave.status == '未審査'}" action="/leave/approve" method="post">
+        <input type="hidden" name="leaveId" th:value="${leave.id}">
+        <input type="hidden" name="status" value="拒否された">
+        <button type="submit">拒否</button>
+    </form>
+    <form th:if="${positionId == 1 and leave.status == '部長承認済み'}" action="/leave/approve" method="post">
+        <input type="hidden" name="leaveId" th:value="${leave.id}">
+        <input type="hidden" name="status" value="社長承認済み">
+        <button type="submit">承認</button>
+    </form>
+    <form th:if="${positionId == 1 and leave.status == '部長承認済み'}" action="/leave/approve" method="post">
+        <input type="hidden" name="leaveId" th:value="${leave.id}">
+        <input type="hidden" name="status" value="拒否された">
+        <button type="submit">拒否</button>
+    </form>
+		</td>
+        </tr>
+    </table>
+</body>
+</html>
+

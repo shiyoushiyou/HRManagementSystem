@@ -1,0 +1,49 @@
+<!DOCTYPE html
+	PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<title>HRManagementSystem</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<link rel="stylesheet" type="text/css" th:href="@{/css/styleindex.css}" href="../../static/css/styleindex.css" />
+	<script type="text/javascript" th:src="@{/js/jquery.min.js}" src="../../static/js/jquery.min.js"></script>
+	<script type="text/javascript" th:src="@{/js/attendance.js}" src="../../static/js/attendance.js"></script>
+
+</head>
+
+<body>
+	<div>
+		<table>
+			<tr>
+				<td colspan="2" rowspan="2">
+					<!--畫面的白色部分在這邊。-->
+					<div id="content">
+						<div style="font-size: 50px;text-align: center;">勤怠登録</div>
+						<br>
+						<div>
+							<p id="time" style="font-size: 40px;text-align: center;"></p>
+						</div>
+						<div style="text-align: center;">
+							<form th:action="@{/checkIn}" th:method="post"
+								style="display: inline-block; margin-right: 10px;">
+								<button type="submit" id="checkIn" style="padding: 10px;">出勤</button>
+							</form>
+							<form th:action="@{/checkOut}" th:method="post"
+								style="display: inline-block; margin-right: 10px;">
+								<button type="submit" id="checkOut" style="padding: 10px;">退勤</button>
+							</form>
+							<form th:action="@{/restIn}" th:method="post"
+								style="display: inline-block; margin-right: 10px;">
+								<button type="submit" id="restIn" style="padding: 10px;">休憩</button>
+							</form>
+							<form th:action="@{/restOut}" th:method="post"
+								style="display: inline-block; margin-right: 10px;">
+								<button type="submit" id="restOut" style="padding: 10px;">戻り</button>
+							</form>
+						</div>
+
+					</div>
+		</table>
+</body>
+
+</html>

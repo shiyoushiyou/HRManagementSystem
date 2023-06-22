@@ -1,0 +1,35 @@
+package jp.co.hrms.service;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import jp.co.hrms.mapper.LeaveMapper;
+import jp.co.hrms.model.Leave;
+
+@Service
+public class LeaveService {
+
+    @Autowired
+    private LeaveMapper leaveMapper;
+
+    public void applyLeave(Leave leave) {
+        leaveMapper.insertLeave(leave);
+    }
+
+    public List<Leave> getLeavesByEmployeeId(int employeeId) {
+        return leaveMapper.findLeavesByEmployeeId(employeeId);
+    }
+
+    public List<Leave> getLeavesForApproval(int positionId) {
+        return leaveMapper.findAllLeaves();
+    }
+
+    public void updateLeaveStatus(int leaveId, String status) {
+        Leave leave = new Leave();
+        leave.setId(leaveId);
+        leave.setStatus(status);
+        leaveMapper.updateLeaveStatus(leave);
+    }
+}

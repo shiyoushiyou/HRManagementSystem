@@ -1,0 +1,119 @@
+<!DOCTYPE html
+    PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <title>HRManagementSystem</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <link rel="stylesheet" type="text/css" th:href="@{/css/styleindex.css}" href="../../static/css/styleindex.css" />
+    <script type="text/javascript" th:src="@{/js/jquery.min.js}" src="../../static/js/jquery.min.js"></script>
+    <style>
+        th {
+            padding: 5px 9px;
+        }
+
+        td form {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100%;
+            
+        }
+
+        td form button {
+            margin: 0 5px;
+        }
+
+        .tittle {
+            font-size: 32px;
+        }
+    </style>
+</head>
+
+<body>
+    <div>
+        <table>
+            <tr>
+                <td colspan="2" rowspan="2">
+                    <!--畫面的白色部分在這邊。-->
+                     <div id="content">
+    <style>
+        th {
+            padding: 5px 10px; 
+        }      
+        td form {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100%;
+        }
+        td form button {
+            margin: 0 5px;
+        }
+        
+			.tittle {
+  			font-size: 32px;
+		}
+    </style>
+
+
+<div class="tittle">休暇管理</div>
+<table>
+  <tr>
+    <th>休暇番号</th>
+    <th>社員番号</th>
+    <th>休暇タイプ</th>
+    <th>休暇開始日</th>
+    <th>休暇終了日</th>
+    <th>休暇理由</th>
+    <th>審査状態</th>
+    <th>操作</th>
+  </tr>
+  <tr th:each="leave : ${leaveRequests}">
+    <td th:text="${leave.id}"></td>
+    <td th:text="${leave.employeeId}"></td>
+    <td th:text="${leaveTypes.get(leave.leaveTypeId - 1).name}"></td>
+    <td th:text="${#dates.format(leave.startDate, 'yyyy-MM-dd')}"></td>
+	<td th:text="${#dates.format(leave.endDate, 'yyyy-MM-dd')}"></td>
+    <td th:text="${leave.reason}"></td>
+    <td th:text="${leave.status}"></td>
+    <td>
+      <form th:if="${positionId == 2 and leave.status == '未審査'}" th:action="@{/updateStatus}" method="post">
+        <input type="hidden" name="leaveId" th:value="${leave.id}">
+        <input type="hidden" name="status" value="部長承認済み">
+        <button type="submit">承認</button>
+      </form>
+      <form th:if="${positionId == 2 and leave.status == '未審査'}" th:action="@{/updateStatus}" method="post">
+        <input type="hidden" name="leaveId" th:value="${leave.id}">
+        <input type="hidden" name="status" value="拒否された">
+        <button type="submit">拒否</button>
+      </form>
+      <form th:if="${leave.positionId == 2 and leave.status == '未審査'}" th:action="@{/updateStatus}" method="post">
+        <input type="hidden" name="leaveId" th:value="${leave.id}">
+        <input type="hidden" name="status" value="社長承認済み">
+        <button type="submit">承認</button>
+      </form>
+        <form th:if="${leave.positionId == 2 and leave.status == '未審査'}" th:action="@{/updateStatus}" method="post">
+        <input type="hidden" name="leaveId" th:value="${leave.id}">
+        <input type="hidden" name="status" value="拒否された">
+        <button type="submit">拒否</button>
+      </form>
+      <form th:if="${positionId == 1 and leave.status =='部長承認済み'}" th:action="@{/updateStatus}" method="post">
+        <input type="hidden" name="leaveId" th:value="${leave.id}">
+        <input type="hidden" name="status" value="社長承認済み">
+        <button type="submit">承認</button>
+      </form>
+      <form th:if="${positionId == 1 and leave.status == '部長承認済み'}" th:action="@{/updateStatus}" method="post">
+        <input type="hidden" name="leaveId" th:value="${leave.id}">
+        <input type="hidden" name="status" value="拒否された">
+        <button type="submit">拒否</button>
+      </form>
+    </td>
+  </tr>
+  <tr th:unless="${leaveRequests}">
+    <td colspan="8" style="text-align:center;">現在、休暇申請はありません</td>
+  </tr>
+</table>
+</div>
+</body>
+</html>

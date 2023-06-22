@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="jp.co.hrms.mapper.LeaveRequestMapper">
+    <resultMap id="LeaveRequestResultMap" type="jp.co.hrms.model.LeaveRequest">
+        <id column="id" property="id"/>
+        <result column="employee_id" property="employeeId"/>
+        <result column="leave_type_id" property="leaveTypeId"/>
+        <result column="start_date" property="startDate"/>
+         <result column="end_date" property="endDate"/>
+        <result column="reason" property="reason"/>
+        <result column="status" property="status"/>
+       <result column="created_at" property="createdAt"/>
+    <result column="updated_at" property="updatedAt"/>
+<result column="department_id" property="departmentId"/>
+
+    </resultMap>
+    
+   <resultMap id="EmployeesResultMap" type="jp.co.hrms.model.Employees">
+    <id column="id" property="id"/>
+    <result column="name" property="name"/>
+    <result column="gender" property="gender"/>
+    <result column="birth" property="birth"/>
+    <result column="address" property="address"/>
+    <result column="phone_number" property="phoneNumber"/>
+    <result column="status" property="status"/>
+    <result column="department_id" property="departmentId"/>
+    <result column="department_name" property="departmentName"/>
+    <result column="position_id" property="positionId"/>
+    <result column="position_name" property="positionName"/>
+    <result column="hire_date" property="hireDate"/>
+    <result column="password" property="password"/>
+</resultMap>
+
+
+    
+   <select id="getAllLeaveRequests" resultMap="LeaveRequestResultMap" parameterType="String">
+    SELECT LR.*, E.DEPARTMENT_ID AS DEPARTMENT_ID, E.POSITION_ID AS POSITION_ID
+    FROM LEAVE_REQUESTS LR
+    INNER JOIN EMPLOYEES E ON LR.EMPLOYEE_ID = E.ID
+</select>
+
+
+
+
+    <select id="getLeaveRequestById" resultMap="LeaveRequestResultMap" parameterType="int">
+        SELECT * FROM LEAVE_REQUESTS WHERE ID = #{id}
+    </select>
+
+    <insert id="addLeaveRequest" parameterType="LeaveRequest">
+        INSERT INTO LEAVE_REQUESTS (EMPLOYEE_ID, LEAVE_TYPE_ID, START_DATE, END_DATE, REASON, STATUS)
+        VALUES (#{employeeId}, #{leaveTypeId}, #{startDate}, #{endDate}, #{reason}, '未審査')
+    </insert>
+
+    <update id="updateLeaveRequestStatus" parameterType="map">
+        UPDATE LEAVE_REQUESTS SET STATUS = #{status}, UPDATED_AT = CURRENT_TIMESTAMP WHERE ID = #{id}
+    </update>
+
+    <select id="getLeaveRequestsByStatus" parameterType="String">
+        SELECT * FROM LEAVE_REQUESTS WHERE STATUS = #{status}
+    </select>
+    
+    <select id="getEmployeeByLoginId" resultMap="EmployeesResultMap" parameterType="String">
+    SELECT * FROM EMPLOYEES WHERE ID = #{loginId}
+</select>
+    
+</mapper>
+
+
+
+   
+
+   

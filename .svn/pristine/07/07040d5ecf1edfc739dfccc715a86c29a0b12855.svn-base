@@ -1,0 +1,174 @@
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+  <title>HRManagementSystem</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <script type="text/javascript" th:src="@{/js/jquery.min.js}"></script>
+  <script type="text/javascript" th:src="@{/js/ajax.js}"></script>
+  
+  <link rel="stylesheet" type="text/css" th:href="@{/css/styleindex.css}" href="../../static/css/styleindex.css"/>
+</head>
+
+<body bgcolor="#550403" style="leftmargin:0px; topmargin:0px; marginwidth:0px; marginheight:0px;">
+  <span class="style6"></span>
+  <!--  -->
+  <div id="body">
+    <br />
+    <br />
+    <br />
+    <table style="width:1050px; height:1001px;" align="center" cellpadding="0" cellspacing="0" id="Table_01">
+      <tr>
+        <td colspan="2" rowspan="3">
+          <div id="logo">
+            <div class="logo"><a href="index.html"><span class="style5">HRMS</span></a></div>
+          </div>
+        </td>
+        <td colspan="3">
+          <div class="style1" id="header">
+            <br />
+            HRMS社員システム<span class="style3"></span>
+            <span class="style4"><br />
+              HRManagementSystem MAKES YOUR BUSINESS BETTER!
+            </span>
+          </div>
+        </td> 
+      </tr>
+      <tr>
+      </tr>
+      <tr >
+        <td colspan="2" rowspan="2">
+        <!--畫面的白色部分在這邊。-->
+          <div id="content">
+    <style>
+        th {
+            padding: 5px 10px; 
+        }      
+        td form {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100%;
+        }
+        td form button {
+            margin: 0 5px;
+        }
+        
+			.tittle {
+  			font-size: 32px;
+		}
+    </style>
+ <div class="tittle">休暇管理</div>
+<table>
+  <tr>
+    <th>休暇番号</th>
+    <th>社員番号</th>
+    <th>休暇タイプ</th>
+    <th>休暇開始日</th>
+    <th>休暇終了日</th>
+    <th>休暇理由</th>
+    <th>審査状態</th>
+    <th>操作</th>
+  </tr>
+  <tr th:each="leave : ${leaves}">
+    <td th:text="${leave.id}"></td>
+    <td th:text="${leave.employeeId}"></td>
+    <td th:text="${leave.leaveTypeName}"></td>
+    <td th:text="${leave.startDate}"></td>
+    <td th:text="${leave.endDate}"></td>
+    <td th:text="${leave.reason}"></td>
+    <td th:text="${leave.status}"></td>
+    <td>
+      <form th:if="${positionId == 2 and leave.status == '未審査'}" action="/updateStatus" method="post">
+        <input type="hidden" name="leaveId" th:value="${leave.id}">
+        <input type="hidden" name="status" value="部長承認済み">
+        <button type="submit">承認</button>
+      </form>
+      <form th:if="${positionId == 2 and leave.status == '未審査'}" action="/updateStatus" method="post">
+        <input type="hidden" name="leaveId" th:value="${leave.id}">
+        <input type="hidden" name="status" value="拒否された">
+        <button type="submit">拒否</button>
+      </form>
+
+    <form th:if="${positionId == 1 and leave.status == '部長承認済み'}" action="/updateStatus" method="post">
+        <input type="hidden" name="leaveId" th:value="${leave.id}">
+        <input type="hidden" name="status" value="社長承認済み">
+        <button type="submit">承認</button>
+    </form>
+    <form th:if="${positionId == 1 and leave.status == '部長承認済み'}" action="/updateStatus" method="post">
+        <input type="hidden" name="leaveId" th:value="${leave.id}">
+        <input type="hidden" name="status" value="拒否された">
+        <button type="submit">拒否</button>
+    </form>
+		</td>
+        </tr>
+        <tr th:unless="${leaves}">
+  <td colspan="8" style="text-align:center;">現在、休暇申請はありません</td>
+</tr>
+    </table>
+ </div>
+        </td>
+        <td rowspan="3" style="background-color: #E1E1E1;"width="40" height="823">
+        </td>
+      </tr>
+      <tr>
+        <td rowspan="2" style="background-color: #E1E1E1;"width="70" height="823"></td>
+        <!-- 按鈕跳轉請在這邊插入-->
+        <td>
+          <div class="left_menu">
+            <ul>
+              <li><a href="index.html">ホーム</a></li>
+              <li><a href="index.html">チェックイン</a></li>
+              <li><a href="index.html">チェックアウト</a></li>
+              <li><a href="index.html">社員情報</a></li>
+              <li><a th:href="@{/salary}" href="salary.html">個人給料確認</a></li>
+               <li><a th:href="@{/request}" href="request.html">休暇申請</a></li>
+            </ul>
+            <ul>
+              <li><a href="index.html">社員管理</a></li>
+              <li><a href="index.html">勤怠管理</a></li>
+              <li><a href="index.html">帳票管理</a></li>
+              <li><a th:href="@{/management}" href="management.html">休暇管理</a></li>
+              <li><a href="index.html">ログアウト</a></li>
+            </ul>
+          </div>
+        </td>
+        <td>
+          <img src="../../static/img/spacer.gif" width="1" height="651" alt="" />
+        </td>
+      </tr>
+      <tr>
+        <td colspan="3" style="text-align: center;">
+          <div id="footer">
+            HRManagementSystem(C) 2023 &quot;YOUR SITE&quot;. DESIGN BY <a
+              href="http://www.e-globalspot.com">HRMS</a></div>
+        </td>
+        <td>
+          <img src="../../static/img/spacer.gif" width="1" height="46" alt="" />
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <img src="../../static/img/spacer.gif" width="70" height="1" alt="" />
+        </td>
+        <td>
+          <img src="../../static/img/spacer.gif" width="179" height="1" alt="" />
+        </td>
+        <td>
+          <img src="../../static/img/spacer.gif" width="623" height="1" alt="" />
+        </td>
+        <td>
+          <img src="../../static/img/spacer.gif" width="101" height="1" alt="" />
+        </td>
+        <td>
+          <img src="../../static/img/spacer.gif" width="27" height="1" alt="" />
+        </td>
+        <td></td>
+      </tr>
+    </table>
+    <div id="lft"><a href="index.html">HRMS</a></div><br />
+    <br />
+  </div>
+</body>
+</html>

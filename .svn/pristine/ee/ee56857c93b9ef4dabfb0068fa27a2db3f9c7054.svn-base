@@ -1,0 +1,52 @@
+package jp.co.hrms.controller;
+
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.servlet.ModelAndView;
+
+import jp.co.hrms.model.LeaveRequest;
+import jp.co.hrms.service.LeaveRequestService;
+
+@Controller
+public class LeaveRequestController {
+    @Autowired
+    private LeaveRequestService leaveRequestService;
+
+    @GetMapping("/request")
+    public ModelAndView request() {
+        ModelAndView mav = new ModelAndView("request");
+        mav.addObject("leaveRequest", new LeaveRequest());
+        return mav;
+    }
+
+    @PostMapping("/request")
+    public ModelAndView submitRequest(LeaveRequest leaveRequest) {
+        leaveRequestService.addLeaveRequest(leaveRequest);
+        ModelAndView mav = new ModelAndView("request");
+        mav.addObject("msg", "申请成功！请等待审核。");
+        mav.addObject("leaveRequest", new LeaveRequest());
+        return mav;
+    }
+
+    @GetMapping("/management")
+    public ModelAndView management() {
+        ModelAndView mav = new ModelAndView("management");
+        List<LeaveRequest> leaveRequests = leaveRequestService.getAllLeaveRequests();
+        mav.addObject("leaveRequests", leaveRequests);
+        return mav;
+    }
+
+    @GetMapping("/updateStatus")
+    public ModelAndView updateStatus(int id, String status) {
+        leaveRequestService.updateLeaveRequestStatus(id, status);
+        ModelAndView mav = new ModelAndView("management");
+        List<LeaveRequest> leaveRequests = leaveRequestService.getAllLeaveRequests();
+        mav.addObject("leaveRequests", leaveRequests);
+        return mav;
+    }
+}

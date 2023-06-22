@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="jp.co.hrms.mapper.AttendanceMapper">
+
+    <resultMap id="attendanceResultMap" type="Attendance">
+        <id column="id" property="id" />
+        <result column="employee_id" property="employeeId" />
+        <result column="date_" property="date" />
+        <result column="check_in" property="checkIn" />
+        <result column="check_out" property="checkOut" />
+        <result column="rest_in" property="restIn" />
+        <result column="rest_out" property="restOut" />
+    </resultMap>
+
+    <select id="selectAll" parameterType="String" resultType="Attendance">
+        SELECT * FROM attendance WHERE employee_id = #{employeeId}
+    </select>
+
+    <select id="getEmployeeIdAndDate" parameterType="map" resultType="Attendance">
+        SELECT * FROM attendance
+        WHERE employee_id = #{employeeId}
+        AND date(check_in) = #{dateTime.date}
+    </select>
+
+    <insert id="insertAttendance" parameterType="Attendance">
+        INSERT INTO attendance (employee_id, check_in, check_out, rest_in, rest_out)
+        VALUES (#{employeeId}, #{checkIn}, #{checkOut}, #{restIn}, #{restOut})
+    </insert>
+
+    <update id="updateAttendance" parameterType="Attendance">
+        UPDATE attendance SET
+        check_in = #{checkIn},
+        check_out = #{checkOut},
+        rest_in = #{restIn},
+        rest_out = #{restOut},
+        status = #{status}
+        WHERE employee_id = #{employeeId}
+        AND date(check_in) = #{dateTime.date}
+    </update>
+
+</mapper>
+
+
+
+
+
+

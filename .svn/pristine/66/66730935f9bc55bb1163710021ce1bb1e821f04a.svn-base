@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- 命名空间👉与Mapper接口绑定 -->
+<mapper namespace="jp.co.hrms.mapper.AttendanceMapper">
+	<!-- id属性👉与Mapper接口中方法绑定 -->
+	<resultMap id="attendanceResultMap" type="Attendance">
+    <id column="id" property="id" />
+    <id column="employeeId" property="employee_id" />
+    <result column="check_in" property="checkIn" />
+    <result column="check_out" property="checkOut" />
+    <result column="rest_in" property="restIn" />
+    <result column="rest_out" property="restOut" />
+</resultMap>
+
+<select id="selectAll" parameterType="java.util.Map" resultMap="attendanceResultMap">
+    SELECT * FROM attendance WHERE employee_id=#{map.employeeId}
+</select>
+
+<insert id="insertAttendance" parameterType="Attendance">
+    INSERT INTO attendance (employee_id, check_in, check_out, rest_in, rest_out)
+    VALUES (#{employee_id}, #{checkIn}, #{checkOut}, #{restIn}, #{restOut})
+</insert>
+
+<update id="updateAttendance" parameterType="Attendance">
+    UPDATE attendance SET employee_id=#{employee_id}, check_in=#{checkIn}, check_out=#{checkOut},
+    rest_in=#{restIn}, rest_out=#{restOut} WHERE id=#{id}
+</update>
+
+</mapper>
+
+
+
+
+

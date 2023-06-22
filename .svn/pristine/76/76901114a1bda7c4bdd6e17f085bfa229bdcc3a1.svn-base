@@ -1,0 +1,48 @@
+package jp.co.hrms.controller;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.servlet.ModelAndView;
+
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
+import jp.co.hrms.model.Employees;
+import jp.co.hrms.model.User;
+import jp.co.hrms.service.EmployeesService;
+
+@Controller
+public class EmployeesController {
+	@Autowired
+	private EmployeesService service;
+	
+	@GetMapping("/indexEmployees")
+	public  ModelAndView  indexEmployees(User user ,HttpSession session) {
+		//查詢員工個人資料時的跳轉
+		ModelAndView mav = new ModelAndView("indexEmployees");
+		String employee=(String) session.getAttribute("user");
+		List<Employees> EmpsInfo =service.getEmployeesByUserid(employee);
+		mav.addObject("EmpsInfo",EmpsInfo);
+		return mav;
+		
+	}
+	
+	@PostMapping("/indexEmployees")
+	public ModelAndView indexEmployees(HttpServletRequest request) {
+		//變更密碼時的post接收
+		String newPassword = request.getParameter("pwdComfirm");
+		String password = request.getParameter("pwdBefore");
+		ModelAndView mav = new ModelAndView();
+		boolean result =service.pwdChange(password,newPassword);
+		if(result) {
+			mav.addObject("msg","パスワード変更済み");
+		}else {
+			mav.addObject("msg","旧パスワードは一致しません");
+		}
+		return mav;	
+	}
+	
+}

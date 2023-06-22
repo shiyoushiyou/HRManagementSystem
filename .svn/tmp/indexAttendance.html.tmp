@@ -1,0 +1,201 @@
+<!DOCTYPE html
+	PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<title>HRManagementSystem</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<link rel="stylesheet" type="text/css" th:hre f="@{/css/styleindex.css}" href="../../static/css/styleindex.css" />
+	<script type="text/javascript" th:src="@{/js/jquery.min.js}"></script>
+	  <script type="text/javascrpit" th:src="@{/js/ajax.js}"></script>
+	<script type="text/javascript" th:src="@{/js/test.js}"></script>
+
+	<script>
+		$(function () {
+			$(".forum-1 ul").hide();
+			$(".forum-1>li>a").click(function () {
+				$(".forum-1 ul").slideToggle();
+			})
+		})
+	</script>
+	</script>
+</head>
+
+<body bgcolor="#550403" style="leftmargin:0px; topmargin:0px; marginwidth:0px; marginheight:0px;">
+	<span class="style6"></span>
+	<!-- Save for Web Slices (business solutions_sliced.psd) -->
+	<div id="body">
+		<br />
+		<br />
+		<br />
+		<table style="width:1050px; height:1001px;" align="center" cellpadding="0" cellspacing="0" id="Table_01">
+			<tr>
+				<td colspan="2" rowspan="3">
+					<div id="logo">
+						<div class="logo"><a href="index.html"><span class="style5">HRMS</span></a></div>
+					</div>
+				</td>
+				<td colspan="3">
+					<div class="style1" id="header">
+						<br />
+						HRMS<span class="style3"></span>
+						<span class="style4"><br />
+							HRManagementSystem MAKES YOUR BUSINESS BETTER!
+						</span>
+					</div>
+				</td>
+			</tr>
+			<tr>
+			</tr>
+			<tr>
+				<td colspan="2" rowspan="2">
+					<!--畫面的白色部分在這邊。-->
+					<div id="content" style="background-color: white;">
+						<div style="font-size: 50px;text-align: center;">勤怠登録</div>
+						<br>
+<<<<<<< .mine
+						<form action="/indexAttendance" method="get" style="font-size: 50px;text-align: center;">
+||||||| .r372
+=======
+>>>>>>> .r383
+							<div>
+								<p id="time" style="font-size: 40px;text-align: center;"></p>
+<<<<<<< .mine
+								
+||||||| .r372
+=======
+								<script>
+									$(document).ready(function () {
+										var time = $("#time");
+										setInterval(function () {
+											var d = new Date();
+											var year = d.getFullYear();
+											var month = d.getMonth() + 1;
+											var day = d.getDate();
+											var week = getWeek(d.getDay());
+											var hour = d.getHours().toString().padStart(2, "0");
+											var minute = d.getMinutes().toString().padStart(2, "0");
+											var second = d.getSeconds().toString().padStart(2, "0");
+											time.html(year + "年" + month + "月" + day + "日" + "" + "(" + week + ")" + "<br>" + hour + ":" + minute + ":" + second);
+										}, 1000);
+										function getWeek(day) {
+											var weekArr = ["日", "月", "火", "水", "木", "金", "土"];
+											return weekArr[day];
+										}
+									});
+								</script>
+>>>>>>> .r383
+							</div>
+						<div style="text-align: center;">
+    <form th:action="@{/checkIn}" method="post" id="checkInForm"style="display:inline-block">
+        <input type="hidden" name="employeeId" value="employeeId"/>
+        <button type="button" id="checkIn">出勤</button>
+    </form>
+    <form th:action="@{/checkOut}" method="post" id="checkOutForm"style="display:inline-block">
+        <input type="hidden" name="employeeId" value="employeeId"/>
+        <button type="button" id="checkOut">退勤</button>
+    </form>
+    <form th:action="@{/restIn}" method="post" id="restInForm"style="display:inline-block">
+        <input type="hidden" name="employeeId" value="employeeId"/>
+        <button type="button" id="restIn">休憩</button>
+    </form>
+    <form th:action="@{restOut}" method="post" id="restOutForm"style="display:inline-block">
+        <input type="hidden" name="employeeId" value="employeeId"/>
+        <button type="button" id="restOut">戻り</button>
+    </form>
+<!--    <meta http-equiv="refresh" content="0;url=/attendance" />-->
+</div>
+
+<script type="text/javascript">
+    $(function() {
+        $("#checkIn").click(function() {
+            $("#checkInForm").submit();
+        });
+
+        $("#checkOut").click(function() {
+            $("#checkOutForm").submit();
+        });
+
+        $("#restIn").click(function() {
+            $("#restInForm").submit();
+        });
+
+        $("#restOut").click(function() {
+            $("#restOutForm").submit();
+        });
+    });
+</script>
+					</div>
+				</td>
+				<td rowspan="3" style="background-color: #E1E1E1;" width="40" height="823">
+				</td>
+			</tr>
+			<tr>
+				<td rowspan="2" style="background-color: #E1E1E1;" width="70" height="823"></td>
+				<td>
+					<div class="left_menu">
+						<ul>
+							<li><a href="index.html">ホーム</a></li>
+							<li><a href="indexAttendance.html">打刻申請</a></li>
+							<li><a href="index.html">休暇申請</a></li>
+							<li><a href="index.html">個人情報確認</a></li>
+							<li><a href="index.html">個人給料確認</a></li>
+						</ul>
+						<ul class="forum-1">
+							<li><a>社員管理</a></li>
+							<li>
+								<ul class="form-2">
+									<li><a href="index.html">新增社員</a></li>
+									<li><a href="index.html">查詢社員</a></li>
+									<li><a href="index.html">更改社員資訊</a></li>
+									<li><a href="index.html">刪除社員</a></li>
+									<li><a href="index.html">薪資管理</a></li>
+									<li><a href="index.html">勤怠管理</a></li>
+									<li><a href="index.html">休暇管理</a></li>
+								</ul>
+							</li>
+						</ul>
+						<li><a href="index.html">ログアウト</a></li>
+					</div>
+				</td>
+				<td>
+					<img src="../../static/img/spacer.gif" width="1" height="651" alt="" />
+				</td>
+			</tr>
+			<tr>
+				<td colspan="3" style="text-align: center;">
+					<div id="footer">
+						HRManagementSystem(C) 2023 &quot;YOUR SITE&quot;. DESIGN BY <a
+							href="http://www.e-globalspot.com">HRMS</a></div>
+				</td>
+				<td>
+					<img src="../../static/img/spacer.gif" width="1" height="46" alt="" />
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<img src="../../static/img/spacer.gif" width="70" height="1" alt="" />
+				</td>
+				<td>
+					<img src="../../static/img/spacer.gif" width="179" height="1" alt="" />
+				</td>
+				<td>
+					<img src="../../static/img/spacer.gif" width="623" height="1" alt="" />
+				</td>
+				<td>
+					<img src="../../static/img/spacer.gif" width="101" height="1" alt="" />
+				</td>
+				<td>
+					<img src="../../static/img/spacer.gif" width="27" height="1" alt="" />
+				</td>
+				<td></td>
+			</tr>
+		</table>
+		<div id="lft"><a href="index.html">HRMS</a></div><br />
+		<br />
+	</div>
+	<!-- End Save for Web Slices -->
+
+</body>
+
+</html>

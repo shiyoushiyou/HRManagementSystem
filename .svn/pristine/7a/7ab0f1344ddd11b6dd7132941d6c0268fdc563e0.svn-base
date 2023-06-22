@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="jp.co.hrms.mapper.AttendanceMapper">
+<!--	<resultMap id="AttendanceMap" type="jp.co.hrms.model.Attendance">-->
+<!--	<id column="id" property="id" />-->
+<!--	<result column="employeeId" property="employeeId" />-->
+<!--	<result column="date_" property="date" />-->
+<!--	<result column="checkIn" property="checkIn" />-->
+<!--	<result column="checkOut" property="checkOut" />-->
+<!--	<result column="restIn" property="restIn" />-->
+<!--	<result column="restOut" property="restOut" />-->
+<!--	<result column="status" property="status" />-->
+<!--	</resultMap>-->
+
+    <insert id="attendanceCheckIn" parameterType="jp.co.hrms.model.Attendance">
+        INSERT INTO ATTENDANCE(EMPLOYEE_ID, CHECK_IN,CHECK_OUT,REST_IN,REST_OUT, DATE_, STATUS)
+        VALUES (#{employeeId}, #{checkIn},null, null,null,#{date}, #{status}) 
+    </insert>
+
+	<insert id="attendanceCheckOut" parameterType="jp.co.hrms.model.Attendance">
+        INSERT INTO ATTENDANCE(EMPLOYEE_ID, CHECK_IN,CHECK_OUT,REST_IN,REST_OUT, DATE_, STATUS)
+        VALUES (#{employeeId}, null,#{checkOut},null,null,#{date}, #{status}) 
+    </insert>
+    
+	<insert id="attendanceRestIn" parameterType="jp.co.hrms.model.Attendance">
+        INSERT INTO ATTENDANCE(EMPLOYEE_ID, CHECK_IN,CHECK_OUT,REST_IN,REST_OUT, DATE_, STATUS)
+        VALUES (#{employeeId}, null,null, #{restIn},null,#{date}, #{status}) 
+    </insert>
+    
+    <insert id="attendanceRestOut" parameterType="jp.co.hrms.model.Attendance">
+        INSERT INTO ATTENDANCE(EMPLOYEE_ID, CHECK_IN,CHECK_OUT,REST_IN,REST_OUT, DATE_, STATUS)
+        VALUES (#{employeeId}, null,null, null,#{restOut},#{date}, #{status}) 
+    </insert>
+
+	<select id="getAttendanceByEmployeeId" resultType="Attendance">
+	SELECT *
+	FROM ATTENDANCE WHERE EMPLOYEE_ID=#{employeeId}  AND date_ = #{date}
+	</select>
+	
+</mapper>

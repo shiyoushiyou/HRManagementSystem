@@ -1,0 +1,49 @@
+$(document).ready(function(){
+    // 监听下拉菜单选项的选择事件
+    $("#mySelect").change(function(){
+        // 获取选择的选项值
+        var selectedValue = $(this).val();
+        $ajax({
+            // 发送请求
+            url: "/salarys",
+            // 请求方式
+            type: "GET",
+            // 请求参数
+            data: {mouth: selectedValue},
+        })
+        
+        // 根据选择的选项值生成相应的表格
+        .done(function () {
+            $("#myTable").html = (
+            " <table >\n"+
+            "<tr>\n"+
+            "<th>工资编号</th>\n"+
+            "<th>员工编号</th>\n"+
+            "<th>月份</th>\n"+
+            "<th>工资结算日期</th>\n"+
+            "<th>基本工资</th>\n"+
+            "<th>奖金</th>\n"+
+            "<th>津贴</th>\n"+
+            "<th>社保</th>\n"+
+            "<th>公积金</th>\n"+
+            "<th>个人所得税</th>\n"+
+            "<th>总工资</th>\n"+
+        "</tr>\n"+
+        "<tr th:each='\"${list:${lists}\"'>\n"+
+            "<td th:text='\"${list.salaryId}\"'></td>\n"+
+            "<td th:text='\"${list.employeeId}\"'></td>\n"+
+            "<td th:text='\"${list.salaryDate}\"'></td>\n"+
+            "<td th:text='\"${list.mouth}\"'></td>\n"+
+            "<td th:text='\"${list.basicSalary}\"'></td>\n"+
+            "<td th:text='\"${list.bonus}\"'></td>\n"+
+            "<td th:text='\"${list.allowance}\"'></td>\n"+
+            "<td th:text='\"${list.socialInsurance}\"'></td>\n"+
+           "<td th:text='\"${list.housingFund}\"'></td>\n"+
+            "<td th:text='\"${list.tax}\"'></td>\n"+
+            "<td th:text='\"${list.totalSalary}\"'></td>\n"+
+        "</tr>\n"+
+    "</table>"
+    )
+});
+})
+});

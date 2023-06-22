@@ -1,0 +1,11 @@
+package jp.co.hrms.mapper;
+
+import org.apache.ibatis.annotations.Mapper;
+
+import jp.co.hrms.model.User;
+
+@Mapper
+public interface LoginMapper {
+	User getUserByUserid(String loginId);
+	
+}

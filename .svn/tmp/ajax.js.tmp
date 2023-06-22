@@ -1,0 +1,115 @@
+$(document).ready(function() {
+    // 监听下拉菜单选项的选择事件
+<<<<<<< .mine
+    $("#mySelect").change(function(){
+        // 获取选择的选项值
+        var selectedValue = $(this).val();
+        $.ajax({
+            // 发送请求
+            url: "/getMouthData",
+            // 请求方式
+            type: "GET",
+            // 请求参数
+            data: {mouth: selectedValue},
+            
+||||||| .r461
+=======
+    $("#mySelect").click(function() {
+      // 获取选择的选项值
+      var selectedValue = $(this).val();
+      $.ajax({
+        // 发送请求
+        url: "/hrms/getMonthData",
+        // 请求方式
+        type: "GET",
+        // 请求参数
+        data: { month: selectedValue }
+      })
+        // 请求成功时执行
+        .done(function(response) {
+          // 根据选择的选项值生成相应的表格
+          var table = "<table>\n" +
+            "<tr>\n" +
+            "<th>工资编号</th>\n" +
+            "<th>员工编号</th>\n" +
+            "<th>月份</th>\n" +
+            "<th>工资结算日期</th>\n" +
+            "<th>基本工资</th>\n" +
+            "<th>奖金</th>\n" +
+            "<th>津贴</th>\n" +
+            "<th>社保</th>\n" +
+            "<th>公积金</th>\n" +
+            "<th>个人所得税</th>\n" +
+            "<th>总工资</th>\n" +
+            "</tr>\n";
+  
+          // 遍历每个工资对象，生成一行表格
+          $.each(response.list, function(i, item) {
+            table += "<tr>\n" +
+              "<td>" + item.salaryId + "</td>\n" +
+              "<td>" + item.employeeId + "</td>\n" +
+              "<td>" + item.month + "</td>\n" +
+              "<td>" + item.salaryDate1 + "</td>\n" +
+              "<td>" + item.basicSalary + "</td>\n" +
+              "<td>" + item.bonus + "</td>\n" +
+              "<td>" + item.allowance + "</td>\n" +
+              "<td>" + item.socialInsurance + "</td>\n" +
+              "<td>" + item.housingFund + "</td>\n" +
+              "<td>" + item.tax + "</td>\n" +
+              "<td>" + item.totalSalary + "</td>\n" +
+              "</tr>\n";
+          });
+  
+          table += "</table>";
+          $("#myTable").html(table);
+>>>>>>> .r511
+        })
+<<<<<<< .mine
+        
+        // 根据选择的选项值生成相应的表格
+        .done(function () {
+            $("#myTable").html (
+            " <table >\n"+
+            "<tr>\n"+
+            "<th>工资编号</th>\n"+
+            "<th>员工编号</th>\n"+
+            "<th>月份</th>\n"+
+            "<th>工资结算日期</th>\n"+
+            "<th>基本工资</th>\n"+
+            "<th>奖金</th>\n"+
+            "<th>津贴</th>\n"+
+            "<th>社保</th>\n"+
+            "<th>公积金</th>\n"+
+            "<th>个人所得税</th>\n"+
+            "<th>总工资</th>\n"+
+        "</tr>\n"+
+        "<tr th:each='\"${list:${lists}\"'>\n"+
+            "<td th:text='\"${list.salaryId}\"'></td>\n"+
+            "<td th:text='\"${list.employeeId}\"'></td>\n"+
+            "<td th:text='\"${list.salaryDate}\"'></td>\n"+
+            "<td th:text='\"${list.mouth}\"'></td>\n"+
+            "<td th:text='\"${list.basicSalary}\"'></td>\n"+
+            "<td th:text='\"${list.bonus}\"'></td>\n"+
+            "<td th:text='\"${list.allowance}\"'></td>\n"+
+            "<td th:text='\"${list.socialInsurance}\"'></td>\n"+
+           "<td th:text='\"${list.housingFund}\"'></td>\n"+
+            "<td th:text='\"${list.tax}\"'></td>\n"+
+            "<td th:text='\"${list.totalSalary}\"'></td>\n"+
+        "</tr>\n"+
+    "</table>"
+    )
+});
+})
+});||||||| .r461
+=======
+        // 请求失败时执行
+        .fail(function(jqXHR, textStatus, errorThrown) {
+          console.log("请求失败：" + textStatus + " " + errorThrown);
+        })
+        // 请求完成时执行（不管成功还是失败）
+        .always(function() {
+          console.log("请求完成");
+        });
+    });
+  });
+  >>>>>>> .r511

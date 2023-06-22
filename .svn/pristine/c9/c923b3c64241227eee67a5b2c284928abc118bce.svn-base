@@ -1,0 +1,146 @@
+package jp.co.hrms.controller;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.ModelAndView;
+
+import jakarta.servlet.http.HttpSession;
+import jp.co.hrms.model.Attendance;
+import jp.co.hrms.service.AttendanceService;
+
+@Controller
+public class AttendanceController1 {
+	@Autowired
+	private AttendanceService attendanceService;
+
+	@GetMapping("/indexAttendance")
+	public String attendance() {
+		return "indexAttendance";
+	}
+
+	@PostMapping("/checkin")
+	public String attendanceCheckIn(HttpSession session, Model model,
+			@RequestParam("btnType") String btnType) {
+		Date date = new Date();
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy年/MM月/dd日 hh:mm:ss");
+		String date1 = "";
+		date1 = sdf.format(date);
+		String employeeId = (String) session.getAttribute("user");
+		System.out.println(btnType);
+//		Attendance attendance = attendanceService
+//				.getAttendanceByEmployeeId(employeeId);
+
+		Attendance attendance = new Attendance();
+		if ("出勤".equals(btnType)) {
+//			if (attendance == null) {
+			attendance.setEmployeeId(employeeId);
+			attendance.setDate(date1);
+			attendance.setCheckIn(date1);
+			attendance.setStatus("出勤");
+			attendanceService.checkIn(attendance);
+		} else if (attendance.getCheckOut() == null) {
+			model.addAttribute("message", "もうチェックイン済みです");
+
+		} else if (attendance.getRestIn() != null
+				&& attendance.getCheckOut() == null) {
+			model.addAttribute("message", "休憩中です");
+		} else {
+			attendance.setDate(date1);
+			attendance.setCheckIn(date1);
+			attendanceService.checkIn(attendance);
+		}
+//		}
+		return "indexAttendance";
+	}
+
+	@PostMapping("/checkout")
+	public String checkOut(HttpSession session, Model model,
+			@RequestParam("btnType") String btnType) {
+		Date date = new Date();
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy年/MM月/dd日 hh:mm:ss");
+		String date1 = "";
+		date1 = sdf.format(date);
+		String employeeId = (String) session.getAttribute("user");
+		Attendance attendance = attendanceService
+				.getAttendanceByEmployeeId(employeeId);
+		if (btnType == "退勤") {
+			if (attendance == null) {
+				model.addAttribute("msg", "まだ出勤していません");
+			} else if (attendance.getCheckOut() != null) {
+				model.addAttribute("msg", "もう退勤済みです");
+			} else if (attendance.getRestIn() != null
+					&& attendance.getRestOut() == null) {
+				model.addAttribute("msg", "まだ休憩中です");
+			} else {
+				attendance.setDate(date1);
+				attendance.setCheckOut(date1);
+				attendance.setStatus("退勤");
+				attendanceService.updateAttendanceRecord(attendance);
+			}
+		}
+		return "indexAttendance";
+
+	}
+
+	@PostMapping("/restin")
+	public String attendanceCheckOut(HttpSession session, Model model,
+			@RequestParam("btnType") String btnType) {
+		Date date = new Date();
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy年/MM月/dd日 hh:mm:ss");
+		String date1 = "";
+		date1 = sdf.format(date);
+		String employeeId = (String) session.getAttribute("user");
+		Attendance attendance = attendanceService
+				.getAttendanceByEmployeeId(employeeId);
+		if (btnType == "休憩") {
+			if (attendance == null) {
+				model.addAttribute("msg", "まだ出勤していません");
+			} else if (attendance.getRestIn() != null) {
+				model.addAttribute("msg", "もう休憩中です");
+			} else if (attendance.getCheckOut() != null) {
+				model.addAttribute("msg", "もう退勤しました");
+			} else {
+				attendance.setDate(date1);
+				attendance.setRestIn(date1);
+				attendance.setStatus("休憩");
+				attendanceService.updateAttendanceRecord(attendance);
+			}
+		}
+		return "indexAttendance";
+	}
+
+	@PostMapping("/restout")
+	public ModelAndView restOut(HttpSession session, Model model,
+			@RequestParam("buttonType") String buttonType) {
+		Date date = new Date();
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy年/MM月/dd日 hh:mm:ss");
+		String date1 = "";
+		date1 = sdf.format(date);
+		String employeeId = (String) session.getAttribute("user");
+		ModelAndView mav = new ModelAndView("restout");
+		mav.addObject("buttonType", buttonType);
+		Attendance attendance = attendanceService
+				.getAttendanceByEmployeeId(employeeId);
+		if (buttonType == "戻り") {
+			if (attendance == null) {
+				model.addAttribute("msg", "まだ出勤していません");
+			} else if (attendance.getRestIn() == null
+					|| attendance.getRestOut() != null) {
+				model.addAttribute("msg", "まだ休憩していません");
+			} else {
+				attendance.setDate(date1);
+				attendance.setRestOut(date1);
+				attendance.setStatus("戻り");
+				attendanceService.updateAttendanceRecord(attendance);
+			}
+		}
+		return mav;
+	}
+}

@@ -1,0 +1,111 @@
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+  <title>HRManagementSystem</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <link rel="stylesheet" type="text/css" th:href="@{/css/styleindex.css}" href="../../static/css/styleindex.css" />
+  <script type="text/javascript" th:src="@{/js/jquery.min.js}" src="../../static/js/jquery.min.js"></script>
+  <style>
+    .functionalitycontent {
+      font-size: 22px;
+      text-align: center;
+      margin: 20px 0;
+      width: 80%;
+      margin: 0 auto;
+      border-collapse: collapse;
+      margin-bottom: 20px;
+      border: 1px solid black;
+      padding: 10px;
+      text-align: left;
+    }
+		table {
+			border-collapse: collapse;
+			width:75%;
+		}
+		th, td {
+			text-align: left;
+			padding: 5px;
+			border-bottom: 1px solid #ddd;
+		}
+		th {
+			background-color: #4CAF50;
+			color: white;
+		}
+
+		.change,.changebutton, .deleteButton, .change, .back,*{
+			font-size: 18px;
+		}		
+  </style>
+  <script>
+		
+</script>
+</head>
+
+<body >
+  <td colspan="2" rowspan="2">
+    <!--畫面的白色部分在這邊。-->
+    <div id="content">
+      <div class="title">新增社員</div>
+      <div class="functionalitycontent">
+      <form th:action="@{/insertEmp}" th:method="post" onsubmit="return checkForm();">
+        <p th:if ="${insertEmp}" style="color: red;
+        margin: 2px;font-size: 24px; text-align: center;">&#8195&#8195&#8195員工資料已新增!</p>
+        <table>
+          <tr>
+            <th>氏名</th>
+             <td><input type="text" name="name" id="nameInput" required></td>
+          </tr>
+          <tr>
+            <th>性別</th>
+            <td><input type="radio" name="gender" value='男' required>男&#8195
+					<input type="radio" name="gender" value='女'>女</td>
+          </tr>
+          <tr>
+            <th>生年月日</th>
+            <td><input type="date" name="birth" id="birthInput"  required></td>
+          </tr>
+          <tr>
+            <th>住所</th>
+            <td><input type="text" name="address" id="addressInput" required ></td>
+          </tr>
+          <tr>
+            <th>携帯番号</th>
+            <td><input type="phonenumber" name="phone" id="phoneInput" required></td>
+          </tr>
+          <tr>
+            <th>部門名</th>
+             <td>
+                <select name="departmentId">
+	                <option > </option>
+	                <option th:each="department:${departmentList}" 
+	                th:value="${department.value}" th:text="${department.name}" required></option>
+                </select>
+              </td>
+          </tr>
+          <tr>
+            <th>入社日</th>
+            <td><input type="date" name="hireDate" id="hireDateInput" required></td>
+          </tr>
+          <tr>
+          	<th>パスワード</th>
+          	<td><input type="password" name="pwd" id="pwd" pattern="^(?=.*[a-zA-Z])(?=.*[0-9]).{6,}$" required/></td>
+          </tr>
+          <tr id="pwdChangeText3">
+              <th>パスワードの確認</th>
+              <td><input type="password" name="password" id="password" required>
+              </td>
+            </tr>
+        </table >
+		      <span style=" transform: translateX(400px);">
+		      	<button type="submit" class="change"  onclick="input()">送出</button>
+		      </span>
+      	</form>     
+		 </div>
+      </div>
+    </div>
+  </td>
+    <script type="text/javascript" th:src="@{/js/register.js}" src="../../static/js/register.js"></script>
+</body>
+</html>

@@ -1,0 +1,39 @@
+<!DOCTYPE html
+	PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<title>HRManagementSystem</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<link rel="stylesheet" type="text/css" th:href="@{/css/styleindex.css}" href="../../static/css/styleindex.css" />
+	<script type="text/javascript" th:src="@{/js/jquery.min.js}" src="../../static/js/jquery.min.js"></script>
+	<script type="text/javascript" th:src="@{/js/attendance.js}" src="../../static/js/attendance.js"></script>
+</head>
+<body>
+	<div>
+		<table>
+			<tr>
+				<td>
+					<!--畫面的白色部分在這邊。-->
+					<div id="content">
+						<div style="font-size: 50px;text-align: center;">勤怠登録</div>
+						<br>
+						<div>
+							<p id="time" style="font-size: 40px;text-align: center;"></p>
+						</div>
+						<div style="text-align: center;">
+							<form  action="/indexAttendance" method="post">
+								<input type="hidden" name="employeeId" th:value="${employeeId}">
+								<button type="submit" name="checkType" value="出勤" onclick="submitForm('出勤')">出勤</button>
+								<button type="submit" name="checkType" value="退勤" onclick="submitForm('退勤')">退勤</button>
+								<button type="submit" name="checkType" value="休憩" onclick="submitForm('休憩')">休憩</button>
+								<button type="submit" name="checkType" value="戻り" onclick="submitForm('戻り')">戻り</button>
+							</form>
+
+						</div>
+					</div>
+				</td>
+			</tr>
+		</table>
+	</div>
+</body>
+</html>

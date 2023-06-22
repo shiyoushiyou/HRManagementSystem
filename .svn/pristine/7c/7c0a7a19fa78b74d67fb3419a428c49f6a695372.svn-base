@@ -1,0 +1,21 @@
+package jp.co.hrms.mapper;
+
+import java.util.List;
+
+import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
+
+import jp.co.hrms.model.LeaveRequest;
+
+@Mapper
+public interface LeaveRequestMapper {
+    List<LeaveRequest> getAllLeaveRequests();
+
+    LeaveRequest getLeaveRequestById(int id);
+
+    void addLeaveRequest(LeaveRequest leaveRequest);
+
+    void updateLeaveRequestStatus(@Param("id") int id, @Param("status") String status);
+
+    List<LeaveRequest> getLeaveRequestsByStatus(String status);
+}

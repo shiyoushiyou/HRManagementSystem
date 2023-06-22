@@ -1,0 +1,151 @@
+
+//設置點擊變更資訊按鈕
+function editButton() {
+  //將status隱藏並且使用循環將select元素遍歷
+  document.getElementById("status").style.display = "none";
+  document.getElementById("departmentName").style.display = "none";
+  document.getElementById("positionName").style.display = "none";
+
+  var selectList = document.querySelectorAll("select");
+  for (var i = 0; i < selectList.length; i++) {
+    selectList[i].style.display = "inline-block";
+  }
+  var tdList = document.getElementsByClassName("edit");
+  for (var i = 0; i < tdList.length; i++) {
+	tdList[i].contentEditable = true;
+    tdList[i].style.color = "blue";
+  }
+
+  document.querySelector('.changebutton').style.display = "none";
+  document.querySelector('.deleteButton').style.display = "none";
+  document.querySelector('.change').style.display = "inline-block";
+  document.querySelector('.back').style.display = "inline-block";
+}
+
+function back() {
+	 window.history.back();
+	   document.getElementById("status").style.display = "inline-block";
+	   document.getElementById("departmentName").style.display = "inline-block";
+	   document.getElementById("positionName").style.display = "inline-block";
+	  var selectList = document.querySelectorAll("select");
+	  for (var i = 0; i < selectList.length; i++) {
+	    selectList[i].style.display = "none";
+	  }
+	 var tdList = document.getElementsByClassName("edit");
+		  	for (var i = 0; i < tdList.length; i++) {
+		    tdList[i].contentEditable = false;
+		    tdList[i].style.color = "black";
+		  }
+		  document.querySelector('.changebutton').style.display = "inline-block";
+		  document.querySelector('.deleteButton').style.display = "inline-block";
+		  document.querySelector('.change').style.display = "none";
+		  document.querySelector('.back').style.display = "none";
+}
+
+function input() {
+	var idInput = document.getElementById("idInput");
+	var nameInput = document.getElementById("nameInput");
+    var addressInput = document.getElementById("addressInput");
+    var phoneInput = document.getElementById("phoneInput");
+    //var statusInput = document.getElementById("statusInput");
+    var departmentNameInput = document.getElementById("departmentNameInput");
+    //var positionNameInput = document.getElementById("positionNameInput");
+   
+    
+    var id = document.getElementById("id");
+    var name = document.getElementById("name");
+    var address = document.getElementById("address");
+    var phoneNumber = document.getElementById("phoneNumber");
+    //var status = document.getElementById("status");
+    var department = document.getElementById("departmentName");
+    //var position = document.getElementById("positionName");
+     
+     
+    idInput.value = id.innerText;
+    nameInput.value = name.innerText;
+    addressInput.value = address.innerText;
+    phoneInput.value = phoneNumber.innerText;
+    //statusInput.value = status.innerText;
+    departmentNameInput.value = department.innerText;
+    //positionNameInput.value = position.innerText;
+    document.querySelector('.change').style.display = "none";
+	document.querySelector('.back').style.display = "none";
+}
+
+function deleteButton(){
+	 var confirmed =  confirm("削除でよろしでしょうか？削除後の変更はできません。");
+	 var idDelete = document.getElementById("idDelete");
+	 var id = document.getElementById("id");
+	 if (confirmed) {
+        // 如果使用者按下了「確定」，則將返回值設定為 "true"
+        document.getElementById("idDelete").value = "true";
+		idDelete.value = id.innerText;
+        document.forms[1].submit();
+        
+    } else {
+        // 如果使用者按下了「取消」，則將返回值設定為 "false"
+        document.getElementById("idDelete").value = "false";
+	}
+ }
+  $(document).ready(function() {
+    $("#toggleButton").click(function() {
+      if ($("#content1").css("display") !== "none") {
+        $("#content1").css("display").hide();
+        $("#content2").css("display").show();
+      } else {
+        $("#content1").css("display").show();
+        $("#content2").css("display").hide();
+      }
+    });
+  });
+  function editButton1() {
+    //將status隱藏並且使用循環將select元素遍歷
+    var tdList = document.getElementsByClassName("edit1");
+    for (var i = 0; i < tdList.length; i++) {
+	  tdList[i].contentEditable = true;
+    tdList[i].style.color = "blue";
+    document.getElementById("change1").style.display = "none";
+    document.getElementById("sendOut").style.display = "inline-block";
+    document.getElementById("back1").style.display = "inline-block";
+  }
+  function back1() {
+    //將status隱藏並且使用循環將select元素遍歷
+    document.getElementById("change1").style.display = "none";
+    document.getElementById("sendOut").style.display = "inline-block";
+    document.getElementById("back1").style.display = "inline-block";
+
+  }
+  function sendOut() {
+    var rulesIdInput = document.getElementById("rulesIdInput");
+    var rulesNameInput = document.getElementById("rulesNameInput");
+    var baseSalaryInput = document.getElementById("baseSalaryInput");
+    var bonusRateInput = document.getElementById("bonusRateInput");
+    var allowanceRateInput = document.getElementById("allowanceRateInput");
+    var socailInsuranceRateInput = document.getElementById("socailInsuranceRateInput");
+    var housingFundRateInput = document.getElementById("housingFundRateInput");
+    var taxRateInput = document.getElementById("taxRateInput");
+
+    var rulesId = document.getElementById("rulesId");
+    var rulesName = document.getElementById("rulesName");
+    var baseSalary = document.getElementById("baseSalary");
+    var bonusRate = document.getElementById("bonusRate");
+    var allowanceRate = document.getElementById("allowanceRate");
+    var socailInsuranceRate = document.getElementById("socailInsuranceRate");
+    var housingFundRate = document.getElementById("housingFundRate");
+    var taxRate = document.getElementById("taxRate");
+
+    rulesIdInput.value = rulesId.innerText;
+    rulesNameInput.value = rulesName.innerText;
+    baseSalaryInput.value = baseSalary.innerText;
+    bonusRateInput.value = bonusRate.innerText;
+    allowanceRateInput.value = allowanceRate.innerText;
+    socailInsuranceRateInput.value = socailInsuranceRate.innerText;
+    housingFundRateInput.value = housingFundRate.innerText;
+    taxRateInput.value = taxRate.innerText;
+
+    document.getElementById("change1").style.display = "none";
+    document.getElementById("sendOut").style.display = "none";
+
+
+  }
+  }

@@ -1,0 +1,109 @@
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+  <title>HRManagementSystem</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <link rel="stylesheet" type="text/css" th:href="@{/css/styleindex.css}" href="../../static/css/styleindex.css" />
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      background-color: #f5f5f5;
+    }
+
+    form {
+      background-color: #ffffff;
+      padding: 30px;
+      border-radius: 5px;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    }
+
+    h1 {
+      font-size: 24px;
+      margin-bottom: 20px;
+      text-align: center;
+    }
+
+    div {
+      margin-bottom: 10px;
+    }
+
+    label {
+      display: inline-block;
+      width: 120px;
+      font-weight: bold;
+    }
+
+    input[type="text"],
+    input[type="date"] {
+      border: 1px solid #ccc;
+      padding: 5px;
+      width: 100%;
+      box-sizing: border-box;
+    }
+
+    select {
+      width: 100%;
+      padding: 5px;
+    }
+
+    button {
+      background-color: darkred;
+      color: white;
+      border: none;
+      padding: 8px 16px;
+      text-transform: uppercase;
+      font-weight: bold;
+      cursor: pointer;
+      border-radius: 3px;
+    }
+  </style>
+</head>
+
+<body>
+  <table>
+    <tr>
+      <td colspan="2" rowspan="2">
+        <!--畫面的白色部分在這邊。-->
+        <div id="content">
+          <div class="title">休暇申請</div>
+          <form action="/leaveRequest/add" method="POST">
+            <div>
+              <label for="employeeId">社員番号:</label>
+              <input type="text" id="employeeId" name="employeeId">
+            </div>
+            <div>
+              <label for="leaveTypeId">休暇タイプ:</label>
+              <select id="leaveTypeId" name="leaveTypeId">
+                <option value="1">事由休暇</option>
+                <option value="2">病気休暇</option>
+                <option value="3">年次有給休暇</option>
+                <option value="4">その他</option>
+              </select>
+            </div>
+            <div>
+              <label for="startDate">休暇開始日時:</label>
+              <input type="date" id="startDate" name="startDate">
+            </div>
+            <div>
+              <label for="endDate">休暇終了日時:</label>
+              <input type="date" id="endDate" name="endDate">
+            </div>
+            <div>
+              <label for="reason">休暇理由:</label>
+              <input type="text" id="reason" name="reason">
+            </div>
+            <button type="submit">提出</button>
+          </form>
+        </div>
+      </td>
+    </tr>
+  </table>
+</body>
+</html>

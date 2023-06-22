@@ -1,0 +1,132 @@
+<!DOCTYPE html
+    PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <title>HRManagementSystem</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <link rel="stylesheet" type="text/css" th:href="@{/css/styleindex.css}" href="../../static/css/styleindex.css" />
+    <script type="text/javascript" th:src="@{/js/jquery.min.js}" src="../../static/js/jquery.min.js"></script>
+    <style>
+  /* 定义表格样式 */
+  table {
+    font-family: Arial, sans-serif; /* 设置字体 */
+    border-collapse: collapse; /* 合并表格边框 */
+    width: 98%; /* 设置表格宽度为85% */
+    margin-bottom: 50px; /* 设置表格下边距为20px */
+  }
+
+  /* 定义表格单元格样式 */
+  td, th {
+    border: 1px solid #ddd; /* 设置单元格边框 */
+    text-align: center; /* 设置单元格文本居中 */
+    padding: 5px; /* 设置单元格内边距 */
+  }
+
+  /* 定义表头样式 */
+  th {
+    background-color: #f2f2f2; /* 设置表头背景颜色 */
+    font-weight: bold; /* 设置表头字体加粗 */
+    font-size: 17.6px;
+  }
+
+  /* 定义奇数行样式 */
+  tr:nth-child(even) {
+    background-color: #f2f2f2; /* 设置奇数行背景颜色 */
+  }
+
+  /* 定义鼠标悬停样式 */
+  tr:hover {
+    background-color: #ddd; /* 设置鼠标悬停背景颜色 */
+  }
+
+  /* 定义表格单元格中表单样式 */
+  td form {
+    display: flex; /* 设置表单元素水平排列 */
+    justify-content: center; /* 设置表单元素水平居中 */
+    align-items: center; /* 设置表单元素垂直居中 */
+    height: 100%; /* 设置表单元素高度为100% */
+    
+  }
+
+  /* 定义表单中按钮样式 */
+  td form button {
+    margin: 0 5px; /* 设置按钮之间的左右边距为5px */
+  
+}
+  td {
+  border: 1px solid #ddd;
+  text-align: center;
+  padding: 5px;
+  font-size: 0.9rem;
+}
+
+  /* 定义标题样式 */
+  .tittle {
+    font-size: 32px; /* 设置标题字体大小 */
+    text-align: left; /* 设置标题文本居中 */
+  }
+  
+</style>
+
+<div class="tittle">休暇管理</div>
+<br>
+<table>
+  <tr>
+    <th>休暇番号</th>
+    <th>社員番号</th>
+    <th>休暇類型</th>
+    <th>開始日</th>
+    <th>終了日</th>
+    <th>休暇理由</th>
+    <th>審査状態</th>
+    <th>操作</th>
+  </tr>
+  <tr th:each="leave : ${leaveRequests}">
+    <td th:text="${leave.id}"></td>
+    <td th:text="${leave.employeeId}"></td>
+    <td th:text="${leaveTypes.get(leave.leaveTypeId - 1).name}"></td>
+    <td th:text="${#dates.format(leave.startDate, 'yyyy-MM-dd')}"></td>
+	<td th:text="${#dates.format(leave.endDate, 'yyyy-MM-dd')}"></td>
+    <td th:text="${leave.reason}"></td>
+    <td th:text="${leave.status}"></td>
+    <td>
+      <form th:if="${positionId == 2 and leave.status == '未審査'}" th:action="@{/updateStatus}" method="post">
+        <input type="hidden" name="leaveId" th:value="${leave.id}">
+        <input type="hidden" name="status" value="部長承認済み">
+        <button type="submit">承認</button>
+      </form>
+      <form th:if="${positionId == 2 and leave.status == '未審査'}" th:action="@{/updateStatus}" method="post">
+        <input type="hidden" name="leaveId" th:value="${leave.id}">
+        <input type="hidden" name="status" value="拒否された">
+        <button type="submit">拒否</button>
+      </form>
+      <form th:if="${leave.positionId == 2 and leave.status == '未審査'}" th:action="@{/updateStatus}" method="post">
+        <input type="hidden" name="leaveId" th:value="${leave.id}">
+        <input type="hidden" name="status" value="社長承認済み">
+        <button type="submit">承認</button>
+      </form>
+        <form th:if="${leave.positionId == 2 and leave.status == '未審査'}" th:action="@{/updateStatus}" method="post">
+        <input type="hidden" name="leaveId" th:value="${leave.id}">
+        <input type="hidden" name="status" value="拒否された">
+        <button type="submit">拒否</button>
+      </form>
+      <form th:if="${positionId == 1 and leave.status =='部長承認済み'}" th:action="@{/updateStatus}" method="post">
+        <input type="hidden" name="leaveId" th:value="${leave.id}">
+        <input type="hidden" name="status" value="社長承認済み">
+        <button type="submit">承認</button>
+      </form>
+      <form th:if="${positionId == 1 and leave.status == '部長承認済み'}" th:action="@{/updateStatus}" method="post">
+        <input type="hidden" name="leaveId" th:value="${leave.id}">
+        <input type="hidden" name="status" value="拒否された">
+        <button type="submit">拒否</button>
+      </form>
+    </td>
+  </tr>
+  <tr th:unless="${leaveRequests}">
+    <td colspan="8" style="text-align:center;">現在、休暇申請はありません</td>
+  </tr>
+</table>
+</div>
+</body>
+</html>

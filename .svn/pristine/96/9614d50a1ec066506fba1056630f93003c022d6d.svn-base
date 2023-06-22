@@ -1,0 +1,40 @@
+package jp.co.hrms.controller;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
+
+import jakarta.servlet.http.HttpSession;
+import jp.co.hrms.model.Salary;
+import jp.co.hrms.service.SalaryService;
+
+
+@Controller
+public class SalaryController {
+    @Autowired
+    private SalaryService service;
+    @GetMapping("/salary")
+    public String salary() {
+        return "salary";
+    }
+    
+
+    
+    @GetMapping("/getMonthData")
+    @ResponseBody
+    public ModelAndView selectSalary(String mouth , HttpSession session) {
+        ModelAndView mav = new ModelAndView("getMonthData");
+        session.getAttribute("User");
+        
+        
+        
+        List<Salary> list = service.selectSalary(mouth , session);
+        mav.addObject("list", list);
+        return mav;
+    }
+    
+}

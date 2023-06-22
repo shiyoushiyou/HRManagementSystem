@@ -1,0 +1,130 @@
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+  <title>HRManagementSystem</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <script type="text/javascrpit" th:src="@{/js/jquery.min.js}"></script>
+  <script type="text/javascrpit" th:src="@{/js/ajax.js}"></script>
+  
+  <link rel="stylesheet" type="text/css" th:href="@{/css/styleindex.css}" href="../../static/css/styleindex.css"/>
+</head>
+
+<body bgcolor="#550403" style="leftmargin:0px; topmargin:0px; marginwidth:0px; marginheight:0px;">
+  <span class="style6"></span>
+  <!--  -->
+  <div id="body">
+    <br />
+    <br />
+    <br />
+    <table style="width:1050px; height:1001px;" align="center" cellpadding="0" cellspacing="0" id="Table_01">
+      <tr>
+        <td colspan="2" rowspan="3">
+          <div id="logo">
+            <div class="logo"><a href="index.html"><span class="style5">HRMS</span></a></div>
+          </div>
+        </td>
+        <td colspan="3">
+          <div class="style1" id="header">
+            <br />
+            HRMS社員システム<span class="style3"></span>
+            <span class="style4"><br />
+              HRManagementSystem MAKES YOUR BUSINESS BETTER!
+            </span>
+          </div>
+        </td> 
+      </tr>
+      <tr>
+      </tr>
+      <tr >
+        <td colspan="2" rowspan="2">
+        <!--畫面的白色部分在這邊。-->
+          <div id="content">
+            <div class="title">工资详情</div>
+            <label for="month">请选择月份：</label>
+	            <select id="mySelect">
+		            <option value="">--请选择--</option>
+		            <option value="1">1月</option>
+		            <option value="2">2月</option>
+                <option value="3">3月</option>
+                <option value="4">4月</option>
+                <option value="5">5月</option>
+                <option value="6">6月</option>
+                <option value="7">7月</option>
+                <option value="8">8月</option>
+                <option value="9">9月</option>
+                <option value="10">10月</option>
+                <option value="11">11月</option>
+                <option value="12">12月</option>
+
+	              </select>
+              
+             
+                <div id="myTable"></div>
+          </div>
+        </td>
+        <td rowspan="3" style="background-color: #E1E1E1;"width="40" height="823">
+        </td>
+      </tr>
+      <tr>
+        <td rowspan="2" style="background-color: #E1E1E1;"width="70" height="823"></td>
+       	<!-- 按鈕跳轉請在這邊插入-->
+        <td>
+          <div class="left_menu">
+            <ul>
+              <li><a href="index.html">ホーム</a></li>
+              <li><a href="index.html">チェックイン</a></li>
+              <li><a href="index.html">チェックアウト</a></li>
+              <li><a href="index.html">社員情報</a></li>
+              <li><a th:href="@{/salary}" href="salary.html">個人給料確認</a></li>
+              <li><a href="index.html">休暇申請</a></li>
+            </ul>
+            <ul>
+              <li><a href="index.html">社員管理</a></li>
+              <li><a href="index.html">勤怠管理</a></li>
+              <li><a href="index.html">帳票管理</a></li>
+              <li><a href="index.html">休暇管理</a></li>
+              <li><a href="index.html">ログアウト</a></li>
+            </ul>
+          </div>
+        </td>
+        <td>
+          <img src="../../static/img/spacer.gif" width="1" height="651" alt="" />
+        </td>
+      </tr>
+      <tr>
+        <td colspan="3" style="text-align: center;">
+          <div id="footer">
+            HRManagementSystem(C) 2023 &quot;YOUR SITE&quot;. DESIGN BY <a
+              href="http://www.e-globalspot.com">HRMS</a></div>
+        </td>
+        <td>
+          <img src="../../static/img/spacer.gif" width="1" height="46" alt="" />
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <img src="../../static/img/spacer.gif" width="70" height="1" alt="" />
+        </td>
+        <td>
+          <img src="../../static/img/spacer.gif" width="179" height="1" alt="" />
+        </td>
+        <td>
+          <img src="../../static/img/spacer.gif" width="623" height="1" alt="" />
+        </td>
+        <td>
+          <img src="../../static/img/spacer.gif" width="101" height="1" alt="" />
+        </td>
+        <td>
+          <img src="../../static/img/spacer.gif" width="27" height="1" alt="" />
+        </td>
+        <td></td>
+      </tr>
+    </table>
+    <div id="lft"><a href="index.html">HRMS</a></div><br />
+    <br />
+  </div>
+</body>
+
+</html>

@@ -1,0 +1,49 @@
+package jp.co.HRMS.controller;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.servlet.ModelAndView;
+
+import jakarta.servlet.http.HttpSession;
+import jp.co.HRMS.model.User;
+import jp.co.HRMS.service.LoginService;
+
+@Controller
+public class LoginController {
+	@Autowired
+	private LoginService service;
+	
+	@GetMapping("/login")
+	public String login() {
+		return"login";
+	}
+	
+	//window.location.href = 'https://google.com.tw/'
+	@PostMapping("login")
+	public ModelAndView login(User user ,HttpSession session) {
+		ModelAndView mav = new ModelAndView();
+		System.out.println(user);
+		String msg = service.loginCheck(user);
+		if("success".equals(msg)) {
+			//帳密符合時
+			//1.ユーザ情報保持用セッション情報をクリアする
+			session.setAttribute("user", user.getLoginId());
+			//３）次の画面へ遷移
+			//調用mav對象轉發，這邊成功轉發後畫面會顯示success
+			//ViewName相當於轉發功能
+			mav.setViewName("select");		
+		}else {
+			//登錄的帳密不符合時
+			//１）ユーザ情報保持用セッション情報をクリアする
+			session.removeAttribute("userid");
+			//２）エラーメッセージを表示しつつ自画面遷移
+			//リクエストスコープ
+			mav.addObject("msg", msg);
+			mav.setViewName("login");
+		}
+
+		return mav;
+	}
+}

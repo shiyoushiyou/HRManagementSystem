@@ -1,0 +1,60 @@
+/**
+ * 
+ */
+
+$(document).ready(function() {
+	var time = $("#time");
+	getTime();
+	setInterval(getTime, 1000);
+
+	function getWeek(day) {
+		var weekArr = ["日", "月", "火", "水", "木", "金", "土"];
+		return weekArr[day];
+	}
+
+	function getTime() {
+		var d = new Date();
+		var year = d.getFullYear();
+		var month = d.getMonth() + 1;
+		var day = d.getDate();
+		var week = getWeek(d.getDay());
+		var hour = d.getHours().toString().padStart(2, "0");
+		var minute = d.getMinutes().toString().padStart(2, "0");
+		var second = d.getSeconds().toString().padStart(2, "0");
+		time.html(year + "年" + month + "月" + day + "日" + "" + "(" + week + ")" + "<br>" + hour + ":" + minute + ":" + second);
+	}
+});
+
+// 设置clicked属性以捕获提交按钮的值
+$("button[type='submit']").click(function() {
+	$("button[type='submit']", $(this).parents("form")).removeAttr("clicked");
+	$(this).attr("clicked", "true");
+});
+function submitForm(checkType) {
+	var form = document.forms[0];
+	form.checkType.value = checkType;
+	$.ajax({
+		url: "/hrms/indexAttendance",
+		type: "post",
+		data: { checkType: checkType},
+		dataType: "json",
+		success: function(data) {
+			console.log(data); // 打印响应数据
+			// 在页面上显示反馈信息
+			if (data.success === true) {
+				alert("success！");
+			} else {
+				alert("error：" + data.message);
+			}
+		},
+		error: function(xhr, status, error) {
+			console.error(error); // 打印错误信息
+			alert("error：" + error);
+		},
+	});
+}
+
+//function (submitForm){
+//	var checkType=
+//}
+

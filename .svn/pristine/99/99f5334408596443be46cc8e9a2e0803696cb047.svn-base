@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>HRManagementSystem</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<link rel="stylesheet" type="text/css" th:href="@{/css/styleindex.css}" href="../../static/css/styleindex.css"/>
+	<script type="text/javascript" th:src="@{/js/jquery.min.js}" src="../../static/js/jquery.min.js"></script>
+   <style>
+        .functionalitycontent {
+          font-size: 18px;
+          text-align: left;
+          width: 109%;
+          margin: 5px auto;
+          border-collapse: collapse;
+          padding: 0px 5px 20px 5px;
+          font-family:  Arial, Helvetica, sans-serif;
+          
+          }
+          table input,table select{
+			font-size:17px; 
+			
+			text-align: center; 
+			}
+		table th, table td {
+		  text-align: center; 
+		  font-size:17px; 
+		}
+		table button,table submit{
+			font-size:15px; 
+		}
+		.result-table th,
+		.result-table td {
+			border: 1px solid #ddd;
+			text-align: center;
+			padding: 5px;
+			width: 87px;
+		}
+
+		.result-table th {
+			background-color: rgb(128, 128, 128);
+			color: white;
+		}
+
+		.scrollable-table {
+			height: 350px;
+			/* 设置固定高度 */
+			overflow-y: auto;
+			/* 设置垂直滚动条 */
+			border: 1px solid #ddd;
+			/* 设置边框样式 */
+		}
+		#dialog {
+			  position: fixed;
+			  top: 50%;
+			  left: 50%;
+			  transform: translate(-50%, -50%);
+			  background-color: white;
+			  padding: 20px;
+			  border: 1px solid black;
+			  z-index: 1000;
+			}
+    </style>
+
+</head>
+<body>
+<div>
+    <table >
+      <tr>
+        <td>
+          <!--畫面的白色部分在這邊。-->
+          <div id="content">
+            <div class="title" style="text-align: left;">勤怠管理</div>
+            <div class ="functionalitycontent">
+            <form th:action="@{/selectEmpAttendence}" th:method="post" >
+	            <table >
+                <tr>
+                  <td><button type="button" id="yesterdayBtn">前日</button></td>
+                <td><input type="date" id="dateInput" name="date" ><td>
+                  <td><button type="button" id="tomorrowBtn">翌日</button></td>
+                  <th>部署</th>
+                  <td>
+                	  <select name="departmentId" id="departmentId" style="width: 100px;">
+                	  <option > </option>
+	                  <option th:each="department:${departmentList}" 
+	                  th:value="${department.value}" th:text="${department.name}"></option>
+                	  </select>
+                	  <td>
+                	  	<button type="submit" >打刻一覧</button>
+                	  </td>
+              	  </td>
+                  <th>氏名</th>
+                  <td>
+				      <select name="id" id="empSelect" style="width: 170px;">
+				      <option value=""></option>
+			    	  </select>
+			      </td>
+              </tr>
+              </table>
+            </form>
+            <br>
+            <br>
+            
+            <form>
+            <div class="title" >打刻確認</div>
+            <div style="text-align: left;" ><button onclick="">編集</button>
+            <button type="submit">編集済み</button>
+		<div class="scrollable-table functionalitycontent">
+			<table class="result-table" >
+				<tr>
+					<th>社員番号</th>
+					<th>氏名</th>
+					<th>日付</th>
+					<th>出勤</th>
+					<th>退勤</th>
+					<th>休憩入り</th>
+					<th>休憩戻り</th>
+				</tr>
+				<tr th:each="attendence : ${empAttendence}">
+					<td th:text="${attendence.employeeId}"></td>
+					<td th:text="${attendence.name}"></td>
+					<td th:text="${attendence.date1}"></td>
+					<td ><button th:if="${attendence.checkIn1 != ''}" th:text="${attendence.checkIn1}"onclick="showDialog('onLine')" id="onLine"></button></td>
+					<td ><button th:if="${attendence.checkOut1!= ''}" th:text="${attendence.checkOut1}"onclick="showDialog('offLine')" id="offLine"></button></td>
+					<td ><button th:if="${attendence.restIn1 != ''}"  th:text="${attendence.restIn1}"onclick="showDialog('rastIn')" id="rastIn"></button></td>
+					<td ><button th:if="${attendence.restOut1 != ''}" th:text="${attendence.restOut1}"onclick="showDialog('rastOut')"  id="rastOut"></button></td>
+				</tr>
+			</table>
+					
+					<div id="dialog" style="display:none;">
+					  <input type="time" id="timeInput">
+					  <button onclick="updateTime()">確認</button>
+					  <button onclick="cancel()">取消</button>
+					</div>
+			</div>
+			</form>
+		</div>
+            </div>
+            </div>
+              </td>
+              	</tr>
+              </table>
+            </div>
+   <script type="text/javascript" th:src="@{/js/attendanceManagement.js}" src="../../static/js/attendanceManagement.js"></script>
+  
+</body>
+</html>

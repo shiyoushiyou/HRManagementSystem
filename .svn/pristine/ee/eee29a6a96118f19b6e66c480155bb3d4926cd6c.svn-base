@@ -1,0 +1,89 @@
+package jp.co.hrms.controller;
+
+import java.util.Date;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
+
+import jp.co.hrms.model.Attendance;
+import jp.co.hrms.service.AttendanceService;
+
+@RestController
+@RequestMapping("/attendance")
+public class AttendanceController {
+
+	@Autowired
+	private AttendanceService service;
+
+	@GetMapping("/{id}")
+	public String getEmployeeStatusById(@PathVariable String employeeId) {
+		Attendance attendance = service.getEmployeeById(employeeId);
+		return "Attendance" + attendance.getEmployeeId() + "は"
+				+ attendance.getStatus();
+	}
+
+	@PostMapping("/{id}/checkIn")
+	@ResponseBody
+	public String checkIn(Attendance attendance) {
+		Attendance.setStatus("checkIn");
+		return "indexAttendance";
+	}
+
+	@GetMapping("/checkOut")
+	@ResponseBody
+	public String checkOut(String employeeId) {
+		Date checkOut = new Date();
+		// 创建一个 Attendance 对象并设置签退时间和员工 ID
+		Attendance attendance = new Attendance();
+		attendance.setEmployeeId(employeeId);
+		attendance.setCheckOut(checkOut);
+		service.updateAttendance(attendance);
+		return "indexAttendance";
+	}
+
+	@GetMapping("/restIn")
+	@ResponseBody
+	public String restIn(String employeeId) {
+		Date restIn = new Date();
+		Attendance attendance = new Attendance();
+		attendance.setEmployeeId(employeeId);
+		attendance.setRestIn(restIn);
+		// 调用 Service 中的方法将 Attendance 对象保存到数据库中
+		service.updateAttendance(attendance);
+		return "indexAttendance";
+	}
+
+	@GetMapping("/restOut")
+	@ResponseBody
+	public String restOut(String employeeId) {
+
+		Date restOut = new Date();
+		Attendance attendance = new Attendance();
+		attendance.setEmployeeId(employeeId);
+		attendance.setRestOut(restOut);
+		service.updateAttendance(attendance);
+		return "indexAttendance";
+	}
+
+	@GetMapping("/insert")
+	@ResponseBody
+	public String insertAttendance(Attendance attendance) {
+		service.insertAttendance(attendance);
+		return "indexAttendance";
+
+	}
+
+	@GetMapping("/update")
+	@ResponseBody
+	public String updateAttendance(Attendance attendance) {
+		service.updateAttendance(attendance);
+		return "indexAttendance";
+
+	}
+
+}

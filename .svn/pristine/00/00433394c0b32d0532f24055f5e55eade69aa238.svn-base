@@ -1,0 +1,29 @@
+package jp.co.hrms.controller;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.servlet.ModelAndView;
+
+import jakarta.servlet.http.HttpSession;
+import jp.co.hrms.model.Employees;
+import jp.co.hrms.model.User;
+import jp.co.hrms.service.EmployeesService;
+
+@Controller
+public class EmployeesController {
+	@Autowired
+	private EmployeesService service;
+	
+	@GetMapping("/indexEmployees")
+	public  ModelAndView  indexEmployees(User user ,HttpSession session) {
+		ModelAndView mav = new ModelAndView("indexEmployees");
+		String employee=(String) session.getAttribute("user");
+		List<Employees> EmpsInfo =service.getEmployeesByUserid(employee);
+		mav.addObject("EmpsInfo",EmpsInfo);
+		
+		return mav;
+	}
+}

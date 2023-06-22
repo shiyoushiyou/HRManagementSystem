@@ -1,0 +1,135 @@
+package jp.co.hrms.controller;
+
+import java.time.LocalDateTime;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import jakarta.servlet.http.HttpSession;
+import jp.co.hrms.model.Attendance;
+import jp.co.hrms.service.AttendanceService;
+
+@Controller
+public class AttendanceController1 {
+	@Autowired
+	private AttendanceService attendanceService;
+
+	@GetMapping("/indexAttendance")
+	public String attendance() {
+		return "indexAttendance";
+	}
+
+	@PostMapping("/checkin")
+	@ResponseBody
+	public String attendanceCheckIn(HttpSession session, Model model,
+			Attendance attendance) {
+		LocalDateTime date = LocalDateTime.now();
+		String employeeId = (String) session.getAttribute("user");
+
+		// TODO 通过打卡记录取得员工现在的打卡状态
+//		Attendance attendances = attendanceService
+//				.getAttendanceByEmployeeIdAndDate(employeeId, date);
+
+		// 如果退勤为空，说明可能已经打过卡了
+//		if (attendances.getCheckOut() == null) {
+//			model.addAttribute("message", "もうチェックイン済みです");
+//		如果休息不为空并且退勤为空的话，说明在休息中
+//		} else if (attendances.getRestIn() != null
+//				&& attendances.getCheckOut() == null) {
+//			model.addAttribute("message", "休憩中です");
+//		} else {
+		attendance.setEmployeeId(employeeId);
+		attendance.setDate(date);
+		attendance.setCheckIn(date);
+		attendance.setStatus("出勤");
+		System.out.println(attendance);
+		attendanceService.checkIn(attendance);
+//		}
+		return "出勤しました";
+
+	}
+
+	@PostMapping("/checkout")
+	@ResponseBody
+	public String checkOut(HttpSession session, Model model,
+			Attendance attendance) {
+		String employeeId = (String) session.getAttribute("user");
+		LocalDateTime date = LocalDateTime.now();
+		Attendance attendances = attendanceService
+				.getAttendanceByEmployeeIdAndDate(employeeId, date);
+//		如果打卡为空的话说明还没打卡出勤
+		if (attendances.getCheckIn() == null) {
+			model.addAttribute("msg", "まだ出勤していません");
+//				如果退勤不为空说明已经退勤打卡了
+		} else if (attendances.getCheckOut() != null) {
+			model.addAttribute("msg", "もう退勤済みです");
+//				如果休息不为空并且返回为空说明正在休息当中
+		} else if (attendances.getRestIn() != null
+				&& attendances.getRestOut() == null) {
+			model.addAttribute("msg", "まだ休憩中です");
+		} else {
+			attendances.setEmployeeId(employeeId);
+			attendances.setDate(date);
+			attendances.setCheckOut(date);
+			attendances.setStatus("退勤");
+			attendanceService.checkOut(attendances);
+		}
+		return "退勤しました";
+	}
+
+	@PostMapping("/restin")
+	@ResponseBody
+	public String attendanceCheckOut(HttpSession session, Model model,
+			Attendance attendance) {
+		LocalDateTime date = LocalDateTime.now();
+		String employeeId = (String) session.getAttribute("user");
+		Attendance attendances = attendanceService
+				.getAttendanceByEmployeeIdAndDate(employeeId, date);
+//				出勤为空还没打卡出勤
+		if (attendances.getCheckIn() == null) {
+			model.addAttribute("msg", "まだ出勤していません");
+//				休息不为空，正在休息
+		} else if (attendances.getRestIn() != null) {
+			model.addAttribute("msg", "休憩中です");
+//				退勤不为空，已经打卡下班
+		} else if (attendance.getCheckOut() != null) {
+			model.addAttribute("msg", "もう退勤しました");
+		} else {
+			attendances.setEmployeeId(employeeId);
+			attendances.setDate(date);
+			attendances.setRestIn(date);
+			attendances.setStatus("休憩");
+			attendanceService.restIn(attendances);
+		}
+		return "休憩入ります";
+	}
+
+	@PostMapping("/restout")
+	@ResponseBody
+	public String restOut(HttpSession session, Model model,
+			Attendance attendance) {
+		LocalDateTime date = LocalDateTime.now();
+		String employeeId = (String) session.getAttribute("user");
+		Attendance attendances = attendanceService
+				.getAttendanceByEmployeeIdAndDate(employeeId, date);
+//			出勤为空，还没出勤
+		if (attendances == null) {
+			model.addAttribute("msg", "まだ出勤していません");
+//				休息为空或者返回不为空，还没进行休息
+		} else if (attendances.getRestIn() == null
+				|| attendances.getRestOut() != null) {
+			model.addAttribute("msg", "まだ休憩していません");
+		} else {
+			attendances.setEmployeeId(employeeId);
+			attendances.setDate(date);
+			attendances.setRestOut(date);
+			attendances.setStatus("戻り");
+			attendanceService.restOut(attendances);
+		}
+		return "戻りました";
+	}
+}

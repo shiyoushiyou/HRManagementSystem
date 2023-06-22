@@ -1,0 +1,30 @@
+package jp.co.hrms.service;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
+import org.springframework.stereotype.Service;
+
+
+import jp.co.hrms.mapper.SalaryMapper;
+import jp.co.hrms.model.Salary;
+
+@Service
+public class SalaryService {
+	@Autowired
+	private SalaryMapper mapper;
+
+	//月別給与データ取得
+	public List<Salary> selectSalary(String month, String number) {
+
+		return mapper.selectSalary(month, number);
+	}
+	//每月初自动生成上个月所有员工的工资
+    @Scheduled(cron = "0 0 1 1 * ?")
+	
+    public void generateMonthlySalary() {
+        mapper.executeSalaryGeneration();
+    }
+
+}

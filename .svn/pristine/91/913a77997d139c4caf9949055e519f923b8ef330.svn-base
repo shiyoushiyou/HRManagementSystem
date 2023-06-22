@@ -1,0 +1,201 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--命名空間 實現與Mapper接口綁定-->
+<mapper namespace="jp.co.hrms.mapper.SalaryMapper">
+	<!--id屬性與Mapper接口中方法綁定  -->
+	<select id ="selectSalary" resultType="Salary" parameterType ="String">
+		SELECT 
+        ID 
+        , EMPLOYEE_ID
+        , MONTH_
+        , SALARY_DATE 
+        , BASIC_SALARY 
+        , BONUS 
+        , ALLOWANCE 
+        , SOCIAL_INSURANCE 
+        , HOUSING_FUND
+        , TAX   
+        , TOTAL_SALARY
+        FROM
+        SALARY_RECORDS
+       WHERE EMPLOYEE_ID = #{number}
+       AND MONTH_ = #{month}
+	</select>
+
+ <insert id="generateSalary" parameterType ="String">
+    INSERT 
+	INTO salary_records( 
+    EMPLOYEE_ID
+    , MONTH_
+    , SALARY_DATE
+    , BASIC_SALARY
+    , BONUS
+    , ALLOWANCE
+    , SOCIAL_INSURANCE
+    , HOUSING_FUND
+    , TAX
+    , TOTAL_SALARY
+) 
+SELECT
+    s.EMPLOYEE_ID
+    , DATE_FORMAT(DATE_SUB(NOW(), INTERVAL 1 MONTH), '%m') AS MONTH_
+    , DATE_FORMAT(NOW(), '%Y-%m-10') AS SALARY_DATE
+    , ( 
+        (s.BASE_SALARY) * ( 
+            SELECT
+                SUM(TIMESTAMPDIFF(SECOND, CHECK_IN, CHECK_OUT)) / 3600 
+            FROM
+                attendance_records 
+            WHERE
+                EMPLOYEE_ID = s.EMPLOYEE_ID 
+                AND DATE_FORMAT(CHECK_IN, '%Y-%m') = DATE_FORMAT(NOW() - INTERVAL 1 MONTH, '%Y-%m')
+        )
+    ) AS BASIC_SALARY
+    , ( 
+        ( 
+            (s.BASE_SALARY) * ( 
+                SELECT
+                    SUM(TIMESTAMPDIFF(SECOND, CHECK_IN, CHECK_OUT)) / 3600 
+                FROM
+                    attendance_records 
+                WHERE
+                    EMPLOYEE_ID = s.EMPLOYEE_ID 
+                    AND DATE_FORMAT(CHECK_IN, '%Y-%m') = DATE_FORMAT(NOW() - INTERVAL 1 MONTH, '%Y-%m')
+            )
+        ) * s.BONUS_RATE
+    ) AS BONUS
+    , ( 
+        ( 
+            (s.BASE_SALARY) * ( 
+                SELECT
+                    SUM(TIMESTAMPDIFF(SECOND, CHECK_IN, CHECK_OUT)) / 3600 
+                FROM
+                    attendance_records 
+                WHERE
+                    EMPLOYEE_ID = s.EMPLOYEE_ID 
+                    AND DATE_FORMAT(CHECK_IN, '%Y-%m') = DATE_FORMAT(NOW() - INTERVAL 1 MONTH, '%Y-%m')
+            )
+        ) * s.ALLOWANCE_RATE
+    ) AS ALLOWANCE
+    , ( 
+        ( 
+            (s.BASE_SALARY) * ( 
+                SELECT
+                    SUM(TIMESTAMPDIFF(SECOND, CHECK_IN, CHECK_OUT)) / 3600 
+                FROM
+                    attendance_records 
+                WHERE
+                    EMPLOYEE_ID = s.EMPLOYEE_ID 
+                    AND DATE_FORMAT(CHECK_IN, '%Y-%m') = DATE_FORMAT(NOW() - INTERVAL 1 MONTH, '%Y-%m')
+            )
+        ) * s.SOCAIL_INSURANCE_RATE
+    ) AS SOCIAL_INSURANCE
+    , ( 
+        ( 
+            (s.BASE_SALARY) * ( 
+                SELECT
+                    SUM(TIMESTAMPDIFF(SECOND, CHECK_IN, CHECK_OUT)) / 3600 
+                FROM
+                    attendance_records 
+                WHERE
+                    EMPLOYEE_ID = s.EMPLOYEE_ID 
+                    AND DATE_FORMAT(CHECK_IN, '%Y-%m') = DATE_FORMAT(NOW() - INTERVAL 1 MONTH, '%Y-%m')
+            )
+        ) * s.HOUSING_FUND_RATE
+    ) AS HOUSING_FUND
+    , ( 
+        ( 
+            (s.BASE_SALARY) * ( 
+                SELECT
+                    SUM(TIMESTAMPDIFF(SECOND, CHECK_IN, CHECK_OUT)) / 3600 
+                FROM
+                    attendance_records 
+                WHERE
+                    EMPLOYEE_ID = s.EMPLOYEE_ID 
+                    AND DATE_FORMAT(CHECK_IN, '%Y-%m') = DATE_FORMAT(NOW() - INTERVAL 1 MONTH, '%Y-%m')
+            )
+        ) * s.TAX_RATE
+    ) AS TAX
+    , ( 
+        ( 
+            (s.BASE_SALARY) * ( 
+                SELECT
+                    SUM(TIMESTAMPDIFF(SECOND, CHECK_IN, CHECK_OUT)) / 3600 
+                FROM
+                    attendance_records 
+                WHERE
+                    EMPLOYEE_ID = s.EMPLOYEE_ID 
+                    AND DATE_FORMAT(CHECK_IN, '%Y-%m') = DATE_FORMAT(NOW() - INTERVAL 1 MONTH, '%Y-%m')
+            )
+        ) + ( 
+            ( 
+                (s.BASE_SALARY) * ( 
+                    SELECT
+                        SUM(TIMESTAMPDIFF(SECOND, CHECK_IN, CHECK_OUT)) / 3600 
+                    FROM
+                        attendance_records 
+                    WHERE
+                        EMPLOYEE_ID = s.EMPLOYEE_ID 
+                        AND DATE_FORMAT(CHECK_IN, '%Y-%m') = DATE_FORMAT(NOW() - INTERVAL 1 MONTH, '%Y-%m')
+                )
+            ) * s.BONUS_RATE
+        ) + ( 
+            ( 
+                (s.BASE_SALARY) * ( 
+                    SELECT
+                        SUM(TIMESTAMPDIFF(SECOND, CHECK_IN, CHECK_OUT)) / 3600 
+                    FROM
+                        attendance_records 
+                    WHERE
+                        EMPLOYEE_ID = s.EMPLOYEE_ID 
+                        AND DATE_FORMAT(CHECK_IN, '%Y-%m') = DATE_FORMAT(NOW() - INTERVAL 1 MONTH, '%Y-%m')
+                )
+            ) * s.ALLOWANCE_RATE
+        ) - ( 
+            ( 
+                (s.BASE_SALARY) * ( 
+                    SELECT
+                        SUM(TIMESTAMPDIFF(SECOND, CHECK_IN, CHECK_OUT)) / 3600 
+                    FROM
+                        attendance_records 
+                    WHERE
+                        EMPLOYEE_ID = s.EMPLOYEE_ID 
+                        AND DATE_FORMAT(CHECK_IN, '%Y-%m') = DATE_FORMAT(NOW() - INTERVAL 1 MONTH, '%Y-%m')
+                )
+            ) * s.SOCAIL_INSURANCE_RATE
+        ) - ( 
+            ( 
+                (s.BASE_SALARY) * ( 
+                    SELECT
+                        SUM(TIMESTAMPDIFF(SECOND, CHECK_IN, CHECK_OUT)) / 3600 
+                    FROM
+                        attendance_records 
+                    WHERE
+                        EMPLOYEE_ID = s.EMPLOYEE_ID 
+                        AND DATE_FORMAT(CHECK_IN, '%Y-%m') = DATE_FORMAT(NOW() - INTERVAL 1 MONTH, '%Y-%m')
+                )
+            ) * s.HOUSING_FUND_RATE
+        ) - ( 
+            ( 
+                (s.BASE_SALARY) * ( 
+                    SELECT
+                        SUM(TIMESTAMPDIFF(SECOND, CHECK_IN, CHECK_OUT)) / 3600 
+                    FROM
+                        attendance_records 
+                    WHERE
+                        EMPLOYEE_ID = s.EMPLOYEE_ID 
+                        AND DATE_FORMAT(CHECK_IN, '%Y-%m') = DATE_FORMAT(NOW() - INTERVAL 1 MONTH, '%Y-%m')
+                )
+            ) * s.TAX_RATE
+        )
+    ) AS TOTAL_SALARY 
+FROM
+    salary_rules AS s JOIN attendance_records AS a 
+        ON s.EMPLOYEE_ID = a.EMPLOYEE_ID 
+WHERE
+    DATE_FORMAT(a.DATE_, '%Y-%m') = DATE_FORMAT(NOW(), '%Y-%m') 
+    AND s.EMPLOYEE_ID = #{id}
+    AND s.id = (SELECT MAX(id) FROM salary_rules WHERE EMPLOYEE_ID = #{id})
+
+   </insert> 
+</mapper>

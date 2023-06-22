@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>HRManagementSystem</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<link rel="stylesheet" type="text/css" th:href="@{/css/styleindex.css}" href="../../static/css/styleindex.css"/>
+	<script type="text/javascript" th:src="@{/js/jquery.min.js}" src="../../static/js/jquery.min.js"></script>
+   <style>
+        .functionalitycontent {
+          font-size: 18px;
+          text-align: left;
+          width: 100%;
+          margin: 5px auto;
+          border-collapse: collapse;
+          padding: 0px 5px 20px 5px;
+          font-family:  Arial, Helvetica, sans-serif;
+          
+          }
+          table input,table select{
+			font-size:17px; 
+			width: 130px;
+			text-align: center; 
+			}
+		table th, table td {
+		  text-align: center; 
+		  font-size:17px; 
+		}
+		table button,table submit{
+			font-size:15px; 
+		}
+
+    </style>
+
+</head>
+<body>
+<div>
+    <table >
+      <tr>
+        <td colspan="2" rowspan="2">
+          <!--畫面的白色部分在這邊。-->
+          <div id="content">
+            <div class="title" style="text-align: left;">勤怠管理</div>
+            <div class ="functionalitycontent">
+            <form th:action="@{/selectEmpAttendence}" th:method="post" >
+	            <table >
+                <tr>
+                  <td><button type="button" id="yesterdayBtn">前日</button></td>
+                　<td><input type="date" id="dateInput" name="date" ><td>
+                  <td><button type="button" id="tomorrowBtn">翌日</button></td>
+                  <th>部署</th>
+                  <td>
+                	  <select name="departmentId" id="departmentId" style="width: 100px;">
+                	  <option > </option>
+	                  <option th:each="department:${departmentList}" 
+	                  th:value="${department.value}" th:text="${department.name}"></option>
+                	  </select>
+                	  <td>
+                	  	<button type="submit" >打刻一覧</button>
+                	  </td>
+              	  </td>
+                  <th>氏名</th>
+                  <td>
+				      <select name="id" id="empSelect" style="width: 140px;">
+				      <option value=""></option>
+			    	  </select>
+			      </td>
+              </tr>
+              </td>
+              </table>
+            </form>
+            </div>
+            </div>
+            </td>
+      </tr>
+    </table>
+</div>
+   <script type="text/javascript" th:src="@{/js/attendanceManagement.js}" src="../../static/js/attendanceManagement.js"></script>
+  
+</body>
+</html>

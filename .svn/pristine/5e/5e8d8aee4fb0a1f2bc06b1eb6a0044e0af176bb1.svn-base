@@ -1,0 +1,94 @@
+package jp.co.hrms.controller;
+
+import java.util.Date;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.servlet.ModelAndView;
+
+import jakarta.servlet.http.HttpSession;
+import jp.co.hrms.model.Attendance;
+import jp.co.hrms.service.AttendanceService;
+
+@Controller
+public class AttendanceController1 {
+	@Autowired
+	private AttendanceService attendanceService;
+
+	@GetMapping("/indexAttendance")
+	public ModelAndView checkin(HttpSession session) {
+		ModelAndView mav = new ModelAndView("indexAttendance");
+		String employeeId = (String) session.getAttribute("user");
+		mav.addObject("employeeId", employeeId);
+		return mav;
+	}
+
+	@PostMapping("/checkin")
+	public ModelAndView submitCheckin(HttpSession session, String action) {
+		String employeeId = (String) session.getAttribute("user");
+		Attendance attendance = attendanceService
+				.getAttendanceByEmployeeIdAndDate(employeeId, new Date());
+		if (attendance == null) {
+			attendance = new Attendance();
+			attendance.setEmployeeId(employeeId);
+			attendance.setDate(new Date());
+			attendance.setStatus(0);
+		}
+
+		if (attendance.getStatus() == 0) {
+			attendance.setCheckIn(new Date());
+			attendance.setStatus(1);
+			attendanceService.attendanceCheckIn(attendance);
+		}
+
+		ModelAndView mav = new ModelAndView("redirect:/indexAttendance");
+		return mav;
+	}
+
+	@PostMapping("/checkout")
+	public ModelAndView submitCheckout(HttpSession session, String action) {
+		String employeeId = (String) session.getAttribute("user");
+		Attendance attendance = attendanceService
+				.getAttendanceByEmployeeIdAndDate(employeeId, new Date());
+		if (attendance != null && attendance.getStatus() == 1) {
+			attendance.setCheckOut(new Date());
+			attendance.setStatus(2);
+			attendanceService.attendanceCheckOut(attendance);
+		}
+
+		ModelAndView mav = new ModelAndView("redirect:/indexAttendance");
+		return mav;
+	}
+
+	@PostMapping("/restin")
+	public ModelAndView submitRestin(HttpSession session, String action) {
+		String employeeId = (String) session.getAttribute("user");
+		Attendance attendance = attendanceService
+				.getAttendanceByEmployeeIdAndDate(employeeId, new Date());
+		if (attendance != null && attendance.getStatus() == 1) {
+			attendance.setRestIn(new Date());
+			attendance.setStatus(3);
+			attendanceService.attendanceRestIn(attendance);
+		}
+
+		ModelAndView mav = new ModelAndView("redirect:/indexAttendance");
+		return mav;
+	}
+
+	@PostMapping("/restout")
+	public ModelAndView submitRestout(HttpSession session, String action) {
+		String employeeId = (String) session.getAttribute("user");
+		Attendance attendance = attendanceService
+				.getAttendanceByEmployeeIdAndDate(employeeId, new Date());
+		if (attendance != null && attendance.getStatus() == 3) {
+			attendance.setRestOut(new Date());
+			attendance.setStatus(1);
+			attendanceService.attendanceRestOut(attendance);
+		}
+
+		ModelAndView mav = new ModelAndView("redirect:/indexAttendance");
+		return mav;
+	}
+}

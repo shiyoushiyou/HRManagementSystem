@@ -1,0 +1,85 @@
+package jp.co.hrms.controller;
+
+import java.time.LocalDateTime;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.servlet.ModelAndView;
+
+import jakarta.servlet.http.HttpSession;
+import jp.co.hrms.model.User;
+import jp.co.hrms.service.AttendanceService;
+
+@Controller
+public class AttendanceController {
+
+	@Autowired
+	private AttendanceService attendanceService;
+
+	@GetMapping("/indexAttendance")
+	public String attendance() {
+		return "indexAttendance";
+	}
+
+	@PostMapping("/checkIn")
+	public ModelAndView checkIn(User user, HttpSession session) {
+		ModelAndView mav = new ModelAndView("indexAttendance");
+		String login = (String) session.getAttribute("user");
+		System.out.println(login);
+		attendanceService.checkIn(login);
+//		session.getAttribute("user");
+		return mav;
+	}
+
+	@PostMapping("/checkOut")
+	public ModelAndView checkOut(User user, HttpSession session) {
+		ModelAndView mav = new ModelAndView("indexAttendance");
+		String login = (String) session.getAttribute("user");
+		System.out.println(login);
+		attendanceService.checkOut(login);
+//		session.getAttribute(login);
+		return mav;
+	}
+
+	@PostMapping("/restIn")
+	public ModelAndView restIn(User user, HttpSession session) {
+		ModelAndView mav = new ModelAndView("indexAttendance");
+		String login = (String) session.getAttribute("user");
+		System.out.println("/restIn");
+		attendanceService.restIn(login);
+		return mav;
+	}
+
+	@PostMapping("/restOut")
+	public ModelAndView restOut(User user, HttpSession session) {
+		ModelAndView mav = new ModelAndView("indexAttendance");
+		String login = (String) session.getAttribute("user");
+		System.out.println("/restOut");
+		attendanceService.restOut(login);
+		return mav;
+	}
+
+	@PostMapping("/select")
+	public ModelAndView selectByEmployeeIdAndDate(String login,
+			LocalDateTime now) {
+		ModelAndView mav = new ModelAndView("indexAttendance");
+		attendanceService.selectByEmployeeIdAndDate(login, now);
+		return mav;
+	}
+
+	@PostMapping("/insert")
+	public ModelAndView insertAttendance(String login) {
+		ModelAndView mav = new ModelAndView("indexAttendance");
+		attendanceService.insertAttendance(login);
+		return mav;
+	}
+
+	@PostMapping("/update")
+	public ModelAndView updateAttendance(String login) {
+		ModelAndView mav = new ModelAndView("indexAttendance");
+		attendanceService.updateAttendance(login);
+		return mav;
+	}
+}

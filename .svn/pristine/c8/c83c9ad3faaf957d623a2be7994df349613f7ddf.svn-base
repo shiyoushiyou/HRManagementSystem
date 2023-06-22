@@ -1,0 +1,95 @@
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <title>HRManagementSystem</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <link rel="stylesheet" type="text/css" th:href="@{/css/styleindex.css}" href="../../static/css/styleindex.css"/>
+  <script type="text/javascript" th:src="@{/js/jquery.min.js}" src="../../static/js/jquery.min.js"></script>
+  <script>
+    $(function(){
+      $(".forum-1 ul").hide();
+      $(".forum-1>li>a").click(function(){
+        $(".forum-1 ul").slideToggle();
+      })
+    })
+  </script>
+</head>
+<body bgcolor="#550403" style="leftmargin:0px; topmargin:0px; marginwidth:0px; marginheight:0px;">
+  <span class="style6"></span>
+  <!-- Save for Web Slices (business solutions_sliced.psd) -->
+  <div id="body">
+    <br />
+    <br />
+    <br />
+    <table style="width:1050px; height:1001px;" align="center" cellpadding="0" cellspacing="0" id="Table_01">
+      <tr>
+        <td colspan="2" rowspan="3">
+          <div id="logo">
+            <div class="logo"><a th:href="@{/index}" ><span class="style5">HRMS</span></a></div>
+          </div>
+        </td>
+        <td colspan="3">
+          <div class="style1" id="header">
+            <br />
+            HRMS<span class="style3"></span>
+            <span class="style4"><br />
+              HRManagementSystem MAKES YOUR BUSINESS BETTER!
+            </span>
+          </div>
+        </td> 
+      </tr>
+      <tr>
+      </tr>
+      <tr >
+        <td colspan="2" rowspan="2">
+          <!--畫面的白色部分在這邊。-->
+          <div id="content">
+            <form >
+                <iframe th:src="@{/index2}"  width=" 100%" height="900"frameborder="0" class="ifr" scrolling="no"></iframe>
+            </form>
+          </div>
+        </td>
+        <td rowspan="3" style="background-color: #E1E1E1;"width="40" height="823">
+        </td>
+      </tr>
+      <tr>
+        <td rowspan="2" style="background-color: #E1E1E1;"width="70" height="823"></td>
+        <td>
+          <div class="left_menu">
+            <ul>	
+              <li><a th:href="@{/index}">ホーム</a></li>	
+              <li><a id="indexAttendance" href="#">打刻申請</a></li>
+              <li><a id="request" href="#" >休暇申請</a></li>
+              <li><a id="indexEmployees"href="#" >個人情報確認</a></li>
+              <li><a  id="salary" href="#">個人給料確認</a></li>
+            </ul>
+            <ul class="forum-1" th:if="${positionId!= '3'}">
+      		<td><input type="hidden" name="positionId" id="positionId" th:value="${positionId}"></td>
+            <li><a>社員管理</a></li>
+              <li >
+                <ul class="form-2">
+                  <li><a id="insertEmp" href="#">新增社員</a></li>
+                  <li><a id="selectEmployees" href="#">查詢社員</a></li>
+                  <li><a href="index.html">薪資管理</a></li>
+                  <li><a id="attendanceManagement" href="#">勤怠管理</a></li>
+                  <li><a id="attendanceOutput" href="#">勤怠表出力</a></li>
+                  <li><a id="management" href="#">休暇管理</a></li>
+                </ul>
+              </li>
+              </ul>
+              <li><a th:href="@{/logout}">ログアウト</a></li>
+          </div>
+        </td>
+      </tr>
+      <tr>
+        <td colspan="3" style="text-align: center;">
+          <div id="footer">
+            HRManagementSystem(C) 2023 &quot;YOUR SITE&quot;. DESIGN BY <a  id="home" href="#">HRMS</a></div>
+        </td>
+      </tr>
+    </table>
+  </div>
+   <script type="text/javascript" th:src="@{/js/slidejs.js}" src="../../static/js/slidejs.js"></script>
+</body>
+</html>

@@ -1,0 +1,95 @@
+package jp.co.hrms.service;
+
+import java.time.LocalDateTime;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import jp.co.hrms.mapper.AttendanceMapper;
+import jp.co.hrms.model.Attendance;
+
+@Service
+public class AttendanceService {
+
+	@Autowired
+	private AttendanceMapper mapper;
+
+	public void checkIn(String employeeId) {
+		// 获取当前时间
+		LocalDateTime now = LocalDateTime.now();
+		Attendance attendance = mapper.selectByEmployeeIdAndDate(employeeId,
+				now);
+		if (attendance == null) {
+			attendance = new Attendance();
+			attendance.setEmployeeId(employeeId);
+			attendance.setCheckIn(LocalDateTime.now());
+			attendance.setStatus(1);
+//			mapper.insert(attendance);
+		} else {
+			throw new RuntimeException("チェックイン済みです");
+		}
+	}
+
+	public void checkOut(String employeeId) {
+		LocalDateTime now = LocalDateTime.now();
+		Attendance attendance = mapper.selectByEmployeeIdAndDate(employeeId,
+				now);
+		if (attendance == null) {
+			throw new RuntimeException("未チェックインです");
+		} else {
+			attendance.setCheckOut(LocalDateTime.now());
+			attendance.setStatus(2);
+//			mapper.update(attendance);
+		}
+	}
+
+	public void restIn(String employeeId) {
+		LocalDateTime now = LocalDateTime.now();
+		Attendance attendance = mapper.selectByEmployeeIdAndDate(employeeId,
+				now);
+		if (attendance == null) {
+			throw new RuntimeException("未チェックインです");
+		} else {
+			attendance.setRestIn(LocalDateTime.now());
+			attendance.setStatus(3);
+//			mapper.update(attendance);
+		}
+	}
+
+	public void restOut(String employeeId) {
+		LocalDateTime now = LocalDateTime.now();
+		Attendance attendance = mapper.selectByEmployeeIdAndDate(employeeId,
+				now);
+		if (attendance == null) {
+			throw new RuntimeException("未チェックインです");
+		} else {
+			attendance.setRestOut(LocalDateTime.now());
+			attendance.setStatus(4);
+//			mapper.update(attendance);
+		}
+	}
+
+	public void selectByEmployeeIdAndDate(String employeeId,
+			LocalDateTime now) {
+		mapper.selectByEmployeeIdAndDate(employeeId, now);
+	}
+
+	public void insertAttendance(Attendance attendance) {
+		Attendance existingAttendance = mapper.selectByEmployeeIdAndDate(
+				attendance.getEmployeeId(), attendance.getCheckIn());
+		if (existingAttendance != null) {
+			throw new RuntimeException("レコード既に存在しています");
+		}
+//		mapper.insert(attendance);
+	}
+
+	public void updateAttendance(Attendance attendance) {
+		Attendance existingAttendance = mapper.selectByEmployeeIdAndDate(
+				attendance.getEmployeeId(), attendance.getCheckIn());
+		if (existingAttendance == null) {
+			throw new RuntimeException("レコード存在していません");
+		}
+//		mapper.update(attendance);
+	}
+
+}

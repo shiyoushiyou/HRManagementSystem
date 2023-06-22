@@ -1,0 +1,40 @@
+window.addEventListener('load', function() {
+// 獲取 iframe 和按鈕元素
+var iframe = document.querySelector('.ifr');
+var indexEmployees = document.querySelector('#indexEmployees');
+var salary = document.querySelector('#salary');
+var home = document.querySelector('#home');
+var request = document.querySelector('#request');
+var selectEmployees = document.querySelector('#selectEmployees');
+var management = document.querySelector('#management');
+var indexAttendance = document.querySelector('#indexAttendance');
+	// 監聽按鈕的單擊事件
+	indexEmployees.addEventListener('click', function() {
+		iframe.contentDocument.location.href = 'indexEmployees'; //切換indexEmployees
+	});
+	//切換 salary
+	salary.addEventListener('click', function() {
+		iframe.contentDocument.location.href = 'salary'; 
+	});
+	//切換 index2 
+	home.addEventListener('click', function() {
+		iframe.contentDocument.location.href = 'index2'; 
+	});
+	//切換request
+	request.addEventListener('click', function() {
+		iframe.contentDocument.location.href = 'request'; 
+	});
+	
+	//切換selectEmployees
+	selectEmployees.addEventListener('click', function() {
+		iframe.contentDocument.location.href = 'selectEmployees'; 
+	});
+	
+	//切換management
+	management.addEventListener('click', function() {
+		iframe.contentDocument.location.href = 'management'; 
+	});
+	indexAttendance.addEventListener('click', function() {
+		iframe.contentDocument.location.href = 'indexAttendance'; 
+	});
+});

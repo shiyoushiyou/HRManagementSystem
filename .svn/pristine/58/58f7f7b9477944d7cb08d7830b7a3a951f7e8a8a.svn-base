@@ -1,0 +1,65 @@
+package jp.co.hrms.model;
+
+import java.util.Date;
+
+import lombok.Data;
+
+@Data
+
+public class Leave {
+    private int id;
+    private int employeeId;
+    private int leaveTypeId;
+    private String leaveTypeName;
+    private Date startDate;
+    private Date endDate;
+    private String reason;
+    private String status;
+
+}
+
+/*    public LeaveRequestStatus getStatusEnum() {
+        return LeaveRequestStatus.fromCode(status);
+    }
+
+    public void setStatusEnum(LeaveRequestStatus status) {
+        this.status = status.getCode();*/
+    
+
+
+
+
+/*package jp.co.hrms.model;
+
+import java.util.Date;
+
+import lombok.Data;
+
+@Data
+public class LeaveRequest {
+    private int id;
+    private int employeeId;
+    private int leaveTypeId;
+    private Date startDate;
+    private Date endDate;
+    private String reason;
+    private int status;
+
+
+    public String getStatusDescription() {
+        switch (status) {
+            case 1:
+                return "未审核";
+            case 2:
+                return "部长已批准";
+            case 3:
+                return "已驳回";
+            case 4:
+                return "社长已批准";
+            default:
+                return null;
+        }
+    }
+}
+
+*/

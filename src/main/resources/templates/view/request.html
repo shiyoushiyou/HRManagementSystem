@@ -1,0 +1,175 @@
+<!DOCTYPE html
+	PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<title>HRManagementSystem</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<link rel="stylesheet" type="text/css" th:href="@{/css/styleindex.css}" href="../../static/css/styleindex.css" />
+	<script type="text/javascript" th:src="@{/js/jquery.min.js}" src="../../static/js/jquery.min.js"></script>
+	<style>
+		.tittle {
+			font-size: 25px;
+		}
+
+		label {
+			display: inline-block;
+			width: 75px;
+			font-weight: bold;
+			font-size: 16.5px;
+		}
+
+		input[type="text"],
+		input[type="date"] {
+			border: 1px solid #ccc;
+			padding: 5px;
+			width: 75%;
+			box-sizing: border-box;
+			font-size: 16.5px;
+		}
+
+		select {
+			width: 75%;
+			padding: 5px;
+			font-size: 16.5px;
+		}
+
+		button {
+			background-color: darkred;
+			color: white;
+			padding: 8px 16px;
+			font-weight: bold;
+			cursor: pointer;
+			border: none;
+			border-radius: 3px;
+			font-size: 16px;
+		}
+
+		.result-table {
+			border-collapse: collapse;
+			width: 80%;
+			font-size: 16.5px;
+		}
+
+		.result-table th,
+		.result-table td {
+			border: 1px solid #ddd;
+			text-align: left;
+			padding: 5px;
+		}
+
+		.result-table th {
+			background-color: darkred;
+			color: white;
+		}
+
+		.scrollable-table {
+			height: 350px;
+			/* 设置固定高度 */
+			overflow-y: auto;
+			/* 设置垂直滚动条 */
+			border: 1px solid #ddd;
+			/* 设置边框样式 */
+		}
+	</style>
+</head>
+
+<body>
+	<div id="content" style="height: 90%;">
+		<form action="#" th:action="@{/request}" th:object="${leaveRequest}" method="post"
+			onsubmit="return checkForm();">
+			<div class="tittle">休暇申請</div>
+			<br>
+			<span th:text="${msg}" id="msg"></span>
+			<div>
+				<label for="leaveTypeId">休暇類型:</label>
+				<select id="leaveTypeId" name="leaveTypeId" th:field="*{leaveTypeId}">
+					<option value="1" th:selected="${leaveTypeId == 1}">事由休暇</option>
+					<option value="2" th:selected="${leaveTypeId == 2}">病気休暇</option>
+					<option value="3" th:selected="${leaveTypeId == 3}">年次有給休暇</option>
+					<option value="4" th:selected="${leaveTypeId == 4}">その他</option>
+				</select>
+			</div>
+			<br>
+			<div>
+				<label for="startDate">開始日:</label>
+				<input type="date" id="startDate" name="startDate" th:field="*{startDate}">
+			</div>
+			<br>
+			<div>
+				<label for="endDate">終了日:</label>
+				<input type="date" id="endDate" name="endDate" th:field="*{endDate}">
+			</div>
+			<br>
+			<div>
+				<label for="reason">休暇理由:</label>
+				<input type="text" id="reason" name="reason" th:field="*{reason}" maxlength="20"
+					title="休暇理由を文字で入力してください">
+			</div>
+			<br>
+			<button type="submit">提出</button>
+			<br>
+		</form>
+		<br>
+		<br>
+
+		<div class="tittle" id="applyed-history-title">休暇申請履歴</div>
+		<div class="scrollable-table">
+			<table class="result-table">
+				<tr>
+					<th>休暇類型</th>
+					<th>休暇開始日</th>
+					<th>休暇終了日</th>
+					<th>休暇理由</th>
+					<th>審査状態</th>
+				</tr>
+				<tr th:if="${#lists.isEmpty(employeeLeaveRequests)}">
+					<td colspan="5">今月は休暇申請履歴がありません</td>
+				</tr>
+				<tr th:each="leaveRequest : ${employeeLeaveRequests}">
+					<td th:text="${leaveRequest.leaveTypeName}"></td>
+					<td th:text="${#dates.format(leaveRequest.startDate, 'yyyy-MM-dd')}"></td>
+					<td th:text="${#dates.format(leaveRequest.endDate, 'yyyy-MM-dd')}"></td>
+					<td th:text="${leaveRequest.reason}"></td>
+					<td th:text="${leaveRequest.status}"></td>
+				</tr>
+			</table>
+		</div>
+	</div>
+
+	<script>
+		document.addEventListener('DOMContentLoaded', function () {
+			var today = new Date();
+			var firstDayOfMonth = new Date(today.getFullYear(), today.getMonth(), 1);
+			var formattedFirstDay = firstDayOfMonth.toISOString().slice(0, 10);
+			var formattedToday = today.toISOString().slice(0, 10);
+
+			var applyedHistoryTitle = document.getElementById('applyed-history-title');
+			applyedHistoryTitle.innerHTML = applyedHistoryTitle.innerHTML + '（' + formattedFirstDay + '~' + formattedToday + '）';
+		});
+
+		function checkForm() {
+			var reason = document.getElementById("reason").value;
+			// 确保输入不包含奇怪的符号
+			if (/[\u0021-\u002f\u003a-\u0040\u005b-\u0060\u007b-\u007e]/.test(reason)) {
+				alert("休暇理由には特殊な文字を入力しないでください。");
+				return false;
+			}
+			// 确保日期输入不为空
+			var startDate = $("#startDate").val();
+			var endDate = $("#endDate").val();
+			if (!startDate || !endDate) {
+				alert("日付は正しく入力してください！");
+				return false;
+			}
+			// 检查输入的内容是否符合要求
+			if (!reason || /^[\u3000-\u303F\uFF00-\uFF9F\u0020-\u002F\u003A-\u0040\u005B-\u0060\u007B-\u007E]+$/.test(reason)) {
+				alert("休暇理由を文字で入力してください。");
+				return false;
+			}
+			// 提交表单确认弹窗
+			return confirm("申請は確認しますか？確認後、申請は変更できません。");
+		   }
+	</script>
+</body>
+</html>

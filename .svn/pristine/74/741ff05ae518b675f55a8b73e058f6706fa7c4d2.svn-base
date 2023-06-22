@@ -1,0 +1,63 @@
+package jp.co.hrms.controller;
+
+import java.util.Date;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
+
+import jakarta.servlet.http.HttpSession;
+import jp.co.hrms.model.Attendance;
+import jp.co.hrms.service.AttendanceService;
+
+@Controller
+public class AttendanceController {
+	@Autowired
+	private AttendanceService attendanceService;
+
+	@GetMapping("/indexAttendance")
+	public ModelAndView attendance(HttpSession session) {
+		ModelAndView mav = new ModelAndView("indexAttendance");
+		String employeeId = (String) session.getAttribute("user");
+		mav.addObject("employeeId", employeeId);
+		return mav;
+	}
+
+	@PostMapping("/indexAttendance")
+	@ResponseBody
+	public ModelAndView attendances(HttpSession session, String checkType) {
+		ModelAndView mav = new ModelAndView("indexAttendance");
+		String employeeId = (String) session.getAttribute("user");
+//		mav.addObject("employeeId", employeeId);
+		System.out.println(employeeId);
+
+		Attendance attendance = attendanceService
+				.getAttendanceByEmployeeId(employeeId);
+		if (attendance == null) {
+//			attendance = new Attendance();
+			attendance.setEmployeeId(employeeId);
+			attendance.setDate(new Date());
+		}
+		if (checkType.equals("出勤")) {
+			attendance.setCheckIn(new Date());
+			attendance.setStatus(1);
+			attendanceService.attendanceCheckIn(attendance);
+		} else if (checkType.equals("退勤")) {
+			attendance.setCheckOut(new Date());
+			attendance.setStatus(2);
+			attendanceService.attendanceCheckOut(attendance);
+		} else if (checkType.equals("休憩")) {
+			attendance.setRestIn(new Date());
+			attendance.setStatus(3);
+			attendanceService.attendanceRestIn(attendance);
+		} else if (checkType.equals("戻り")) {
+			attendance.setRestOut(new Date());
+			attendance.setStatus(4);
+			attendanceService.attendanceRestOut(attendance);
+		}
+		return mav;
+	}
+}

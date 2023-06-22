@@ -1,0 +1,27 @@
+package jp.co.hrms.mapper;
+
+import java.time.LocalDateTime;
+
+import org.apache.ibatis.annotations.Mapper;
+
+import jp.co.hrms.model.Attendance;
+
+@Mapper
+public interface AttendanceMapper {
+//	List<Attendance> selectAll();
+
+	void checkIn(Attendance attendance);
+
+	void checkOut(Attendance attendance);
+
+	void restIn(Attendance attendance);
+
+	void restOut(Attendance attendance);
+
+//	void insert(Attendance attendance);
+
+//	void update(Attendance attendance);
+
+	Attendance selectByEmployeeIdAndDate(String employeeId, LocalDateTime now);
+
+}

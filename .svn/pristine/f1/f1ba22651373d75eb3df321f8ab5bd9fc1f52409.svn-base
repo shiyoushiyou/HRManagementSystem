@@ -1,0 +1,32 @@
+package jp.co.hrms.service;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import jp.co.hrms.mapper.AttendanceMapper;
+import jp.co.hrms.model.Attendance;
+
+@Service
+public class AttendanceService {
+
+	@Autowired
+	private AttendanceMapper mapper;
+
+	public Attendance getAttendance(String employeeId) {
+		mapper.selectAttendance(employeeId);
+	}
+
+	public List<Attendance> selectAll() {
+		return mapper.selectAll();
+	}
+
+	public void insertAttendance(Attendance attendance) {
+		mapper.insertAttendance(attendance);
+	}
+
+	public void updateAttendance(Attendance attendance) {
+		mapper.updateAttendance(attendance);
+	}
+}

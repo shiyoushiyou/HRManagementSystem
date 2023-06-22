@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--命名空間 實現與Mapper接口綁定-->
+<mapper namespace="jp.co.hrms.mapper.EmployeesMapper">
+	<!--id屬性與Mapper接口中方法綁定  -->
+	<!-- 抓取個人信息 -->
+	<select id ="getEmployeesByUserid" resultType="Employees" parameterType ="String">
+		SELECT 
+			E.ID
+			, E.NAME
+			, E.GENDER
+			, E.BIRTH
+			, E.ADDRESS
+			, E.PHONE_NUMBER
+			, E.STATUS
+			, D.NAME AS DEPARTMENT_NAME
+		    , P.NAME AS POSITION_NAME
+		    , E.HIRE_DATE
+		    , E.PASSWORD
+		FROM 
+			EMPLOYEES E
+		INNER JOIN 
+			DEPARTMENTS D 
+		ON 
+			E.DEPARTMENT_ID = D.ID
+		INNER JOIN 
+			POSITIONS P 
+		ON 
+			E.POSITION_ID = P.ID
+		WHERE E.ID = #{loginId};
+	</select>
+	<!-- 抓取舊密碼-->
+	<select id ="getPwdByPwd" resultType="String" parameterType ="String">
+		SELECT PASSWORD FROM EMPLOYEES WHERE PASSWORD = #{pwd};
+	</select>
+	<!-- 更新密碼-->
+	<update id="changePwd">
+		UPDATE EMPLOYEES SET PASSWORD = #{newPassword} WHERE PASSWORD = #{pwd};
+	</update>
+	
+	<select id ="selectEmp" resultType="Employees" parameterType ="Search">
+		SELECT
+		    E.NAME
+		    , E.GENDER
+		    , E.STATUS
+		    , D.NAME AS DEPARTMENT_NAME
+		    , P.NAME AS POSITION_NAME
+		FROM
+		    EMPLOYEES E 
+		INNER JOIN DEPARTMENTS D 
+		    ON E.DEPARTMENT_ID = D.ID 
+		INNER JOIN POSITIONS P 
+		    ON E.POSITION_ID = P.ID
+		WHERE 
+			0 = 0 
+			<if test="name != ''|| name !=null">
+				AND E.NAME LIKE CONCAT('%',#{name},'%')			
+			</if>
+			<if test="gender != null || gender != ''">
+				AND E.GENDER =#{gender}			
+			</if>
+			<if test="status != ''|| status !=null">
+				AND E.STATUS = #{status}			
+			</if>
+			<if test="departmentId != ''|| departmentId !=null">
+				AND E.DEPARTMENT_ID =#{departmentId}			
+			</if>
+			<if test="positionId != ''|| positionId !=null">	
+				AND E.POSITION_ID =#{positionId}
+			</if>	
+	</select>
+</mapper>

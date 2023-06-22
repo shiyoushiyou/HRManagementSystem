@@ -1,0 +1,40 @@
+package jp.co.HRMS.service;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import jp.co.HRMS.mapper.LoginMapper;
+import jp.co.HRMS.model.User;
+
+
+
+
+@Service
+public class LoginService {
+	
+	@Autowired
+	private LoginMapper mapper;
+	
+	public String loginCheck(User userG) {
+		String msg =null;
+		User userDB = mapper.getUserByUserid(userG.getLoginId()); 
+		if(userDB!=null) {
+			String password = userG.getPassword();
+			
+			//◆1レコード取得できる場合
+			if(!password.equals(userDB.getPassword())) {
+				//◆DB.パスワード＜＞画面.パスワード(MD5で暗号化した内容)				
+				//PSW認証エラー	
+				msg ="パスワードが間違っています。";
+			}else {
+				msg ="success";
+			}
+		}else {
+			//◆0レコードの場合					
+			msg ="該当ユーザーが存在しません。";
+		}
+		System.out.println(msg);
+		return msg;
+}
+}
+	

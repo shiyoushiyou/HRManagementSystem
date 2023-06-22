@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>休暇リスト</title>
+    <link rel="stylesheet" href="/css/main.css">
+</head>
+<body>
+    <h1>休暇リスト</h1>
+    <table>
+        <tr>
+            <th>休暇番号</th>
+            <th>休暇タイプ</th>
+            <th>休暇開始日</th>
+            <th>休暇終了日</th>
+            <th>休暇理由</th>
+            <th>審査状態</th>
+        </tr>
+        <tr th:each="leave : ${leaves}">
+            <td th:text="${leave.id}"></td>
+            <td th:text="${leave.leaveTypeName}"></td>
+            <td th:text="${leave.startDate}"></td>
+            <td th:text="${leave.endDate}"></td>
+            <td th:text="${leave.reason}"></td>
+            <td th:text="${leave.status}"></td>
+        </tr>
+    </table>
+</body>
+</html

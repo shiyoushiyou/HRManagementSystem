@@ -1,0 +1,34 @@
+package jp.co.hrms.model;
+
+import java.io.Serializable;
+import java.time.LocalDateTime;
+
+import lombok.Data;
+
+@Data
+public class Attendance implements Serializable {
+	private String id;
+	private String employeeId;
+	private LocalDateTime checkIn;
+	private LocalDateTime checkOut;
+	private LocalDateTime restIn;
+	private LocalDateTime restOut;
+	private String status;
+
+	public void setCheckIn(LocalDateTime checkIn) {
+		this.checkIn = checkIn;
+	}
+
+	public void setCheckOut(LocalDateTime checkOut) {
+		this.checkOut = checkOut;
+	}
+
+	public void setRestIn(LocalDateTime restIn) {
+		this.restIn = restIn;
+	}
+
+	public void setRestOut(LocalDateTime restOut) {
+		this.restOut = restOut;
+	}
+
+}

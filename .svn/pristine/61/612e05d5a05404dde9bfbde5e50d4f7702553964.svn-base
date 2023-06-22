@@ -1,0 +1,63 @@
+
+//設置點擊變更資訊按鈕
+function editButton() {
+		   var tdList = document.getElementsByClassName("edit");
+		  	for (var i = 0; i < tdList.length; i++) {
+		    tdList[i].contentEditable = true;
+		    tdList[i].style.color = "blue";
+		  }
+		  document.querySelector('.changebutton').style.display = "none";
+		  document.querySelector('.deleteButton').style.display = "none";
+		  document.querySelector('.change').style.display = "inline-block";
+		  document.querySelector('.back').style.display = "inline-block";
+}
+
+function back() {
+	 window.history.back();
+	 var tdList = document.getElementsByClassName("edit");
+		  	for (var i = 0; i < tdList.length; i++) {
+		    tdList[i].contentEditable = false;
+		    tdList[i].style.color = "black";
+		  }
+		  document.querySelector('.changebutton').style.display = "inline-block";
+		  document.querySelector('.deleteButton').style.display = "inline-block";
+		  document.querySelector('.change').style.display = "none";
+		  document.querySelector('.back').style.display = "none";
+}
+
+function input() {
+	var idInput = document.getElementById("idInput");
+	var nameInput = document.getElementById("nameInput");
+	var genderInput = document.getElementById("genderInput");
+    var addressInput = document.getElementById("addressInput");
+    var phoneInput = document.getElementById("phoneInput");
+    var statusInput = document.getElementById("statusInput");
+    var departmentNameInput = document.getElementById("departmentNameInput");
+    var positionNameInput = document.getElementById("positionNameInput");
+   
+    
+    var id = document.getElementById("id");
+    var name = document.getElementById("name");
+    var gender = document.getElementById("gender");
+    var address = document.getElementById("address");
+    var phoneNumber = document.getElementById("phoneNumber");
+    var status = document.getElementById("status");
+    var department = document.getElementById("departmentName");
+    var position = document.getElementById("positionName");
+     
+     
+    idInput.value = id.innerText;
+    nameInput.value = name.innerText;
+    addressInput.value = address.innerText;
+    phoneInput.value = phoneNumber.innerText;
+    statusInput.value = status.innerText;
+    departmentNameInput.value = department.innerText;
+    positionNameInput.value = position.innerText;
+    document.querySelector('.change').style.display = "none";
+	document.querySelector('.back').style.display = "none";
+}
+
+function deleteButton(){
+	 var idDelete = document.getElementById("idDelete");
+	 idDelete.value = id.innerText;
+}

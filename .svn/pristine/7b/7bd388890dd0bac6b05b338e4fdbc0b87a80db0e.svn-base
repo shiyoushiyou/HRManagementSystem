@@ -1,0 +1,15 @@
+package jp.co.hrms.mapper;
+
+import java.util.List;
+
+import org.apache.ibatis.annotations.Mapper;
+
+import jp.co.hrms.model.Leave;
+
+@Mapper
+public interface LeaveMapper {
+    void insertLeave(Leave leave);
+    List<Leave> findLeavesByEmployeeId(int employeeId);
+    List<Leave> findAllLeaves();
+    void updateLeaveStatus(Leave leave);
+}

@@ -1,0 +1,74 @@
+package jp.co.hrms.controller;
+
+import java.time.LocalDateTime;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.servlet.ModelAndView;
+
+import jp.co.hrms.model.Attendance;
+import jp.co.hrms.service.AttendanceService;
+
+@Controller
+public class AttendanceController {
+
+	@Autowired
+	private AttendanceService attendanceService;
+
+	@GetMapping("/indexAttendance")
+	public String attendance() {
+		return "indexAttendance";
+	}
+
+	@PostMapping("/checkIn")
+	public ModelAndView checkIn(String employeeId) {
+		ModelAndView mav = new ModelAndView("indexAttendance");
+		attendanceService.checkIn(employeeId);
+		return mav;
+	}
+
+	@PostMapping("/checkOut")
+	public ModelAndView checkOut(String employeeId) {
+		ModelAndView mav = new ModelAndView("indexAttendance");
+		attendanceService.checkOut(employeeId);
+		return mav;
+	}
+
+	@PostMapping("/restIn")
+	public ModelAndView restIn(String employeeId) {
+		ModelAndView mav = new ModelAndView("indexAttendance");
+		attendanceService.restIn(employeeId);
+		return mav;
+	}
+
+	@PostMapping("/restOut")
+	public ModelAndView restOut(String employeeId) {
+		ModelAndView mav = new ModelAndView("indexAttendance");
+		attendanceService.restOut(employeeId);
+		return mav;
+	}
+
+	@PostMapping("/select")
+	public ModelAndView selectByEmployeeIdAndDate(String employeeId,
+			LocalDateTime now) {
+		ModelAndView mav = new ModelAndView("indexAttendance");
+		attendanceService.selectByEmployeeIdAndDate(employeeId, now);
+		return mav;
+	}
+
+	@PostMapping("/insert")
+	public ModelAndView insertAttendance(Attendance attendance) {
+		ModelAndView mav = new ModelAndView("indexAttendance");
+		attendanceService.insertAttendance(attendance);
+		return mav;
+	}
+
+	@PostMapping("/update")
+	public ModelAndView updateAttendance(Attendance attendance) {
+		ModelAndView mav = new ModelAndView("indexAttendance");
+		attendanceService.updateAttendance(attendance);
+		return mav;
+	}
+}

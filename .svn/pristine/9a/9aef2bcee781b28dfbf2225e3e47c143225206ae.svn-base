@@ -1,0 +1,145 @@
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+  <title>HRManagementSystem</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <link rel="stylesheet" type="text/css" th:href="@{/css/styleindex.css}" href="../../static/css/styleindex.css" />
+  <script type="text/javascript" th:src="@{/js/jquery.min.js}" src="../../static/js/jquery.min.js"></script>
+  <style>
+    .functionalitycontent {
+      font-size: 22px;
+      text-align: center;
+      margin: 20px 0;
+      width: 80%;
+      margin: 0 auto;
+      border-collapse: collapse;
+      margin-bottom: 20px;
+      border: 1px solid black;
+      padding: 10px;
+      text-align: left;
+    }
+		table {
+			border-collapse: collapse;
+			width:75%;
+		}
+		th, td {
+			text-align: left;
+			padding: 5px;
+			border-bottom: 1px solid #ddd;
+		}
+		th {
+			background-color: #4CAF50;
+			color: white;
+		}
+
+		.changebutton, .deleteButton, .change, .back,*{
+			font-size: 18px;
+		}		
+  </style>
+  <script>
+		
+</script>
+</head>
+
+<body style="background-color:rgb(64, 128, 128); ;">
+  <td colspan="2" rowspan="2"style="">
+    <!--畫面的白色部分在這邊。-->
+    <div id="content">
+      <div class="title">社員情報</div>
+      <div class="functionalitycontent">
+      <form th:action="@{/detailChange}" th:method="post" >
+           	  <p th:if ="${delete}" style="color: red;margin: 2px;font-size: 24px; text-align: center;">&#8195&#8195&#8195員工資料已刪除!</p>
+        <table th:each="Info:${EmpsInfo}">
+              <p th:if ="${showButton2}" style="color: red;margin: 2px;font-size: 24px; text-align: center;">&#8195&#8195&#8195員工資料已更新!</p>
+          <tr>
+            <th>社員番号</th>
+            <td th:text="${Info.id}" id="id"></td>
+            <td><input type="hidden" name="id" id="idInput"></td>
+          </tr>
+          <tr>
+            <th>氏名</th>
+            <td  id="name"th:text="${Info.name}"class="edit" contentEditable="false" required pattern="^[\p{L}\p{M}]{1,11}$"></td>
+          	<td><input type="hidden" name="name" id="nameInput"></td>
+          </tr>
+          <tr>
+            <th>性別</th>
+            <td th:text="${Info.gender}" id="gender"></td>
+            <td><input type="hidden" name="gender" id="genderInput"></td>
+          </tr>
+          <tr>
+            <th>生年月日</th>
+            <td th:text="${Info.birth}" id="birth"></td>
+          </tr>
+          <tr>
+            <th>住所</th>
+            <td  id="address"th:text="${Info.address}"class="edit"contentEditable="false" required pattern="^[\p{L}\p{M}0-9-]{6,}$"></td>
+            <td><input type="hidden" name="address" id="addressInput"></td>
+          </tr>
+          <tr>
+            <th>携帯番号</th>
+            <td id="phoneNumber"th:text="${Info.phoneNumber}"class="edit" contentEditable="false" required pattern="^[0-9]{11}$"></td>
+            <td><input type="hidden" name="phoneNumber" id="phoneInput"></td>
+          </tr>
+          <tr>
+            <th>ステータス</th>
+            <td id="status" class="edit" th:text="${Info.status}" ></td>
+              <td>
+			    <select name="status" id="statusSelect" style="display:none"　required>
+			      <option value=""></option>
+			      <option value="在籍中">在籍中</option>
+			      <option value="休職">休職</option>
+			    </select>
+			  </td>
+          </tr>
+          <tr>
+            <th>部門名</th>
+            <td id="departmentName"th:text="${Info.departmentName}" ></td>
+            <td>
+                <select name="departmentId" style="display:none">
+                <option > </option>
+                <option th:each="department:${departmentList}" 
+                th:value="${department.value}" th:text="${department.name}" required></option>
+                </select>
+              </td>
+          </tr>
+          <tr>
+            <th>役職名</th>
+            <td id="positionName"th:text="${Info.positionName}"></td>
+             <td>
+			    <select name="positionId"  style="display:none">
+			      <option value=""></option>
+			      <option th:value="3">一般社員</option>
+			      <option th:value="2">部長</option>
+			      <option th:value="1" th:if="${pId}==1">社長</option>
+			    </select>			   
+			  </td>
+          </tr>
+          <tr>
+            <th>入社日</th>
+            <td id="hireDate"th:text="${Info.hireDate}"></td>
+          </tr>
+        </table>
+		      <span style=" transform: translateX(400px);">
+		      	<button type="submit" class="change" style="display: none;" onclick="input()">送出</button>
+		      	<button type="button" class="back" style="display: none;"onclick="back()">返回</button>
+		      </span>
+      	</form>     
+       <form  th:action="@{/detailDelete}" th:method="post"style=" transform: translateX(400px);" >
+       <div >
+	      <span>
+		      <button  th:if="${showButton}"  type="button" class="changebutton" onclick="editButton()" >
+		      	<a style="text-decoration: none;color: inherit;"href="#">變更資訊</a>
+		      </button>
+		      	<button th:if="${showButton}" type="button" class="deleteButton" onclick="deleteButton()">刪除員工</button>
+		        <input type="hidden" name="id" id="idDelete">
+		      </span>
+		</form> 
+		      </div>
+      </div>
+    </div>
+  </td>
+    <script type="text/javascript" th:src="@{/js/detail.js}" src="../../static/js/detail.js"></script>
+</body>
+</html>

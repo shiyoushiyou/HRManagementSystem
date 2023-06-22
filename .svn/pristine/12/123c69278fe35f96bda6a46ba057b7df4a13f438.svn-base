@@ -1,0 +1,62 @@
+<!DOCTYPE html
+    PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <title>HRManagementSystem</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <link rel="stylesheet" type="text/css" th:href="@{/css/styleindex.css}" href="../../static/css/styleindex.css" />
+    <script type="text/javascript" th:src="@{/js/jquery.min.js}" src="../../static/js/jquery.min.js"></script>
+<script>
+    $(document).ready(function () {
+        var time = $("#time");
+        setInterval(function () {
+            var d = new Date();
+            var year = d.getFullYear();
+            var month = d.getMonth() + 1;
+            var day = d.getDate();
+            var week = getWeek(d.getDay());
+            var hour = d.getHours().toString().padStart(2, "0");
+            var minute = d.getMinutes().toString().padStart(2, "0");
+            var second = d.getSeconds().toString().padStart(2, "0");
+            time.html(year + "年" + month + "月" + day + "日" + "" + "(" + week + ")" + "<br>" + hour + ":" + minute + ":" + second);
+        }, 1000);
+        function getWeek(day) {
+            var weekArr = ["日", "月", "火", "水", "木", "金", "土"];
+            return weekArr[day];
+        }
+    });
+</script>
+</head>
+<body>
+    <div>
+        <table>
+            <tr>
+                <td colspan="2" rowspan="2">
+                    <!--畫面的白色部分在這邊。-->
+                    <div id="content">
+                        <div style="font-size: 50px;text-align: center;">勤怠登録</div>
+                        <br>
+                        <div>
+                            <p id="time" style="font-size: 40px;text-align: center;"></p>
+                        </div>
+                        <div style="text-align: center;">
+                         <!--更改method:post-->
+                            <form th:action="@{/checkIn}" th:method="post" >
+                                <button type="submit" id="checkIn">出勤</button>
+                            </form>
+                            <form th:action="@{/checkOut}" th:method="post" >
+                                <button type="submit" id="checkOut">退勤</button>
+                            </form>
+                            <form th:action="@{/restIn}" th:method="post" >
+                                <button type="submit" id="restIn">休憩</button>
+                            </form>
+                            <form th:action="@{/restOut}" th:method="post" >
+                                <button type="submit" id="restOut">戻り</button>
+                            </form>                           
+                        </div>
+                    </div>
+    </div>
+    </table>
+</body>
+</html>

@@ -1,0 +1,236 @@
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+  <title>HRManagementSystem</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <link rel="stylesheet" type="text/css" th:href="@{/css/styleindex.css}" href="../../static/css/styleindex.css"/>
+  <script type="text/javascript" th:src="@{/js/jquery.min.js}" src="../../static/js/jquery.min.js"></script>
+  <script>
+    $(function(){
+      $(".forum-1 ul").hide();
+      $(".forum-1>li>a").click(function(){
+        $(".forum-1 ul").slideToggle();
+      })
+    })
+  </script>
+
+  </script>
+   <style>
+        .functionalitycontent {
+          font-size: 18px;
+          text-align: left;
+          margin: 10px 0;
+          width: 90%;
+          margin: 0 auto;
+          border-collapse: collapse;
+          margin-bottom: 10px;
+          border: 1px solid black;
+          padding: 10px;
+          }
+        .functionalitycontent h3 {
+          margin-top: 5px;
+          margin-bottom: 5px;
+          }
+		.result th{
+			padding: 5px 24px;
+			font-size: 16px;
+			background-color: rgb(128, 128, 128);
+			text-align: center;
+		}
+		.result td{
+			padding: 5px 18px;
+			font-size: 16px;
+			text-align: center;
+		}
+    </style>
+</head>
+
+<body bgcolor="#550403" style="leftmargin:0px; topmargin:0px; marginwidth:0px; marginheight:0px;">
+  <span class="style6"></span>
+  <!-- Save for Web Slices (business solutions_sliced.psd) -->
+  <div id="body">
+    <br />
+    <br />
+    <br />
+    <table style="width:1050px; height:1001px;" align="center" cellpadding="0" cellspacing="0" id="Table_01">
+      <tr>
+        <td colspan="2" rowspan="3">
+          <div id="logo">
+            <div class="logo"><a href="index.html"><span class="style5">HRMS</span></a></div>
+          </div>
+        </td>
+        <td colspan="3">
+          <div class="style1" id="header">
+            <br />
+            HRMS<span class="style3"></span>
+            <span class="style4"><br />
+              HRManagementSystem MAKES YOUR BUSINESS BETTER!
+            </span>
+          </div>
+        </td> 
+      </tr>
+      <tr>
+      </tr>
+      <tr >
+        <td colspan="2" rowspan="2">
+          <!--畫面的白色部分在這邊。-->
+          <div id="content">
+            <div class="title">社員検索</div>
+            <div class ="functionalitycontent">
+            <h3>檢索條件</h3>
+            <form th:action="@{/selectEmployees}" th:method="post" >
+	            <table >
+                <tr>
+                  <th>氏名&#8195&#8195&#8195&#8195&#8195</th>
+                  <td>：</td>
+                  <td><input type="text" name="name" th:value="${Search?.name}"></td>
+                  <td><input type="submit" value="檢索" ></td>
+              </tr>
+              </table>
+              <table>
+              <tr >
+                  <th>在籍ステータス</th>
+                  <td>：</td>
+                  <td>
+	                  <span th:each="status:${statusList}">
+	                  <input type="radio" name="status" th:id="${status.id}"  th:value="${status.value}" th:checked="${status.value=='在籍中'}" >
+	                  <label for="${status.id}" th:text="${status.name}" ></label>
+              	  	  </span>
+              	  </td>
+              </tr>
+              
+              </table>
+              <table>
+              <tr>
+                <th>性別</th>
+                <td>：</td>
+                <td><input type="radio" name="gender" value='男'>男</td>
+                <td>&nbsp<input type="radio" name="gender" value='女'>女</td>
+              </tr>
+              <tr>
+              <th>所属部署名&#8195&#8195</th>
+               <td>：</td>
+              <td>
+                <select name="departmentId">
+                <option > </option>
+                <option th:each="department:${departmentList}" 
+                th:value="${department.value}" th:text="${department.name}"></option>
+                </select>
+              </td>
+              </tr>
+              <tr>
+              <th>役職名</th>
+              <td>：</td>
+               <td>
+	                <select name="positionId">
+	                	<option > </option>
+	                	<option th:each="position:${positionList}" 
+                		th:value="${position.value}" th:text="${position.name}"></option>
+	                </select>
+            	</td>
+              </tr>
+              </table>
+
+            </form>
+            </div>
+            <div  class="functionalitycontent result"  th:unless ="${#lists.isEmpty(Emp)}" >
+              <table >
+              <h3>檢索結果</h3>
+                <tr>
+                  <th>氏名</th>
+                  <th>ステータス</th>
+                  <th>性別</th>
+                  <th>所属部署名</th>
+                  <th>役職名</th>
+                  <th>詳細</th>
+                </tr>
+                 <tr th:each="emp : ${Emp}">
+                  <td th:text="${emp.name}"></td>
+                  <td th:text="${emp.status}"></td>
+                  <td th:text="${emp.gender}">性別</td>
+                  <td th:text="${emp.departmentName}">所属部署名</td>
+                  <td th:text="${emp.positionName}">役職名</td>
+                  <td>操作</td>
+                </tr>
+              </table>
+            </div>
+            	<div  th:if ="${Emp !=null && #lists.isEmpty(Emp)}"
+            	style="border: 1px solid black;width: 93%;font-size: 20px;margin: 0 auto;color: red;">
+            	<p>&#8195沒有符合條件之員工!</p>
+            	</div>
+          </div>
+        </td>
+        <td rowspan="3" style="background-color: #E1E1E1;"width="40" height="823">
+        </td>
+      </tr>
+      <tr>
+        <td rowspan="2" style="background-color: #E1E1E1;"width="70" height="823"></td>
+        <td>
+          <div class="left_menu">
+            <ul>
+              <li><a th:href="@{/index}">ホーム</a></li>
+              <li><a href="index.html">打刻申請</a></li>
+              <li><a href="index.html">休暇申請</a></li>
+              <li><a th:href="@{/indexEmployees}">個人情報確認</a></li>
+              <li><a href="index.html">個人給料確認</a></li>
+            </ul>
+            <ul class="forum-1">
+            <li><a>社員管理</a></li>
+              <li >
+                <ul class="form-2">
+                  <li><a href="index.html">新增社員</a></li>
+                  <li><a th:href="@{/selectEmployees}">查詢社員</a></li>
+                  <li><a href="index.html">更改社員資訊</a></li>
+                  <li><a href="index.html">刪除社員</a></li>
+                  <li><a href="index.html">薪資管理</a></li>
+                  <li><a href="index.html">勤怠管理</a></li>
+                  <li><a href="index.html">休暇管理</a></li>
+                </ul>
+              </li>
+              </ul>
+              <li><a href="index.html">ログアウト</a></li>
+
+          </div>
+        </td>
+        <td>
+          <img src="../../static/img/spacer.gif" width="1" height="651" alt="" />
+        </td>
+      </tr>
+      <tr>
+        <td colspan="3" style="text-align: center;">
+          <div id="footer">
+            HRManagementSystem(C) 2023 &quot;YOUR SITE&quot;. DESIGN BY <a
+              href="http://www.e-globalspot.com">HRMS</a></div>
+        </td>
+        <td>
+          <img src="../../static/img/spacer.gif" width="1" height="46" alt="" />
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <img src="../../static/img/spacer.gif" width="70" height="1" alt="" />
+        </td>
+        <td>
+          <img src="../../static/img/spacer.gif" width="179" height="1" alt="" />
+        </td>
+        <td>
+          <img src="../../static/img/spacer.gif" width="623" height="1" alt="" />
+        </td>
+        <td>
+          <img src="../../static/img/spacer.gif" width="101" height="1" alt="" />
+        </td>
+        <td>
+          <img src="../../static/img/spacer.gif" width="27" height="1" alt="" />
+        </td>
+        <td></td>
+      </tr>
+    </table>
+    <div id="lft"><a href="index.html">HRMS</a></div><br />
+    <br />
+  </div>
+  <!-- End Save for Web Slices -->
+</body>
+
+</html>

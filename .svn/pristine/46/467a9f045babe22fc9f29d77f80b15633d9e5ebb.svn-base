@@ -1,0 +1,56 @@
+package jp.co.hrms.controller;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.ModelAndView;
+
+import jp.co.hrms.model.Leave;
+import jp.co.hrms.service.LeaveService;
+
+@Controller
+public class LeaveController {
+
+    @Autowired
+    private LeaveService leaveService;
+
+    @GetMapping("/leave/apply")
+    public ModelAndView showLeaveApply() {
+        ModelAndView modelAndView = new ModelAndView("leave_apply");
+        return modelAndView;
+    }
+
+    @PostMapping("/leave/apply")
+    public ModelAndView applyLeave(Leave leave) {
+        leaveService.applyLeave(leave);
+        ModelAndView modelAndView = new ModelAndView("redirect:/leave/list");
+        return modelAndView;
+    }
+
+    @GetMapping("/leave/list")
+    public ModelAndView showLeaveList(@RequestParam("employeeId") int employeeId) {
+        List<Leave> leaves = leaveService.getLeavesByEmployeeId(employeeId);
+        ModelAndView modelAndView = new ModelAndView("leave_list");
+        modelAndView.addObject("leaves", leaves);
+        return modelAndView;
+    }
+
+    @GetMapping("/leave/manage")
+    public ModelAndView showLeaveManage(@RequestParam("positionId") int positionId) {
+        List<Leave> leaves = leaveService.getLeavesForApproval(positionId);
+        ModelAndView modelAndView = new ModelAndView("leave_manage");
+        modelAndView.addObject("leaves", leaves);
+        return modelAndView;
+    }
+
+    @PostMapping("/leave/approve")
+    public ModelAndView approveLeave(@RequestParam("leaveId") int leaveId, @RequestParam("status") String status) {
+        leaveService.updateLeaveStatus(leaveId, status);
+        ModelAndView modelAndView = new ModelAndView("redirect:/leave/manage");
+        return modelAndView;
+    }
+}

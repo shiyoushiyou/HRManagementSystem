@@ -1,0 +1,13 @@
+package jp.co.hrms.mapper;
+
+import java.util.List;
+
+import org.apache.ibatis.annotations.Mapper;
+
+import jp.co.hrms.model.Salary;
+
+@Mapper
+public interface SalaryMapper {
+	List<Salary> selectSalary(String month, String number);
+
+}

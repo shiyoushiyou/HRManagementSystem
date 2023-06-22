@@ -1,0 +1,69 @@
+body {
+    width: 640px;
+    margin: 0 auto;
+    text-align: center;
+    border: 0px solid #666;
+    font-family: Verdana, Arial, Helvetica, sans-serif;
+    padding-top: 100px;
+}
+
+#content {
+    padding: 5px 0;
+    min-width: 450px;
+    max-width: 500px;
+}
+
+#innerholder {
+    margin: 10px auto;
+    width: 90%;
+}
+
+#innerholder h3 span {
+    background: url(../img/HRMS.jpg) no-repeat;
+    height: 100px;
+    display: block;
+    position: relative;
+}
+
+#innerholder .a {
+    padding: 4px;
+}
+
+#innerholder .a,
+#innerholder .a .sb-inner {
+    padding: 30px;
+    height: 200px;
+}
+
+#loginbutton {
+    background: #999;
+    color: #fff;
+    cursor: pointer;
+    padding: 5px 10px;
+    -moz-border-radius: 6px;
+    -webkit-border-radius: 4px;
+    width: 150px;
+}
+
+input {
+	background-color:transparent;
+	border:0;
+	outline: none;
+    background: #fff;
+    width: 250px;
+    font-family: arial, helvetica;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.roundedfield {
+    background: url(../img/rounded.gif) no-repeat left top;
+    height: 50px;
+    padding: 4px;
+    text-align: left;
+}
+
+#label {
+    padding-bottom: 5px;
+    text-align: left;
+}

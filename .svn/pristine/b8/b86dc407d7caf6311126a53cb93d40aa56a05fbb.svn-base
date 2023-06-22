@@ -1,0 +1,71 @@
+/**
+ * 
+ */
+
+$(document).ready(function() {
+	var time = $("#time");
+	getTime();
+        setInterval(getTime, 1000);
+        
+        function getWeek(day) {
+            var weekArr = ["日", "月", "火", "水", "木", "金", "土"];
+            return weekArr[day];
+        }
+        
+        function getTime () {
+            var d = new Date();
+            var year = d.getFullYear();
+            var month = d.getMonth() + 1;
+            var day = d.getDate();
+            var week = getWeek(d.getDay());
+            var hour = d.getHours().toString().padStart(2, "0");
+            var minute = d.getMinutes().toString().padStart(2, "0");
+            var second = d.getSeconds().toString().padStart(2, "0");
+            time.html(year + "年" + month + "月" + day + "日" + "" + "(" + week + ")" + "<br>" + hour + ":" + minute + ":" + second);
+        }
+});
+
+
+$(document).ready(function() {
+			// 打卡操作
+			$("#checkIn").click(function() {
+				$.ajax({
+					url: "checkIn",
+					method: "POST",
+					success: function() {
+						alert("success");
+					}
+				});
+			});
+
+	$("#checkOut").click(function() {
+				$.ajax({
+					url: "checkOut",
+					method: "POST",
+					success: function() {
+						alert("success");
+					}
+				});
+			});
+
+			$("#restIn").click(function() {
+				$.ajax({
+					url: "restIn",
+					method: "POST",
+					success: function() {
+						alert("success");
+					}
+				});
+			});
+//
+	$("#restOut").click(function() {
+				$.ajax({
+					url: "restOut",
+					method: "POST",
+					success: function() {
+						alert("success");
+					}
+				});
+			});
+		});
+

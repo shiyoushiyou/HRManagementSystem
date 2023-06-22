@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="jp.co.hrms.mapper.AttendanceMapper">
+	 <resultMap id="attendanceResultMap" type="jp.co.hrms.model.Attendance">
+        <id column="id" property="id"/>
+        <result column="employee_id" property="employeeId"/>
+        <result column="date_" property="date"/>
+        <result column="check_in" property="checkIn"/>
+        <result column="check_out" property="checkOut"/>
+        <result column="rest_in" property="restIn"/>
+        <result column="rest_out" property="restOut"/>
+        <result column="status" property="status"/>
+    </resultMap>
+
+    <insert id="checkIn" parameterType="Attendance">
+        INSERT INTO ATTENDANCE(EMPLOYEE_ID,DATE_, CHECK_IN, CHECK_OUT, REST_IN, REST_OUT, STATUS)
+        VALUES (#{employeeId}, #{date}, #{checkIn}, null, null, null, #{status})
+    </insert>
+
+<insert id="checkOut" parameterType="Attendance">
+        INSERT INTO ATTENDANCE(EMPLOYEE_ID,DATE_, CHECK_IN, CHECK_OUT, REST_IN, REST_OUT, STATUS)
+        VALUES (#{employeeId}, #{date}, null, #{checkOut}, null, null, #{status})
+    </insert>
+    <insert id="restIn" parameterType="Attendance">
+        INSERT INTO ATTENDANCE(EMPLOYEE_ID,DATE_, CHECK_IN, CHECK_OUT, REST_IN, REST_OUT, STATUS)
+        VALUES (#{employeeId}, #{date},null, null, #{restIn}, null, #{status})
+    </insert>
+    <insert id="restOut" parameterType="Attendance">
+        INSERT INTO ATTENDANCE(EMPLOYEE_ID,DATE_, CHECK_IN, CHECK_OUT, REST_IN, REST_OUT, STATUS)
+        VALUES (#{employeeId}, #{date},null, null, null, #{restOut}, #{status})
+    </insert>
+<!--    <update id="updateAttendanceRecord" parameterType="jp.co.hrms.model.Attendance">-->
+<!--        UPDATE ATTENDANCE-->
+<!--        SET CHECK_IN = #{checkIn}, CHECK_OUT = #{checkOut}, REST_IN = #{restIn}, REST_OUT = #{restOut}, STATUS = #{status}-->
+<!--        WHERE EMPLOYEE_ID = #{employeeId}-->
+<!--    </update>-->
+
+    <select id="getAttendanceRecordByEmployeeId" resultMap="attendanceResultMap">
+        SELECT *
+        FROM ATTENDANCE
+        WHERE EMPLOYEE_ID = #{employeeId}
+    </select>
+    <select id="getAttendanceByEmployeeId" resultType="Attendance">
+    SELECT CHECK_IN, CHECK_OUT,REST_IN,REST_OUT,STATUS FROM ATTENDANCE WHERE EMPLOYEE_ID = #{employeeId} AND DATE_ = #{date}
+    </select>
+    </mapper>
