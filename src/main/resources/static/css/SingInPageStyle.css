@@ -1,0 +1,126 @@
+body{
+    font-family: "Helvetica Neue",
+    Arial,
+    "Hiragino Kaku Gothic ProN",
+    "Hiragino Sans",
+    "Meiryo",
+    sans-serif;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    background-image: url(../img/ocean-3605547_1280.jpg);
+    background-size: cover;
+    margin: 0;
+    padding: 0;
+}
+
+.login{
+    background-color: rgba(238, 238, 243, 0.788);
+    width: 400px;
+    color: rgb(0, 0, 0);
+    padding: 40px;
+    box-shadow: 10px 10px 25px #faf6f660; 
+    text-align: center;
+}
+.login input{
+    display: block;
+    margin: 20px auto;
+    background: none;
+    padding: 13px;
+    font-size: 15px;
+    border-radius: 22px;
+    text-align: center;
+    outline: none;
+    color: rgb(3, 3, 3);
+}
+.login input[type="text"], .login input[type="password"]{
+    color: rgb(3, 3, 3);
+    box-sizing: border-box;
+    width: 100%;
+    margin: 0 0 1em;
+    padding: 1em;
+    border: 1px solid #ffffff85;
+    border-radius: 1.5em;
+    background: #ffffffe5;
+    outline: none;
+    text-align: center;
+    
+}
+.login input[type="submit"]{
+    width: 150px;
+    border: 2px solid #526ee7;
+    cursor: pointer;
+}
+.login input[type="text"]:focus, .login input[type="password"]:focus{
+    border-color: #526ee7;
+
+    transition: 0.5s;
+}
+.login label{
+    text-align: left;
+    margin-left: auto; 
+    transform: translate(7%, -10%);
+}
+
+.login input[type="submit"]{
+    width: 100%;
+    font-weight: bold;
+}
+.login input[type="submit"]:hover{
+    background-color: #526ee7;
+    transition: 0.2s;
+    width: 100%;
+}
+
+.login i{
+    font-size: 70px;
+    margin: 7px auto;
+    padding: 2px;
+}
+.errormsg{
+	    font-family: "Helvetica Neue",
+    Arial,
+    "Hiragino Kaku Gothic ProN",
+    "Hiragino Sans",
+    "Meiryo",
+    sans-serif;
+    color:red;
+}
+
+input[type="text"][required]:focus + label[placeholder]:before,
+input[type="password"][required]:focus + label[placeholder]:before {
+    color: #526ee7;
+  }
+  input[type="text"][required]:focus + label[placeholder]:before,
+  input[type="text"][required]:valid + label[placeholder]:before,
+  input[type="password"][required]:focus + label[placeholder]:before,
+  input[type="password"][required]:valid + label[placeholder]:before  {
+    -webkit-transition-duration: .2s;
+    transition-duration: .3s;
+    -ms-transform: translate(0, -1.5em) scale(0.9, 0.9);
+    transform: translate(0, -1.5em) scale(1.0, 1.0);
+  }
+  input[type="text"][required]:invalid + label[placeholder][alt]:before,
+  input[type="password"][required]:invalid + label[placeholder][alt]:before {
+    content: attr(alt);
+  }
+  input[type="text"][required] + label[placeholder],
+  input[type="password"][required] + label[placeholder] {
+    display: block;
+    pointer-events: none;
+    line-height: 1.5em;
+    margin-top: calc(-3em - 2px);
+    margin-bottom: calc(2em);
+  }
+  input[type="text"][required] + label[placeholder]:before,
+  input[type="password"][required] + label[placeholder]:before {
+    content: attr(placeholder);
+    display: inline-block;
+    color: #898989;
+    transition: 0.3s ease-in-out;
+    background-image: linear-gradient(to bottom, #ffffffe5, #ffffffe5);
+    background-size: 100% 6px;
+    background-repeat: no-repeat;
+    background-position: left;
+  }

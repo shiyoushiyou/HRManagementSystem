@@ -1,45 +1,25 @@
-<!-- Last Modified 24-12-2009 by Menuka Walpitagamage -->
-<!doctype html>
-<html xmlns:th="http://www.thymeleaf.org">
-
+<!DOCTYPE html>
+<html lang="jp">
 <head>
-<title></title>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-	<link rel="stylesheet" type="text/css" th:href="@{/css/style.css}" href="../../static/css/style.css" />
+  <meta charset="UTF-8">
+  <title>Human Resources Management System Login page</title>
+  <link rel ="Stylesheet"type="text/css" th:href="@{css/SingInPageStyle.css}"  href="../../static/css/SingInPageStyle.css">
+  <link rel ="Stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css">
+
 </head>
+
+
 <body>
-<div id="content">
-  <div id="innerholder">
-    <h3>
-    <span></span>
-    <p style="text-align: left;">HRMS社員システム</p>
-    <hr>
-    </h3>
-    <form th:action="@{/login}" th:method="post">
-        <div>
-            <div id="label"><b>User Name :</b></div>
-            <div class="roundedfield">
-                <input name="loginId" type="text" id="loginId">
-            </div>
-        </div>
-        <div>
-            <div id="label"><b>Password :</b></div>
-            <div class="roundedfield">
-                <input type="password" name="password" id="password">
-            </div>
-        </div>
-        <div th:if="${error}" th:text="${error}" style="color: red;"></div>
-        <input type="submit" value="Login" id="loginbutton" name="loginbutton"/>
-    </form>
-  </div>
-</div>
-<script th:src="@{/js/shadedborder.js}" src="../../static/js/shadedborder.js"></script>
-<script type="text/javascript" src="js/shadedborder.js"></script>
-<script language="javascript" type="text/javascript">
-  var holderBorder = RUZEE.ShadedBorder.create({ corner:20, border:2 });
-</script>
-<script language="javascript" type="text/javascript">
-    holderBorder.render('content');
-</script>
+  <form th:action="@{/login}" th:method="post" class="login">
+    <h1 class="title">HRMS人材管理システム</h1>
+    <i class="fa fa-user-circle-o"></i>
+    <p></p>
+    <input  type="text" name="loginId" id="loginId"required=""  />
+    <label alt="社員番号" placeholder="社員番号"></label>
+    <input type="password"  name="password" id="password" required="" />
+    <label alt="パスワード" placeholder="パスワード"></label>
+    <div th:if="${error}" th:text="${error}" class="errormsg"></div>
+    <input type="submit" value="ログイン"id="loginbutton" name="loginbutton"/>
+  </form>
 </body>
 </html>
