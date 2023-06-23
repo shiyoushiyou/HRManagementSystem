@@ -64,4 +64,3 @@ This is a Human Resources Management System with a total of 5 main functions. Th
 
 The above is an introduction to this Human Resources Management System.
 
-![image](https://github.com/shiyoushiyou/HRManagementSystem/assets/107904280/b6c7b58d-9bb4-4765-a5d1-1b1e18b57bd5)
