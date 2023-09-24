@@ -18,12 +18,4 @@ public class Employees {
 	private String hireDate;//入社日
 	private String password;
 
-//	public String getBirth1() {
-//		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-//		return sdf.format(this.birth);
-//	}
-//	public String getHireDate1() {
-//		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-//		return sdf.format(this.hireDate);
-//	}
 }

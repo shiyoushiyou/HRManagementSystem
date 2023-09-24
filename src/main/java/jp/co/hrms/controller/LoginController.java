@@ -1,5 +1,7 @@
 package jp.co.hrms.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -7,13 +9,17 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import jakarta.servlet.http.HttpSession;
+import jp.co.hrms.model.Employees;
 import jp.co.hrms.model.User;
+import jp.co.hrms.service.EmployeesService;
 import jp.co.hrms.service.LoginService;
 
 @Controller
 public class LoginController {
 	@Autowired
-	private LoginService service;
+	private LoginService Loginservice;
+	@Autowired
+	private EmployeesService empService;
 
 	@GetMapping("/login")
 	public String login() {
@@ -24,22 +30,18 @@ public class LoginController {
 	public ModelAndView login(User user, HttpSession session) {
 		ModelAndView mav = new ModelAndView();
 		System.out.println(user);
-		String msg = service.loginCheck(user);
+		String msg = Loginservice.loginCheck(user);
 		if ("success".equals(msg)) {
-			// 帳密符合時
-			// 1.ユーザ情報保持用セッション情報をクリアする
+			List<Employees> EmpInfo =  empService.getEmployeesByUserid(user.getLoginId());
+			
 			session.setAttribute("user", user.getLoginId());
-			
+			session.setAttribute("empInfo", EmpInfo);
 			session.setAttribute("positionId", user.getPositionId());
-			mav.addObject("positionId", user.getPositionId());
 			
-			// ３）次の画面へ遷移
-			// 調用mav對象轉發，這邊成功轉發後畫面會顯示success
-			// ViewName相當於轉發功能
+			mav.addObject("EmpInfo", EmpInfo);
+			mav.addObject("positionId", user.getPositionId());
 			mav.setViewName("index");
 		} else {
-			// 登錄的帳密不符合時
-			// １）ユーザ情報保持用セッション情報をクリアする
 			session.removeAttribute("userid");
 			// ２）エラーメッセージを表示しつつ自画面遷移
 			// リクエストスコープ
