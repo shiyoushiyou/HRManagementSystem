@@ -1,0 +1,87 @@
+.body{
+    background-color: rgb(87, 92, 106);
+    font-size: 20px;
+    font-weight: 400;
+    font-family: "Helvetica Neue",
+    Arial,
+    "Hiragino Kaku Gothic ProN",
+    "Hiragino Sans",
+    "Meiryo",
+    sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+.div-block{
+    height: 150px;
+    background-color: #fff;
+    position: static;
+    overflow: visible;
+    padding-top: 20px;
+    margin-top: 70px;
+}
+
+.dynamicTime, .dynamicDay{
+    text-align: center;
+    -webkit-text-stroke-width: 0px;
+    font-size: 45px;
+    font-weight: 700;
+    padding: 0px;
+}
+
+.dynamicTime{
+    padding: 0px;
+    font-size: 60px;
+}
+
+.text-block{
+    text-align: center;
+    font-size: 37px;
+    font-weight: 700;
+    line-height: 60px;
+}
+
+.checkinBtn{
+    background-color: #285e8d;
+}
+.checkoutBtn{
+    background-color: #b26767;
+
+}
+
+.w-btn{
+    border-radius: 10px;
+    margin-left: 20px;
+    margin-right: 20px;
+    padding-left: 60px;
+    padding-right: 60px;
+    font-size: 60px;
+    line-height: 90px;
+}
+
+.btn2{
+    background-color: #a1a3a5;
+    border-radius: 10px;
+    margin-left: 20px;
+    margin-right: 20px;
+    padding-left: 40px;
+    padding-right: 40px;
+    font-size: 60px;
+    line-height: 90px;
+}
+.layout-cell{
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    text-align: center;
+    flex-flow: row;
+    padding-top: 35px;
+    padding-bottom: 10px;
+    font-size: 50px;
+    line-height: 25px;
+}
+
+.errormsg{
+	color: rgb(255, 49, 49);
+}

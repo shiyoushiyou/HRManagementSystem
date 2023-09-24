@@ -14,46 +14,29 @@
 		<result column="rest_out" property="restOut" />
 		<result column="status" property="status" />
 	</resultMap>
-
-	<insert id="checkIn" parameterType="Attendance">
+	
+	<!-- TimeCard功能，插入打卡資訊-->
+	<insert id="setTimeCardRecord" parameterType="Attendance">
 		INSERT INTO ATTENDANCE(EMPLOYEE_ID,DATE_, CHECK_IN, CHECK_OUT, REST_IN,
 		REST_OUT, STATUS)
-		VALUES (#{employeeId}, #{date}, #{checkIn}, null, null, null, #{status})
+		VALUES (#{employeeId}, #{date}, #{checkIn}, #{checkOut}, #{restIn}, #{restOut}, #{status})
 	</insert>
 
-	<insert id="checkOut" parameterType="Attendance">
-		INSERT INTO ATTENDANCE(EMPLOYEE_ID,DATE_, CHECK_IN, CHECK_OUT, REST_IN,
-		REST_OUT, STATUS)
-		VALUES (#{employeeId}, #{date}, null, #{checkOut}, null, null, #{status})
-	</insert>
-	<insert id="restIn" parameterType="Attendance">
-		INSERT INTO ATTENDANCE(EMPLOYEE_ID,DATE_, CHECK_IN, CHECK_OUT, REST_IN,
-		REST_OUT, STATUS)
-		VALUES (#{employeeId}, #{date},null, null, #{restIn}, null, #{status})
-	</insert>
-	<insert id="restOut" parameterType="Attendance">
-		INSERT INTO ATTENDANCE(EMPLOYEE_ID,DATE_, CHECK_IN, CHECK_OUT, REST_IN,
-		REST_OUT, STATUS)
-		VALUES (#{employeeId}, #{date},null, null, null, #{restOut}, #{status})
-	</insert>
-
-	<select id="getAttendanceRecordByEmployeeId"
-		resultMap="attendanceResultMap">
-		SELECT *
-		FROM ATTENDANCE
-		WHERE EMPLOYEE_ID = #{employeeId}
-	</select>
-	<select id="getAttendanceByEmployeeId" resultType="Attendance">
-		SELECT CHECK_IN, CHECK_OUT,REST_IN,REST_OUT,STATUS FROM ATTENDANCE WHERE
-		EMPLOYEE_ID = #{employeeId}
-	</select>
-	<select id="getLatestAttendanceByEmployeeId"
+	<!-- TimeCard功能，以員工ID查詢最新打卡記錄-->
+	<select id="getLatestTimeCard"
 		resultType="Attendance">
-		SELECT * FROM ATTENDANCE
-		WHERE EMPLOYEE_ID =#{employeeId}
-		ORDER BY DATE_ DESC
-		LIMIT 1;
+		SELECT EMPLOYEE_ID, DATE_,
+	       	MAX(CHECK_IN) AS CHECK_IN,
+	       	MAX(CHECK_OUT) AS CHECK_OUT,
+	       	MAX(REST_IN) AS REST_IN,
+	       	MAX(REST_OUT) AS REST_OUT
+		FROM ATTENDANCE
+		WHERE EMPLOYEE_ID =#{employeeId} 
+		AND DATE_ = #{date}
+		GROUP BY EMPLOYEE_ID, DATE_
+		ORDER BY DATE_ DESC LIMIT 1;
 	</select>
+	
 	<update id="updateAttendance" parameterType="Attendance">
         UPDATE attendance
         SET employee_id = #{employeeId},
@@ -65,4 +48,10 @@
             status = #{status}
         WHERE employee_id = #{employeeId}
     </update>
+	<select id="getAttendanceRecordByEmployeeId"
+		resultMap="attendanceResultMap">
+		SELECT *
+		FROM ATTENDANCE
+		WHERE EMPLOYEE_ID = #{employeeId}
+	</select>
 </mapper>

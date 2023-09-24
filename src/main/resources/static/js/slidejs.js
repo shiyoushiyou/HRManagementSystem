@@ -6,19 +6,16 @@ var salary = document.querySelector('#salary');
 var request = document.querySelector('#request');
 var selectEmployees = document.querySelector('#selectEmployees');
 var management = document.querySelector('#management');
-var indexAttendance = document.querySelector('#indexAttendance');
+var timeCard = document.querySelector('#timeCard');
 var insertEmp = document.querySelector('#insertEmp');
 var attendanceManagement = document.querySelector('#attendanceManagement');
 
-	// 監聽按鈕的單擊事件
-	
+	// 監聽按鈕的點擊事件
 	//切換indexAttendance
-	indexAttendance.addEventListener('click', function() {
-		iframe.contentDocument.location.href = 'indexAttendance'; 
+	timeCard.addEventListener('click', function() {
+		iframe.contentDocument.location.href = 'timeCard'; 
 	});
-	indexEmployees.addEventListener('click', function() {
-		iframe.contentDocument.location.href = 'indexEmployees'; //切換indexEmployees
-	});
+
 	//切換 salary
 	salary.addEventListener('click', function() {
 		iframe.contentDocument.location.href = 'salary'; 
@@ -41,11 +38,16 @@ var attendanceManagement = document.querySelector('#attendanceManagement');
 	
 		//切換insert
 	insertEmp.addEventListener('click', function() {
-		iframe.contentDocument.location.href = 'insertEmp'; //切換indexEmployees
+		iframe.contentDocument.location.href = 'insertEmp'; 
 	});
 	
 	attendanceManagement.addEventListener('click', function() {
 		iframe.contentDocument.location.href = 'attendanceManagement'; 
+	});
+	
+		 //切換indexEmployees
+	indexEmployees.addEventListener('click', function() {
+		iframe.contentDocument.location.href = 'indexEmployees';
 	});
 	
 });

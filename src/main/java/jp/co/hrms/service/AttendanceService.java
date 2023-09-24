@@ -1,6 +1,8 @@
 package jp.co.hrms.service;
 
-import java.util.List;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -11,33 +13,100 @@ import jp.co.hrms.model.Attendance;
 @Service
 public class AttendanceService {
 	@Autowired
-	private AttendanceMapper attendanceMapper;
-
-	public List<Attendance> attendanceRecord(String employeeId) {
-		return attendanceMapper.getAttendanceRecordByEmployeeId(employeeId);
+	private AttendanceMapper Mapper;
+	
+	/*
+	 * 執行打卡功能。
+	 * 在符合規範的情況下才可打卡，避免重複打卡。 
+	 * */
+	public String timeCardRecord(String employeeId, String dayTime, String action) {
+		String errorMsg="";
+		try {
+		Date date = dateFormat(dayTime);
+		Date daytime = daytimeFormat(dayTime);
+		Attendance latestRecord = Mapper.getLatestTimeCard(employeeId,date);
+		//上班操作	
+		if (("checkin").equals(action)){
+			if(latestRecord==null) {
+				Attendance updateRecord = setEmpIdAndDate(employeeId,date);
+				updateRecord.setCheckIn(daytime);
+				updateRecord.setStatus("出勤");
+				Mapper.setTimeCardRecord(updateRecord);
+			}else {
+				errorMsg = "已經有今天的打卡紀錄，不能打卡";
+			}
+			//下班操作
+			}else if(("checkout").equals(action)) {	
+				if(latestRecord==null) {
+					errorMsg = "今日沒有上班紀錄無法打下班卡";
+				}else if(latestRecord!=null&&latestRecord.getCheckIn()!=null
+						&&latestRecord.getCheckOut()==null){
+					Attendance updateRecord = setEmpIdAndDate(employeeId,date);
+					updateRecord.setCheckOut(daytime);
+					updateRecord.setStatus("退勤");
+					Mapper.setTimeCardRecord(updateRecord);
+					errorMsg = "お疲れ様でした。";			
+				}else {
+					errorMsg ="退勤打刻は既に済みです。";
+				}
+			}
+			else if(("restin").equals(action)) {
+				if(latestRecord.getCheckIn()!=null&&latestRecord.getRestIn()==null
+					&&latestRecord.getCheckOut()==null) {
+					Attendance updateRecord = setEmpIdAndDate(employeeId,date);
+					updateRecord.setRestIn(daytime);
+					updateRecord.setStatus("休憩開始");
+					Mapper.setTimeCardRecord(updateRecord);
+					errorMsg ="休憩開始";
+				}else if (latestRecord.getCheckOut()!=null){
+					errorMsg ="退勤後の休憩処理は不可となります。";
+				}else {
+					errorMsg ="休憩打刻は既に存在してます。";
+				}
+			}
+			else{
+				if(latestRecord.getRestIn()!=null&&latestRecord.getRestOut()==null
+						&&latestRecord.getCheckOut()==null) {
+					Attendance updateRecord = setEmpIdAndDate(employeeId,date);
+					updateRecord.setRestOut(daytime);
+					updateRecord.setStatus("休憩終了");
+					Mapper.setTimeCardRecord(updateRecord);
+					errorMsg ="休憩終了";
+				}else if (latestRecord.getCheckOut()!=null){
+					errorMsg ="退勤後の休憩処理は不可となります。";
+				}else {
+					errorMsg ="休憩終了打刻は既に済みです。";
+				}
+			}
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		return errorMsg;
 	}
-
-	public void checkIn(Attendance attendance) {
-		attendanceMapper.checkIn(attendance);
+	
+	
+	
+	
+	
+	/*
+	 * 打卡功能。
+	 * 日期Format，打卡時間Format，每個按鈕皆須設置的共同value
+	 * */
+	public Date dateFormat (String dayTime) throws ParseException {
+		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
+		return dateFormat.parse(dayTime);
 	}
-
-	public void checkOut(Attendance attendance) {
-		attendanceMapper.checkOut(attendance);
+	public Date daytimeFormat (String dayTime) throws ParseException {
+		SimpleDateFormat dayTimeFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+		return dayTimeFormat.parse(dayTime);
 	}
-
-	public void restIn(Attendance attendance) {
-		attendanceMapper.restIn(attendance);
+	public Attendance setEmpIdAndDate(String employeeId,Date date) {
+			Attendance attendance =new Attendance();
+			attendance.setDate(date);
+			attendance.setEmployeeId(employeeId);
+			return attendance;	
 	}
-
-	public void restOut(Attendance attendance) {
-		attendanceMapper.restOut(attendance);
-	}
-
-	public Attendance getAttendanceByEmployeeId(String employeeId) {
-		return attendanceMapper.getAttendanceByEmployeeId(employeeId);
-	}
-
-	public Attendance getLatestAttendanceByEmployeeId(String employeeId) {
-		return attendanceMapper.getLatestAttendanceByEmployeeId(employeeId);
-	}
+	
 }
+
+	

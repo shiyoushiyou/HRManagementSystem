@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<title>HRManagementSystem</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<link rel="stylesheet" type="text/css" th:href="@{/css/timeCard.css}" href="../../static/css/timeCard.css" />
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+    <script type="text/javascript" th:src="@{/js/jquery.min.js}" src="../js/jquery.min.js"></script>
+	<script type="text/javascript" th:src="@{/js/dynamicTime.js}" src="../../static/js/dynamicTime.js"></script>
+</head>
+
+<body class="body">
+    <form th:action="@{/timeCard}" th:method="post">
+    	<input type="hidden" id="hiddenDayTime" name="hiddenDayTime" />
+        <div class="div-block">
+            <div class="text-block"></div>
+            <div id="day" class="dynamicDay" name ="day" ></div>
+            <div id="time" class="dynamicTime" name ="time"></div>
+        </div>
+        <div>
+            <div class="layout-cell">
+                <div><i class="fa-solid fa-arrow-down-to-bracket" th:text="${Info.name}"></i></div>
+            </div>
+            <div class="layout-cell">
+                <button id="checkin" name ="action" class="checkinBtn w-btn" type="submit"  value="checkin" ><i class="fa-solid fa-arrow-right-to-bracket"> 出勤 </i></button>
+                <button id="checkout" name ="action"  class="checkoutBtn w-btn" type="submit"  value="checkout"><i class="fa-solid fa-arrow-right-from-bracket"> 退勤 </i></button>
+            </div>
+            <div class="layout-cell">
+                <button id="restin" name ="action"  class="restinBtn btn2" type="submit"  value="restin" ><i class="fa-solid fa-arrow-down-to-bracket">休憩開始</i></button>
+                <button id="restout" name ="action"  class="restoutBtn btn2" type="submit"  value="restout"><i class="fa-solid fa-arrow-down-to-bracket">休憩終了</i></button>
+            </div>
+             <div class="errormsg layout-cell"><i class="fa-solid fa-arrow-down-to-bracket" th:if="${error}" th:text="${error}"></i></div>
+        </div>
+    </form>
+</body>
+</html>
