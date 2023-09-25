@@ -1,53 +1,19 @@
 window.addEventListener('load', function() {
-// 獲取 iframe 和按鈕元素
-var iframe = document.querySelector('.ifr');
-var indexEmployees = document.querySelector('#indexEmployees');
-var salary = document.querySelector('#salary');
-var request = document.querySelector('#request');
-var selectEmployees = document.querySelector('#selectEmployees');
-var management = document.querySelector('#management');
-var timeCard = document.querySelector('#timeCard');
-var insertEmp = document.querySelector('#insertEmp');
-var attendanceManagement = document.querySelector('#attendanceManagement');
-
-	// 監聽按鈕的點擊事件
-	//切換indexAttendance
-	timeCard.addEventListener('click', function() {
-		iframe.contentDocument.location.href = 'timeCard'; 
-	});
-
-	//切換 salary
-	salary.addEventListener('click', function() {
-		iframe.contentDocument.location.href = 'salary'; 
-	});
-
-	//切換request
-	request.addEventListener('click', function() {
-		iframe.contentDocument.location.href = 'request'; 
-	});
+	// 獲取 iframe 和按鈕元素
+	var iframe = document.querySelector('.ifr');
+	var navLinks = document.querySelectorAll('.nav-link');
 	
-	//切換selectEmployees
-	selectEmployees.addEventListener('click', function() {
-		iframe.contentDocument.location.href = 'selectEmployees'; 
+	// 監聽所有的nav-link的點擊事件
+	navLinks.forEach(function(navLink) {
+	    navLink.addEventListener('click', function() {
+	        var dataValue = navLink.getAttribute('data-value');
+	        iframe.contentDocument.location.href = dataValue;
+	    });
 	});
-	
-	//切換management
-	management.addEventListener('click', function() {
-		iframe.contentDocument.location.href = 'management'; 
-	});
-	
-		//切換insert
-	insertEmp.addEventListener('click', function() {
-		iframe.contentDocument.location.href = 'insertEmp'; 
-	});
-	
-	attendanceManagement.addEventListener('click', function() {
-		iframe.contentDocument.location.href = 'attendanceManagement'; 
-	});
-	
-		 //切換indexEmployees
-	indexEmployees.addEventListener('click', function() {
-		iframe.contentDocument.location.href = 'indexEmployees';
-	});
-	
 });
+
+$(document).ready(function(){
+    $('.sub-btn').click(function(){
+        $(this).next('.sub-menu').slideToggle();
+    });
+});  

@@ -70,10 +70,9 @@ header{
     width: 100px;
     height: 100px;
     border-radius: 100px;
-    margin-bottom: 10px;
 }
 
-.sidebar h4{
+.sidebar p{
     color: #ccc;
     margin-top: 0;
     margin-bottom: 20px;
@@ -85,10 +84,16 @@ header{
     width: 100%;
     line-height: 60px;
     text-decoration: none;
-    padding-left: 40px;
+    padding-left: 30px;
     box-sizing: border-box;
     transition: 0.5s;
     transition-property: background;
+}
+
+.sidebar p{ 
+    line-height: 10px;
+    font-weight: bold;
+    text-indent: -10px;
 }
 
 .sidebar a:hover{

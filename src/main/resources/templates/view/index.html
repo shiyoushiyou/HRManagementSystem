@@ -8,16 +8,9 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
     <script type="text/javascript" th:src="@{/js/jquery.min.js}" src="../../static/js/jquery.min.js"></script>
      <script type="text/javascript" th:src="@{/js/slidejs.js}" src="../../static/js/slidejs.js"></script>
-    <script type="text/javascript">
-        $(document).ready(function(){
-            $('.sub-btn').click(function(){
-                $(this).next('.sub-menu').slideToggle();
-            });
-        });    
-    </script>
 </head>
-<body>
 
+<body>
     <input type="checkbox" id="check">
     <header>
         <label for="check">
@@ -32,25 +25,25 @@
     </header>
     <div class="sidebar">
         <center>
-            	<img src="../img/person-icon.jpg" class="profile_img" alt="" th:src="@{/img/person-icon.jpg}" th:class="profile_img">
-            <h4 th:each="Info:${EmpInfo}" th:text="${Info.name}"></h4>
-          
+	        <a class="nav-link" data-value="empInfo"href="#">
+        	<img src="../img/person-icon.jpg" class="profile_img" alt="" th:src="@{/img/person-icon.jpg}" th:class="profile_img">
+        	<p  th:each="Info:${EmpInfo}" th:text="${Info.name}"></p>	
+        	</a>
         </center>
         <ul>
-            <li><a th:href="@{/index}"><i class="fa-solid fa-house"></i><span>ホーム</span> </a></li>
-            <li><a id="timeCard"href="#"><i class="fa-solid fa-clock"></i> <span>タイムカード</span></a></li>
-            <li><a id="request"><i class="fa-solid fa-clipboard-list"></i> <span>休暇申請</span></a></li>
-            <li><a id="salary"href="#"><i class="fa-solid fa-money-check-dollar"></i><span>給料明細確認</span></a>	</li>
+        	<li><a class="nav-link" href="#" data-value="index2"><i class="fa-solid fa-house"></i><span >ホーム</span> </a></li>
+            <li><a class="nav-link" data-value="timeCard" href="#"><i class="fa-solid fa-clock"></i> <span>タイムカード</span></a></li>
+            <li><a class="nav-link" data-value="request" href="#" ><i class="fa-solid fa-clipboard-list"></i> <span>休暇申請</span></a></li>
+            <li><a class="nav-link" data-value="salary" href="#"><i class="fa-solid fa-money-check-dollar"></i><span>給料明細確認</span></a>	</li>
             <li><a class="sub-btn" href="#"><i class="fa-solid fa-id-card-clip"></i> <span>従業員情報管理</span><i class="fas fa-angle-right dropdown"></i></a>
                 <div class="sub-menu">
-                    <a id="insertEmp" href="#">従業員情報追加</a>
-                    <a id="selectEmployees" href="#">従業員情報検索</a>
-                    <a id="attendanceManagement" href="#">従業員勤怠管理</a>
-                    <a id="management" href="#">従業員休暇管理</a> 
+                    <a class="nav-link" data-value="insertEmp"  href="#">従業員情報追加</a>
+                    <a class="nav-link" data-value="selectEmployees" href="#">従業員情報検索</a>
+                    <a class="nav-link" data-value="attendanceManagement" href="#">従業員勤怠管理</a>
+                    <a class="nav-link" data-value="management" href="#">従業員休暇管理</a> 
                 </div>
             </li>
-        </ul>
-        
+        </ul>     
     </div>
     <div class="content">
         <form >
