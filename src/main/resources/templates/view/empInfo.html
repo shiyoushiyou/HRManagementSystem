@@ -5,119 +5,89 @@
 <head>
   <title>HRManagementSystem</title>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-  <link rel="stylesheet" type="text/css" th:href="@{/css/styleindex.css}" href="../../static/css/styleindex.css" />
-  <script type="text/javascript" th:src="@{/js/jquery.min.js}" src="../../static/js/jquery.min.js"></script>
-  <style>
-    .functionalitycontent {
-      font-size: 24px;
-      text-align: center;
-      margin: 20px 0;
-      width: 80%;
-      margin: 0 auto;
-      border-collapse: collapse;
-      margin-bottom: 20px;
-      border: 1px solid black;
-      padding: 10px;
-      text-align: left;
-    }
-  </style>
+  <link rel="stylesheet" type="text/css" th:href="@{/css/empInfo.css}" href="../../static/css/empInfo.css" />
 </head>
 
 <body>
-  <td colspan="2" rowspan="2">
-    <!--畫面的白色部分在這邊。-->
-    <div id="content">
-      <div class="title">社員情報</div>
-      <div class="functionalitycontent">
-        <table th:each="Info:${EmpsInfo}">
-          <tr>
-            <th>社員番号</th>
-            <td>：</td>
-            <td th:text="${Info.id}"></td>
-          </tr>
-          <tr>
-            <th>氏名</th>
-            <td>：</td>
-            <td th:text="${Info.name}"></td>
-          </tr>
-          <tr>
-            <th>性別</th>
-            <td>：</td>
-            <td th:text="${Info.gender}"></td>
-          </tr>
-          <tr>
-            <th>生年月日</th>
-            <td>：</td>
-            <td th:text="${Info.birth}"></td>
-          </tr>
-          <tr>
-            <th>住所</th>
-            <td>：</td>
-            <td th:text="${Info.address}"></td>
-          </tr>
-          <tr>
-            <th>携帯番号</th>
-            <td>：</td>
-            <td th:text="${Info.phoneNumber}"></td>
-          </tr>
-          <tr>
-            <th>ステータス</th>
-            <td>：</td>
-            <td th:text="${Info.status}"></td>
-          </tr>
-          <tr>
-            <th>部門名</th>
-            <td>：</td>
-            <td th:text="${Info.departmentName}"></td>
-          </tr>
-          <tr>
-            <th>役職名</th>
-            <td>：</td>
-            <td th:text="${Info.positionName}"></td>
-          </tr>
-          <tr>
-            <th>入社日</th>
-            <td>：</td>
-            <td th:text="${Info.hireDate}"></td>
-          </tr>
-          <tr id="pwd">
-            <th>パスワード</th>
-            <td>：</td>
-            <td><input type="submit" id="pwdChange" value="パスワード変更"></td>
-          </tr>
-        </table>
-        <form th:action="@{/indexEmployees}" th:method="post" id="pwdChangeForm">
-          <table>
-            <span id="msg"></span>
-            <tr id="pwdChangeText1" style="display:none;">
-              <th>旧パスワード</th>
-              <td>：</td>
-              <td colspan="3"><input type="text" id="pwdBefore" name="pwdBefore"></td>
-            </tr>
-            <tr id="pwdChangeText2" style="display:none;">
-              <th>新しいパスワード</th>
-              <td>：</td>
-              <td colspan="3"><input type="password" id="pwdAfter" onblur="pwdCheck();">
-                <span id="msgOK2"></span>
-              </td>
-            </tr>
-            <tr id="pwdChangeText3" style="display:none;">
-              <th>パスワードの確認</th>
-              <td>：</td>
-              <td colspan="3"><input type="password" name="pwdComfirm" id="pwdComfirm" onblur="samePwd();">
-                <span id="msgOK3"></span>
-              </td>
-              <br>
-              <td><input type="submit" id="pwdChange2" value="変更する"></td>
-              <span th:text="${msg}" id="msg"></span>
-            </tr>
-          </table>
-        </form>
+  <div class="container profile">
+    <div class="cell6">
+      <h1><span><strong class="title-text">プロフィール</strong></span></h1>
+    </div>
+    <div class="row">
+      <div class="col-5">
+        <div class="profile-photo">
+          <img
+            src="https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&h=640&w=950"
+            alt="Jmnathan Smith" />
+        </div>
+      </div>
+      <div class="col-7" th:each="Info:${EmpsInfo}">
+        <div class="profile-info">
+          <div class="profile-preword"><span>Hello</span></div>
+          <div class="flex-container">
+            <h1 class="profile-title" th:text="${Info.name}"></h1>
+            <div class="cell4">
+              <input type="submit" class="changepwd" value="パスワード変更">
+            </div>
+          </div>
+          <div class="flex-container">
+            <h2 class="profile-position" th:text="${Info.departmentName}"></h2>
+            <div class="cell4">
+              <input type="submit" class="changeInfo" value="プロフィール編集">
+            </div>
+          </div>
+        </div>
+        <ul class="profile-list">
+          <li class="clearfix">
+            <strong class="title">生年月日</strong>
+            <span class="cont" th:text="${Info.birth}"></span>
+          </li>
+          <li class="clearfix">
+            <strong class="title">住所</strong>
+            <span class="cont" th:text="${Info.address}"></span>
+          </li>
+          <li class="clearfix">
+            <strong class="title">携帯番号 </strong>
+            <span class="cont" th:text="${Info.phoneNumber}"></span>
+          </li>
+          <li class="clearfix">
+            <strong class="title">ステータス</strong>
+            <span class="cont" th:text="${Info.status}"></span>
+          </li>
+          <li class="clearfix">
+            <strong class="title">入社日</strong>
+            <span class="cont" th:text="${Info.hireDate}"></span>
+          </li>
+        </ul>
       </div>
     </div>
-  </td>
-  </tr>
-  </table>
+  </div>
+  <div id="popup1" class="popup1">
+    <div class="popup-content">
+      <span class="close" id="closePopup">&times;</span>
+      <h2>今のパスワードを入力</h2>
+      <form id="popupFormCurrentPwd">
+        <!-- 在此添加表單元素 -->
+        <span id="msg"></span>
+        <input type="password" name="newPwd" placeholder="今のパスワード">
+        <button type="submit" class="changeInfo" >送信</button>
+      </form>
+    </div>
+  </div>
+  <div id="popup2" class="popup2">
+    <div class="popup-content">
+      <span class="close" id="closePopup">&times;</span>
+      <h2>パスワード変更</h2>
+      <form id="popupForm">
+        <!-- 在此添加表單元素 -->
+        <span th:text="${msg}" id="msg"></span>
+        <input type="password" name="newPwd" placeholder="変更するパスワード">
+        <input type="password" name="pwdregister" placeholder="パスワードの確認">
+        <button type="submit" class="changeInfo">変更する</button>
+      </form>
+    </div>
+  </div>
+  <script type="text/javascript" th:src="@{/js/jquery.min.js}" src="../../static/js/jquery.min.js"></script>
   <script type="text/javascript" th:src="@{/js/register.js}" src="../../static/js/register.js"></script>
 </body>
 </html>

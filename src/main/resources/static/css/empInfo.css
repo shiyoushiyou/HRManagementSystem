@@ -1,0 +1,236 @@
+.profile {
+    margin-top: 30px;
+    padding: 45px;
+    background-color: #fff;
+    box-shadow: 0 1px 6px rgba(0, 0, 0, 0.12), 0 1px 4px rgba(0, 0, 0, 0.24);
+    border-radius: 10px;
+}
+
+.profile-info {
+    color: #3d4451;
+    padding-bottom: 25px;
+    margin-bottom: 25px;
+    border-bottom: 1px solid #dedede;
+}
+
+.profile-list .cont {
+    display: block;
+    margin-left: 125px;
+    font-size: 18px;
+    font-weight: 400;
+    line-height: 20px;
+    color: #9da0a7;
+}
+
+.profile-list .button {
+    color: #fff;
+    font-size: 14px;
+    font-weight: 700;
+    line-height: 1;
+    text-transform: none;
+    padding: 5px 8px;
+    display: inline-block;
+    position: relative;
+    top: -2px;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    border-radius: 3px;
+    background-color: #2553d1;
+}
+
+.profile-preword {
+    margin-bottom: 25px;
+    background-color: #2553d1;
+    display: inline-block;
+}
+
+.profile-preword span {
+    color: #fff;
+    font-size: 20px;
+    font-weight: 700;
+    line-height: 1.1;
+    display: inline-block;
+    padding: 7px 12px;
+    text-transform: uppercase;
+    position: relative;
+}
+
+.profile-preword span:before {
+    content: "";
+    width: 0;
+    height: 0;
+    top: 100%;
+    left: 5px;
+    display: block;
+    position: absolute;
+    border-style: solid;
+    border-width: 0 0 12px 12px;
+    border-color: transparent;
+    border-left-color: #2553d1;
+}
+
+.profile-title {
+    font-size: 36px;
+    line-height: 1.1;
+    font-weight: 700;
+    margin-bottom: 5px;
+    margin-bottom: 10px;
+}
+
+.profile-title span {
+    font-weight: 300;
+}
+
+.profile-position {
+    font-size: 20px;
+    font-weight: 400;
+    line-height: 1.1;
+    margin-bottom: 0;
+    margin-top: 0px;
+}
+
+.profile-list {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.profile-list li {
+    margin-bottom: 13px;
+}
+
+.profile-list .title {
+    display: block;
+    width: 120px;
+    float: left;
+    color: #333333;
+    font-size: 18px;
+    font-weight: 700;
+    line-height: 20px;
+    text-transform: uppercase;
+}
+
+.profile-list .cont a {
+    color: inherit;
+}
+
+body {
+    color: #3d4451;
+    font-family: "Open Sans", sans-serif;
+    font-size: 16px;
+    line-height: 1.5;
+    background-color: rgb(87, 92, 106);
+    max-width: 1500px;
+    /* 這裡設置最大寬度，可以根據需要調整 */
+    margin: 0 auto;
+    /* 將內容水平置中 */
+    margin-top: 60px;
+    padding: 20px;
+    /* 可選：添加內邊距，以增加內容與邊緣的距離 */
+    box-sizing: border-box;
+    /* 確保內邊距和邊框不會增加元素的寬度 */
+}
+
+.profile-photo img {
+    width: 300px;
+}
+
+.flex-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.profile-position,
+.cell4 {
+    display: inline-block;
+
+}
+
+.col-7 {
+    flex: 1;
+    margin: 0 70px;
+}
+
+.row {
+    display: flex;
+    align-items: center;
+}
+
+.changeInfo,
+.changepwd {
+    background-color: #2553d1;
+    border-radius: 20px;
+    border: 1px solid #2553d1;
+    color: white;
+    cursor: pointer;
+    font-weight: bold;
+    letter-spacing: 0.1rem;
+    padding: 0.6rem 0.9rem;
+    text-transform: uppercase;
+    transition: transform 80ms ease-in;
+}
+
+.changeInfo:active,
+.changepwd:active {
+    transform: scale(0.95);
+}
+
+.changeInfo:focus,
+.changepwd:focus {
+    outline: none;
+}
+
+.cell4 {
+    margin-top: 10px;
+}
+
+.changepwd {
+    background-color: #f5965e;
+    border: 1px solid #f5965e;
+}
+
+.popup1, .popup2{
+    display: none;
+}
+.popup-content {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #fff;
+    padding: 25px; /* 增加內容區域的 padding */
+    border-radius: 10px; /* 增加邊框圓角 */
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+    width: 60%; /* 調整寬度 */
+    max-width: 300px; /* 添加最大寬度限制 */
+}
+
+/* 調整 input 元素的樣式 */
+#popupForm input[type="password"], #popupFormCurrentPwd[type="password"] {
+    width: 90%;
+    padding: 10px; /* 增加內部填寫格的 padding */
+    margin-bottom: 10px;
+    border: 1px solid #ccc; /* 添加邊框 */
+    border-radius: 5px; /* 添加邊框圓角 */
+}
+
+/* 調整提交按鈕的樣式 */
+#popupForm button, #popupFormCurrentPwd button{
+    background-color: #07cb79;
+    color: #fff;
+    padding: 10px 20px; /* 增加內部填寫格的 padding */
+    border: none;
+    border-radius: 5px; /* 添加邊框圓角 */
+    cursor: pointer;
+}
+
+/* 調整關閉按鈕的樣式 */
+.close {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    cursor: pointer;
+    font-size: 24px; /* 增加關閉按鈕的大小 */
+    color: #333; /* 調整顏色 */
+}

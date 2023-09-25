@@ -7,6 +7,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import jakarta.servlet.http.HttpServletRequest;
@@ -36,19 +37,20 @@ public class EmployeesController {
 		return mav;
 	}
 
-	@PostMapping("/indexEmployees")
-	public ModelAndView indexEmployees(HttpServletRequest request) {
-		//變更密碼時的post接收
-		String newPassword = request.getParameter("pwdComfirm");
-		String password = request.getParameter("pwdBefore");
-		ModelAndView mav = new ModelAndView("indexEmployees");
-		boolean result = service.pwdChange(password, newPassword);
+	@PostMapping("/registerCurrentPwd")
+	@ResponseBody
+	public String indexEmployees(HttpServletRequest request) {
+		//驗證當前密碼時的post接收
+		System.out.println("Hi,registerCurrentPwd");
+		String password = request.getParameter("currentPassword");
+		
+		//boolean result = service.registerCurrentPwd(password);
+		boolean result = true;
 		if (result) {
-			mav.addObject("msg", "パスワード変更済み");
+			return "true";
 		} else {
-			mav.addObject("msg", "旧パスワードは一致しません");
+			return "false";
 		}
-		return mav;
 	}
 
 	@GetMapping("/selectEmployees")
