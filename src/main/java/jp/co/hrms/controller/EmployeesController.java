@@ -26,10 +26,10 @@ public class EmployeesController {
 	@Autowired
 	private SystemService sysService;
 
-	@RequestMapping("/indexEmployees")
+	@RequestMapping("/empInfo")
 	public ModelAndView indexEmployees(User user, HttpSession session) {
 		//查詢員工個人資料時的跳轉
-		ModelAndView mav = new ModelAndView("indexEmployees");
+		ModelAndView mav = new ModelAndView("empInfo");
 		String employee = (String) session.getAttribute("user");
 		List<Employees> EmpsInfo = service.getEmployeesByUserid(employee);
 		mav.addObject("EmpsInfo", EmpsInfo);
