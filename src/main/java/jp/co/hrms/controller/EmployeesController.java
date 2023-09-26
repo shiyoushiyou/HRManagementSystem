@@ -47,7 +47,7 @@ public class EmployeesController {
 	}
 	
 	@PostMapping("/changePwd")
-	//驗證此員工當前的密碼
+	//變更新密碼
 	public ModelAndView changePwd(HttpServletRequest request, HttpSession session) {
 		String employee = (String) session.getAttribute("user");
 		service.pwdChange(request.getParameter("pwdregister"),employee);
