@@ -22,6 +22,10 @@ public class EmployeesService {
 		return mapper.getEmployeesByUserid(loginId);
 
 	}
+	//驗證當前密碼
+	public String registerCurrentPwd(String password, String loginId) {
+		return mapper.registerCurrentPwd(password,loginId)!= null ? "true":"false";
+	}
 
 	//變更密碼
 	public void pwdChange(String newPassword,String loginId) {
@@ -82,8 +86,5 @@ public class EmployeesService {
 		return mapper.getEmployeeIdBySalaryRules(id);
 	}
 
-	public String registerCurrentPwd(String password, String loginId) {
-		return mapper.registerCurrentPwd(password,loginId)!= null ? "true":"false";
-	}
 
 }
