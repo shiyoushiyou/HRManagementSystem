@@ -39,18 +39,22 @@ public class EmployeesController {
 
 	@PostMapping("/registerCurrentPwd")
 	@ResponseBody
-	public String indexEmployees(HttpServletRequest request) {
-		//驗證當前密碼時的post接收
-		System.out.println("Hi,registerCurrentPwd");
+	//驗證此員工當前的密碼
+	public String registerCurrentPwd(HttpServletRequest request, HttpSession session) {
 		String password = request.getParameter("currentPassword");
-		
-		//boolean result = service.registerCurrentPwd(password);
-		boolean result = true;
-		if (result) {
-			return "true";
-		} else {
-			return "false";
-		}
+		String result = service.registerCurrentPwd(password,(String) session.getAttribute("user"));
+		return result;
+	}
+	
+	@PostMapping("/changePwd")
+	//驗證此員工當前的密碼
+	public ModelAndView changePwd(HttpServletRequest request, HttpSession session) {
+		String employee = (String) session.getAttribute("user");
+		service.pwdChange(request.getParameter("pwdregister"),employee);
+		List<Employees> EmpsInfo = service.getEmployeesByUserid(employee);
+		ModelAndView mav = new ModelAndView("empInfo");
+		mav.addObject("EmpsInfo", EmpsInfo);
+		return mav;
 	}
 
 	@GetMapping("/selectEmployees")

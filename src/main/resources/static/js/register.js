@@ -1,20 +1,28 @@
 // 獲取彈窗和按鈕的引用
 var openForm = document.querySelector(".changepwd");
+var closeButton = document.querySelector(".close");
 var closeButton = document.getElementById("closePopup");
-var popup = document.querySelector(".popup1");
+var closeButton2 = document.getElementById("closePopup2");
+var popup1 = document.querySelector(".popup1");
+var popup2 = document.querySelector(".popup2");
 
 // 點擊按鈕打開彈窗
 openForm.addEventListener('click', function () {
-  popup.style.display = "block";
+  popup1.style.display = "block";
 });
 
 // 點擊關閉按鈕或彈窗背景隱藏彈窗
 closeButton.addEventListener("click", function () {
-  popup.style.display = "none";
+  popup1.style.display = "none";
 });
-popup.addEventListener("click", function (event) {
-  if (event.target === popup) {
-    popup.style.display = "none";
+
+closeButton2.addEventListener("click", function () {
+  popup2.style.display = "none";
+});
+
+popup1.addEventListener("click", function (event) {
+  if (event.target === popup1) {
+    popup1.style.display = "none";
   }
 });
 
@@ -26,12 +34,11 @@ $("#popupFormCurrentPwd").submit(function (e) {
 
   $.ajax({
     type: "POST",
-    url: "/hrms/registerCurrentPwd", // 請更改為你的URL
+    url: "/hrms/registerCurrentPwd",
     data: { currentPassword: currentPassword },
     success: function (response) {
       if (response === "true") {
         // 當前密碼驗證成功，顯示第二個彈窗
-        console.log("OK~~~~~~~~~~~~~~");
         document.getElementById("popup2").style.display = "block";
         document.getElementById("popup1").style.display = "none";
       } else {
@@ -50,4 +57,35 @@ $("#popupFormCurrentPwd").submit(function (e) {
       }
     }
   });
+});
+
+
+//前端按鈕點擊後調用 checkSamepwd方法
+$("#changePwd").submit(function (e){
+  // 檢查兩次輸入的密碼是否一致
+  var newPwd = document.querySelector(".newPwd").value;
+  var pwdregister = document.querySelector(".pwdregister").value;
+  // 英文字母開頭
+  const startsWithLetterRegex = /^[A-Za-z]/;
+
+  // 不允許連續3 次或更多相同的字母或数字
+  const repeatingCharsRegex = /(.)\1\1/;
+
+  if (!startsWithLetterRegex.test(newPwd)) {
+    alert("パスワードは英文字母で始まる必要があります。");
+    return false;
+  }else if (repeatingCharsRegex.test(newPwd)) {
+    alert("パスワードには連続して 3 回以上同じ文字が使用できません。");
+    return false;
+  }else if (newPwd !== pwdregister) {
+    alert("入力したパスワードが一致しません。");
+    return false;
+  }else if (newPwd.length < 6 || newPwd.length > 20) {
+    alert("パスワードは6文字から20文字までです。");
+    return false;
+  }else{
+    // 彈窗確認
+    return confirm("申請は確認しますか？確認後、申請は変更できません。");
+  }
+
 });

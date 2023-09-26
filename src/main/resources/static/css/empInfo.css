@@ -207,7 +207,7 @@ body {
 }
 
 /* 調整 input 元素的樣式 */
-#popupForm input[type="password"], #popupFormCurrentPwd[type="password"] {
+#changePwd input[type="password"], #popupFormCurrentPwd input[type="password"] {
     width: 90%;
     padding: 10px; /* 增加內部填寫格的 padding */
     margin-bottom: 10px;
@@ -216,7 +216,7 @@ body {
 }
 
 /* 調整提交按鈕的樣式 */
-#popupForm button, #popupFormCurrentPwd button{
+#changePwd button, #popupFormCurrentPwd button{
     background-color: #07cb79;
     color: #fff;
     padding: 10px 20px; /* 增加內部填寫格的 padding */

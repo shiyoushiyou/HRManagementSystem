@@ -23,15 +23,9 @@ public class EmployeesService {
 
 	}
 
-	public boolean pwdChange(String pwd, String newPassword) {
-		//變更密碼時的驗證及密碼UPDATE操作
-		String password = mapper.getPwdByPwd(pwd);
-		if (password.equals(pwd)) {
-			mapper.changePwd(pwd, newPassword);
-			return true;
-		} else {
-			return false;
-		}
+	//變更密碼
+	public void pwdChange(String newPassword,String loginId) {
+		mapper.changePwd(newPassword,loginId);
 	}
 
 	public void deleteById(String id) {
@@ -58,11 +52,6 @@ public class EmployeesService {
 
 	}
 
-	//	public List<Employees> getEmployeeByLoginId(String loginId) {
-	//
-	//		return mapper.getEmployeeByLoginId(loginId);
-	//	}
-
 	public void setData(Employees employee) {
 		String department = employee.getDepartmentName();
 		String position = employee.getPositionName();
@@ -86,11 +75,15 @@ public class EmployeesService {
 
 	
 	public void setRulesData(SalaryRules salaryRules) {
-
 		mapper.setRulesData(salaryRules);
 	}
+	
 	public List<SalaryRules> getEmployeeIdBySalaryRules(String id) {
-
 		return mapper.getEmployeeIdBySalaryRules(id);
 	}
+
+	public String registerCurrentPwd(String password, String loginId) {
+		return mapper.registerCurrentPwd(password,loginId)!= null ? "true":"false";
+	}
+
 }

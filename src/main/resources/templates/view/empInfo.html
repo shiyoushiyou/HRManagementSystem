@@ -69,21 +69,21 @@
       <form id="popupFormCurrentPwd">
         <!-- 在此添加表單元素 -->
         <span id="msg"></span>
-        <input type="password" name="newPwd" placeholder="今のパスワード">
+        <input type="password" name="currentPwd" id="currentPwd"placeholder="今のパスワード">
         <button type="submit" class="changeInfo" >送信</button>
       </form>
     </div>
   </div>
   <div id="popup2" class="popup2">
     <div class="popup-content">
-      <span class="close" id="closePopup">&times;</span>
+      <span class="close" id="closePopup2">&times;</span>
       <h2>パスワード変更</h2>
-      <form id="popupForm">
+      <form id="changePwd" th:action="@{/changePwd}" th:method="post">
         <!-- 在此添加表單元素 -->
         <span th:text="${msg}" id="msg"></span>
-        <input type="password" name="newPwd" placeholder="変更するパスワード">
-        <input type="password" name="pwdregister" placeholder="パスワードの確認">
-        <button type="submit" class="changeInfo">変更する</button>
+        <input type="password" name="newPwd" class="newPwd" placeholder="変更するパスワード">
+        <input type="password" name="pwdregister" class="pwdregister" placeholder="パスワードの確認">
+        <button type="submit" class="changeInfo" >変更する</button>
       </form>
     </div>
   </div>

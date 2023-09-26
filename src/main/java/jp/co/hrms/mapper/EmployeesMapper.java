@@ -14,9 +14,9 @@ import jp.co.hrms.model.Search;
 public interface EmployeesMapper {
 	List<Employees> getEmployeesByUserid(String loginId);//驗證用戶帳密
 
-	String getPwdByPwd(String password);//驗證舊密碼
+	String registerCurrentPwd(String password, String loginId);//驗證舊密碼
 
-	void changePwd(String pwd, String newPassword);//便更新密碼
+	void changePwd(String newPassword,String loginId);//變更密碼
 
 	List<Employees> selectEmp(Search search);//取得員工基礎訊息
 
@@ -41,6 +41,8 @@ public interface EmployeesMapper {
 	int getLastId();//獲取最新員工的id
 
 	public String getPositionIdById(String loginId);
+	
 	public void setRulesData(SalaryRules salaryRules);
+
 }
 

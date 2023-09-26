@@ -1,4 +1,4 @@
-$(document).ready(function() {
+$(document).ready(function () {
   var time = $("#time");
   getTime();
   setInterval(getTime, 1000);
@@ -21,7 +21,7 @@ $(document).ready(function() {
   }
 
   // 绑定事件监听器
-  $("button").click(function() {
+  $("button").click(function () {
     var btnType = $(this).text();
     var url = "";
     switch (btnType) {
@@ -44,14 +44,14 @@ $(document).ready(function() {
       $.ajax({
         url: url,
         type: "POST",
-        data: {btnType: btnType},
-         dataType: "json",
-        success: function(data) {
+        data: { btnType: btnType },
+        dataType: "json",
+        success: function (data) {
           alert(data.message);
         },
-        error: function() {
+        error: function () {
           alert(btnType + "失敗");
-        }  
+        }
       });
     }
   });
