@@ -48,8 +48,8 @@ public class EmployeesController {
 	public ModelAndView searchLoginEmp(HttpSession session) {
 		ModelAndView mav = new ModelAndView("empInfo");
 		String employee = (String) session.getAttribute("user");
-		Employees EmpsInfo = service.getEmployeesByUserid(employee);
-		mav.addObject("EmpsInfo", EmpsInfo);
+		Employees EmpInfo = service.getEmployeesByUserid(employee);
+		mav.addObject("EmpInfo", EmpInfo);
 		return mav;
 	}
 	
