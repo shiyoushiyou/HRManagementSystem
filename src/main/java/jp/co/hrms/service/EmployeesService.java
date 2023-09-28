@@ -17,7 +17,7 @@ public class EmployeesService {
 	@Autowired
 	private EmployeesMapper mapper;
 
-	public List<Employees> getEmployeesByUserid(String loginId) {
+	public Employees getEmployeesByUserid(String loginId) {
 		//抓取員工個人資訊
 		return mapper.getEmployeesByUserid(loginId);
 

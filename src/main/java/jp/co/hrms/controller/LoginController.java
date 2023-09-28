@@ -1,7 +1,5 @@
 package jp.co.hrms.controller;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -32,7 +30,7 @@ public class LoginController {
 		System.out.println(user);
 		String msg = Loginservice.loginCheck(user);
 		if ("success".equals(msg)) {
-			List<Employees> EmpInfo =  empService.getEmployeesByUserid(user.getLoginId());
+			Employees EmpInfo =  empService.getEmployeesByUserid(user.getLoginId());
 			
 			session.setAttribute("user", user.getLoginId());
 			session.setAttribute("empInfo", EmpInfo);

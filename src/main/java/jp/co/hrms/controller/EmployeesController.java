@@ -16,42 +16,71 @@ import jp.co.hrms.model.Employees;
 import jp.co.hrms.model.SalaryRules;
 import jp.co.hrms.model.Search;
 import jp.co.hrms.model.SystemSeting;
-import jp.co.hrms.model.User;
 import jp.co.hrms.service.EmployeesService;
 import jp.co.hrms.service.SystemService;
 
+
+
+/**
+ * 這是社員管理功能相關的類
+ * 包含:社員的增刪改查，個人資訊查詢功能，變更員工密碼
+ * @author shiyou
+ */
+
 @Controller
 public class EmployeesController {
+	
 	@Autowired
 	private EmployeesService service;
 	@Autowired
 	private SystemService sysService;
 
+	/**
+	 * 此方法會從session中獲取登入ID，
+	 * 查詢當前登入頁面之員工訊息
+	 * 
+	 * @param HttpSession session
+     * @return Employees類，並將資訊加載到前端
+	 *
+	 */
 	@RequestMapping("/empInfo")
-	public ModelAndView indexEmployees(User user, HttpSession session) {
-		//查詢員工個人資料時的跳轉
+	public ModelAndView searchLoginEmp(HttpSession session) {
 		ModelAndView mav = new ModelAndView("empInfo");
 		String employee = (String) session.getAttribute("user");
-		List<Employees> EmpsInfo = service.getEmployeesByUserid(employee);
+		Employees EmpsInfo = service.getEmployeesByUserid(employee);
 		mav.addObject("EmpsInfo", EmpsInfo);
 		return mav;
 	}
 
+	/**
+	 * 此方法會從session中獲取登入ID，
+	 * 查詢當前登入頁面之員工密碼是否符合輸入的密碼
+	 * 
+	 * @param HttpSession session
+     * @return result
+	 *
+	 */
 	@PostMapping("/registerCurrentPwd")
 	@ResponseBody
-	//驗證此員工當前的密碼
 	public String registerCurrentPwd(HttpServletRequest request, HttpSession session) {
-		String password = request.getParameter("currentPassword");
-		String result = service.registerCurrentPwd(password,(String) session.getAttribute("user"));
+		String result = service.registerCurrentPwd
+				(request.getParameter("currentPassword"),(String) session.getAttribute("user"));
 		return result;
 	}
 	
+	/**
+	 * 此方法會從session中獲取登入ID，
+	 * 查詢當前登入頁面之員工資訊，並更改密碼資訊。
+	 * 
+	 * @param HttpServletRequest request, HttpSession session
+     * @return Employees類，並將資訊加載到前端
+	 *
+	 */
 	@PostMapping("/changePwd")
-	//變更新密碼
 	public ModelAndView changePwd(HttpServletRequest request, HttpSession session) {
 		String employee = (String) session.getAttribute("user");
 		service.pwdChange(request.getParameter("pwdregister"),employee);
-		List<Employees> EmpsInfo = service.getEmployeesByUserid(employee);
+		Employees EmpsInfo = service.getEmployeesByUserid(employee);
 		ModelAndView mav = new ModelAndView("empInfo");
 		mav.addObject("EmpsInfo", EmpsInfo);
 		return mav;
@@ -94,7 +123,7 @@ public class EmployeesController {
 		//顯示各員工詳細
 		ModelAndView mav = new ModelAndView("detail");
 		String loginId = (String) session.getAttribute("user");
-		List<Employees> EmpsInfo = service.getEmployeesByUserid(id);
+		Employees EmpsInfo = service.getEmployeesByUserid(id);
 		String pId = service.getPositionIdById(loginId);
 		List<SalaryRules> salaryRules = service.getEmployeeIdBySalaryRules(id);
 		mav.addObject("salaryRules", salaryRules);
@@ -118,7 +147,7 @@ public class EmployeesController {
 		System.out.println(employee);
 		service.setData(employee);
 		String loginId = employee.getId();
-		List<Employees> EmpsInfo = service.getEmployeesByUserid(loginId);
+		Employees EmpsInfo = service.getEmployeesByUserid(loginId);
 		//showButton2是用來顯示detail的p標籤用的，當資料更改完成時會顯示
 		boolean showButton2 = true;
 		mav.addObject("showButton2", showButton2);
@@ -155,7 +184,7 @@ public class EmployeesController {
 		boolean insertEmp = true;
 		mav.addObject("insertEmp", insertEmp);
 		String id = service.insertEmp(employee);
-		List<Employees> empInsert = service.getEmployeesByUserid(id);
+		Employees empInsert = service.getEmployeesByUserid(id);
 		mav.addObject("empInsert", empInsert);
 		return mav;
 	}

@@ -3,7 +3,8 @@
 <!--命名空間 實現與Mapper接口綁定-->
 <mapper namespace="jp.co.hrms.mapper.EmployeesMapper">
 	<!--id屬性與Mapper接口中方法綁定  -->
-	<!-- 抓取個人信息 -->
+	
+	<!-- 抓取員工信息 -->
 	<select id ="getEmployeesByUserid" resultType="Employees" parameterType ="String">
 		SELECT 
 			E.ID
@@ -29,14 +30,17 @@
 			E.POSITION_ID = P.ID
 		WHERE E.ID = #{loginId};
 	</select>
+	
 	<!-- 驗證舊密碼-->
 	<select id ="registerCurrentPwd" resultType="String" parameterType ="String">
 		SELECT PASSWORD FROM EMPLOYEES WHERE PASSWORD = #{password} AND ID =#{loginId} ;
 	</select>
+	
 	<!-- 更新員工密碼-->
 	<update id="changePwd" parameterType ="String">
 		UPDATE EMPLOYEES SET PASSWORD = #{newPassword} WHERE ID = #{loginId};
 	</update>
+	
 	<!-- 獲取員工資訊-->
 	<select id ="selectEmp" resultType="Employees" parameterType ="Search">
 		SELECT

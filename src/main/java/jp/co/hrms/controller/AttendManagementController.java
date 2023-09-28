@@ -44,7 +44,7 @@ public class AttendManagementController {
 	public ModelAndView EmpAttendence(Condition condition){
 		ModelAndView mav = new ModelAndView("attendanceManagement");		
 		List<Attendance> empAttendence = service.getAttendenceByCondition(condition);
-		List<Employees> EmpsInfo =service.getEmployeesByUserid(condition.getId());
+		Employees EmpsInfo =service.getEmployeesByUserid(condition.getId());
 		System.out.println(empAttendence);
 		mav.addObject("EmpsInfo",EmpsInfo);
 	    mav.addObject("empAttendence", empAttendence);

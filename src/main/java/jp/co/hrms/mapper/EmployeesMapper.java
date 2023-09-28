@@ -12,11 +12,15 @@ import jp.co.hrms.model.Search;
 
 @Mapper
 public interface EmployeesMapper {
-	List<Employees> getEmployeesByUserid(String loginId);//驗證用戶帳密
-
-	String registerCurrentPwd(String password, String loginId);//驗證舊密碼
-
-	void changePwd(String newPassword,String loginId);//變更密碼
+	
+	//查詢員工資訊(個人)
+	Employees getEmployeesByUserid(String loginId);
+	
+	//驗證舊密碼
+	String registerCurrentPwd(String password, String loginId);
+	
+	//變更密碼
+	void changePwd(String newPassword,String loginId);
 
 	List<Employees> selectEmp(Search search);//取得員工基礎訊息
 
