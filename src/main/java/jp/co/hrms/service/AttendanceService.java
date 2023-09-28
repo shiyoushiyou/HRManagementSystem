@@ -12,13 +12,18 @@ import jp.co.hrms.model.Attendance;
 
 @Service
 public class AttendanceService {
+	
 	@Autowired
 	private AttendanceMapper Mapper;
 	
-	/*
-	 * 執行打卡功能。
-	 * 在符合規範的情況下才可打卡，避免重複打卡。 
-	 * */
+	
+	/**
+	 * 打卡功能
+	 * 
+	 * @param String employeeId,dayTime, action
+     * @return 將msg資訊加載到前端
+	 *
+	 */
 	public String timeCardRecord(String employeeId, String dayTime, String action) {
 		String errorMsg="";
 		try {
@@ -85,13 +90,11 @@ public class AttendanceService {
 	}
 	
 	
-	
-	
-	
-	/*
-	 * 打卡功能。
-	 * 日期Format，打卡時間Format，每個按鈕皆須設置的共同value
-	 * */
+	/**
+	 * 打卡功能
+	 * 日期的format以及set員工打卡資訊時處理相同資訊時的方法
+	 *
+	 */
 	public Date dateFormat (String dayTime) throws ParseException {
 		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
 		return dateFormat.parse(dayTime);
