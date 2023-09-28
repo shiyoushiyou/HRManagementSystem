@@ -8,22 +8,43 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import jakarta.servlet.http.HttpSession;
+import jp.co.hrms.model.Employees;
 import jp.co.hrms.service.AttendanceService;
+import jp.co.hrms.service.EmployeesService;
 
 @Controller
 public class TimeCardController {
+	
 	@Autowired
 	private AttendanceService attendanceService;
+	@Autowired
+	private EmployeesService employeesService;
 
+	/**
+	 * 打卡頁面
+	 * 
+	 * @param HttpSession session
+     * @return ModelAndView，將登入員工資訊加載到前端
+	 *
+	 */
 	@GetMapping("/timeCard")
-	public String attendance() {
-		//TODO 將登入員工姓名顯示在打卡頁面上
-//		Employees EmpInfo  = (Employees) session.getAttribute("empInfo");
-//		String name = EmpInfo.getName();
-//		mav.addObject("empname", name);
-		return "timeCard";
+	public ModelAndView attendance(HttpSession session) {
+		ModelAndView mav = new ModelAndView("timeCard");
+		String employee = (String) session.getAttribute("user");
+		Employees EmpInfo = employeesService.getEmployeesByUserid(employee);
+		mav.addObject("empName", EmpInfo.getName());
+		return mav;
 	}
-
+	
+	
+	
+	/**
+	 * 打卡功能
+	 * 
+	 * @param HttpSession session,String action,String daytime
+     * @return ModelAndView，將msg資訊加載到前端
+	 *
+	 */
 	@PostMapping("/timeCard")
 	public ModelAndView timeCard(
 			HttpSession session,
@@ -31,7 +52,6 @@ public class TimeCardController {
 	        @RequestParam("hiddenDayTime") String daytime) {
 		ModelAndView mav = new ModelAndView("timeCard");
 		String employeeId = (String) session.getAttribute("user");
-		//打卡
 		String status = attendanceService.timeCardRecord(employeeId, daytime,action);
 		mav.addObject("error", status);
 		return mav;

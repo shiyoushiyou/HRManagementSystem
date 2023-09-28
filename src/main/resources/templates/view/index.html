@@ -7,7 +7,7 @@
     <link rel="stylesheet" th:href="@{/css/IndexStyle.css}" href="../../static/css/IndexStyle.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
     <script type="text/javascript" th:src="@{/js/jquery.min.js}" src="../../static/js/jquery.min.js"></script>
-     <script type="text/javascript" th:src="@{/js/slidejs.js}" src="../../static/js/iframeSlidePage.js"></script>
+     <script type="text/javascript" th:src="@{/js/iframeSlidePage.js}" src="../../static/js/iframeSlidePage.js"></script>
 </head>
 
 <body>
@@ -27,7 +27,7 @@
         <center>
 	        <a class="nav-link" data-value="empInfo"href="#">
         	<img src="../img/person-icon.jpg" class="profile_img" alt="" th:src="@{/img/person-icon.jpg}" th:class="profile_img">
-        	<p  th:each="Info:${EmpInfo}" th:text="${Info.name}"></p>	
+        	<p  th:text="${empName}"></p>	
         	</a>
         </center>
         <ul>

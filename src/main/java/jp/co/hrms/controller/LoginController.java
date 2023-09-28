@@ -27,16 +27,14 @@ public class LoginController {
 	@PostMapping("/login")
 	public ModelAndView login(User user, HttpSession session) {
 		ModelAndView mav = new ModelAndView();
-		System.out.println(user);
 		String msg = Loginservice.loginCheck(user);
 		if ("success".equals(msg)) {
 			Employees EmpInfo =  empService.getEmployeesByUserid(user.getLoginId());
 			
 			session.setAttribute("user", user.getLoginId());
-			session.setAttribute("empInfo", EmpInfo);
 			session.setAttribute("positionId", user.getPositionId());
 			
-			mav.addObject("EmpInfo", EmpInfo);
+			mav.addObject("empName", EmpInfo.getName());
 			mav.addObject("positionId", user.getPositionId());
 			mav.setViewName("index");
 		} else {
