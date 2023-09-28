@@ -35,6 +35,7 @@ public class EmployeesController {
 	@Autowired
 	private SystemService sysService;
 
+	
 	/**
 	 * 此方法會從session中獲取登入ID，
 	 * 查詢當前登入頁面之員工訊息
@@ -51,7 +52,9 @@ public class EmployeesController {
 		mav.addObject("EmpsInfo", EmpsInfo);
 		return mav;
 	}
-
+	
+	
+	
 	/**
 	 * 此方法會從session中獲取登入ID，
 	 * 查詢當前登入頁面之員工密碼是否符合輸入的密碼
@@ -67,6 +70,8 @@ public class EmployeesController {
 				(request.getParameter("currentPassword"),(String) session.getAttribute("user"));
 		return result;
 	}
+	
+	
 	
 	/**
 	 * 此方法會從session中獲取登入ID，
@@ -85,7 +90,9 @@ public class EmployeesController {
 		mav.addObject("EmpsInfo", EmpsInfo);
 		return mav;
 	}
-
+	
+	
+	
 	@GetMapping("/selectEmployees")
 	public ModelAndView selectEmployees() {
 		//獲取員工基礎訊息
@@ -99,7 +106,9 @@ public class EmployeesController {
 		mav.addObject("positionList", positionList);
 		return mav;
 	}
-
+	
+	
+	
 	@PostMapping("/selectEmployees")
 	public ModelAndView select(Search search) {
 		//查詢員工基本訊息，包括查詢條件的判斷
@@ -117,7 +126,9 @@ public class EmployeesController {
 		System.out.println(search);
 		return mav;
 	}
-
+	
+	
+	
 	@GetMapping("/detail")
 	public ModelAndView detail(String id, HttpSession session) {
 		//顯示各員工詳細
@@ -139,7 +150,9 @@ public class EmployeesController {
 
 		return mav;
 	}
-
+	
+	
+	
 	@PostMapping("/detailChange")
 	public ModelAndView detailChange(Employees employee) {
 		//變更員工資訊
@@ -155,7 +168,9 @@ public class EmployeesController {
 
 		return mav;
 	}
-
+	
+	
+	
 	@PostMapping("/detailDelete")
 	public ModelAndView detailDelete(String id) {
 		//刪除員工
@@ -165,7 +180,9 @@ public class EmployeesController {
 		mav.addObject("delete", delete);
 		return mav;
 	}
-
+	
+	
+	
 	@GetMapping("/insertEmp")
 	public ModelAndView insertEmp() {
 		//新增員工頁面跳轉
@@ -176,7 +193,9 @@ public class EmployeesController {
 		mav.addObject("positionList", positionList);
 		return mav;
 	}
-
+	
+	
+	
 	@PostMapping("/insertEmp")
 	public ModelAndView insert(Employees employee) {
 		//提交新增員工資訊
@@ -188,9 +207,9 @@ public class EmployeesController {
 		mav.addObject("empInsert", empInsert);
 		return mav;
 	}
-
 	
-
+	
+	
 	@PostMapping("/changeSalaryRules")
 	public ModelAndView changeSalaryRules(SalaryRules salaryRules) {
 		ModelAndView mav = new ModelAndView("detail");

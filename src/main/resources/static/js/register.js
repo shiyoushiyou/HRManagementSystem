@@ -1,7 +1,6 @@
 // 獲取彈窗和按鈕的引用
 var openForm = document.querySelector(".changepwd");
 var closeButton = document.querySelector(".close");
-var closeButton = document.getElementById("closePopup");
 var closeButton2 = document.getElementById("closePopup2");
 var popup1 = document.querySelector(".popup1");
 var popup2 = document.querySelector(".popup2");
@@ -26,11 +25,14 @@ popup1.addEventListener("click", function (event) {
   }
 });
 
-
+/**
+ * 變更密碼前的當前密碼驗證
+ * @returns true or false
+ */
 $("#popupFormCurrentPwd").submit(function (e) {
   e.preventDefault(); // 防止表單提交
 
-  var currentPassword = $("#currentPwd").val(); // 獲取當前密碼
+  var currentPassword = $("#currentPwd").val(); 
 
   $.ajax({
     type: "POST",
@@ -60,11 +62,14 @@ $("#popupFormCurrentPwd").submit(function (e) {
 });
 
 
-//前端按鈕點擊後調用 checkSamepwd方法
+
+/**
+ * 驗證欲變更密碼是否符合規範
+ */
 $("#changePwd").submit(function (e){
-  // 檢查兩次輸入的密碼是否一致
   var newPwd = document.querySelector(".newPwd").value;
   var pwdregister = document.querySelector(".pwdregister").value;
+  
   // 英文字母開頭
   const startsWithLetterRegex = /^[A-Za-z]/;
 

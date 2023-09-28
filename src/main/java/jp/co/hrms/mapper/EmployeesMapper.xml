@@ -4,7 +4,7 @@
 <mapper namespace="jp.co.hrms.mapper.EmployeesMapper">
 	<!--id屬性與Mapper接口中方法綁定  -->
 	
-	<!-- 抓取員工信息 -->
+	<!-- 抓取登入頁面之員工信息 -->
 	<select id ="getEmployeesByUserid" resultType="Employees" parameterType ="String">
 		SELECT 
 			E.ID
