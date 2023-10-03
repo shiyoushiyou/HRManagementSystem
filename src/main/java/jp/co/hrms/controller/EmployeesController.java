@@ -7,6 +7,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -53,6 +54,19 @@ public class EmployeesController {
 		return mav;
 	}
 	
+	/**
+	 * 在查詢員工功能中使用id找到該條件之員工。
+	 * 
+	 * @param String empId
+     * @return Employees類，並將資訊加載到前端
+	 *
+	 */
+	@PostMapping("/empInfo")
+	@ResponseBody
+	public Employees checkEmpDetail(@RequestParam String empId) {
+		Employees EmpInfo = service.getEmployeesByUserid(empId);
+		return EmpInfo;
+	}
 	
 	
 	/**
@@ -91,41 +105,56 @@ public class EmployeesController {
 		return mav;
 	}
 	
+	/**
+	 * 管理職的密碼驗證成功後即可將員工pwd設置為defult
+	 * 
+	 * @param HttpServletRequest request, HttpSession session
+     * @return Employees類，並將資訊加載到前端
+	 *
+	 */
+	@PostMapping("/resetPwd")
+	public String resetPwd(HttpServletRequest request, HttpSession session) {
+		String employee = (String) session.getAttribute("user");
+		service.pwdChange(request.getParameter("defultPwd"),employee);
+		return "true";
+	}
 	
 	
-	@GetMapping("/selectEmployees")
-	public ModelAndView selectEmployees() {
+	/**
+	 * 加載查詢員工之頁面
+	 * 
+	 * @param Search search (檢索條件)
+     * @return Employees類，並將資訊加載到前端
+	 *
+	 */
+	@GetMapping("/empSearchCondition")
+	public ModelAndView empSearchCondition() {
 		//獲取員工基礎訊息
-		ModelAndView mav = new ModelAndView("selectEmployees");
-		List<SystemSeting> statusList = sysService.getListByCode("status");
+		ModelAndView mav = new ModelAndView("searchEmployees");
 		List<SystemSeting> departmentList = sysService.getListByCode("departmentId");
-		List<SystemSeting> positionList = sysService.getListByCode("positionId");
-
-		mav.addObject("statusList", statusList);
 		mav.addObject("departmentList", departmentList);
-		mav.addObject("positionList", positionList);
 		return mav;
 	}
 	
 	
 	
-	@PostMapping("/selectEmployees")
+	/**
+	 * 此方法會依照檢索條件查找符合條件之員工資訊。
+	 * 
+	 * @param Search search (檢索條件)
+     * @return Employees類，並將資訊加載到前端
+	 *
+	 */
+	@PostMapping("/searchEmployees")
 	public ModelAndView select(Search search) {
-		//查詢員工基本訊息，包括查詢條件的判斷
-		ModelAndView mav = new ModelAndView("selectEmployees");
-		List<Employees> Emp = service.selectEmp(search);
-		List<SystemSeting> statusList = sysService.getListByCode("status");
-		List<SystemSeting> departmentList = sysService.getListByCode("departmentId");
-		List<SystemSeting> positionList = sysService.getListByCode("positionId");
-		mav.addObject("statusList", statusList);
+		ModelAndView mav = new ModelAndView("searchEmployees");
+		List<Employees> Emp = service.searchEmp(search);
 		mav.addObject("Emp", Emp);
-		mav.addObject("search", search);
-		mav.addObject("departmentList", departmentList);
-		mav.addObject("positionList", positionList);
-		System.out.println(Emp);
-		System.out.println(search);
 		return mav;
 	}
+	
+	
+	
 	
 	
 	
