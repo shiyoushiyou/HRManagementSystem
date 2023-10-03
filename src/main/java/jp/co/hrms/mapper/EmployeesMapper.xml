@@ -41,8 +41,8 @@
 		UPDATE EMPLOYEES SET PASSWORD = #{newPassword} WHERE ID = #{loginId};
 	</update>
 	
-	<!-- 獲取員工資訊-->
-	<select id ="selectEmp" resultType="Employees" parameterType ="Search">
+	<!-- 獲取符合條件員工資訊-->
+	<select id ="searchEmp" resultType="Employees" parameterType ="Search">
 		SELECT
 			E.ID
 		    ,E.NAME
@@ -61,18 +61,12 @@
 			<if test="name != ''">
 				AND E.NAME LIKE CONCAT('%',#{name},'%')			
 			</if>
-			<if test="gender != null">
-				AND E.GENDER =#{gender}			
-			</if>
 			<if test="status != ''">
 				AND E.STATUS = #{status}			
 			</if>
 			<if test="departmentId != ''">
 				AND E.DEPARTMENT_ID =#{departmentId}			
 			</if>
-			<if test="positionId != ''">	
-				AND E.POSITION_ID =#{positionId}
-			</if>	
 	</select>
 	<!-- 獲取職位ID-->
 	<select id ="getPositionIdByName" resultType="String" parameterType ="String">

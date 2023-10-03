@@ -20,8 +20,8 @@ public class EmployeesService {
 	public Employees getEmployeesByUserid(String loginId) {
 		//抓取員工個人資訊
 		return mapper.getEmployeesByUserid(loginId);
-
 	}
+	
 	//驗證當前密碼
 	public String registerCurrentPwd(String password, String loginId) {
 		return mapper.registerCurrentPwd(password,loginId)!= null ? "true":"false";
@@ -49,10 +49,10 @@ public class EmployeesService {
 		return mapper.getPositionIdById(loginId);
 	}
 
-	public List<Employees> selectEmp(Search search) {
-		List<Employees> EMP = mapper.selectEmp(search);
-		System.out.println(EMP);
-		return mapper.selectEmp(search);
+	public List<Employees> searchEmp(Search search) {
+		List<Employees> EMP = mapper.searchEmp(search);
+		System.out.println("service = "+EMP);
+		return mapper.searchEmp(search);
 
 	}
 

@@ -22,7 +22,7 @@ public interface EmployeesMapper {
 	//變更密碼
 	void changePwd(String newPassword,String loginId);
 
-	List<Employees> selectEmp(Search search);//取得員工基礎訊息
+	List<Employees> searchEmp(Search search);//取得員工基礎訊息
 
 	void setData(Employees employee);//更新員工資料
 

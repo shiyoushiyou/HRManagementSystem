@@ -1,0 +1,150 @@
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+  <title>HRManagementSystem</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <link rel="stylesheet"  th:href="@{/css/datatables.css}"href="../../static/css/datatables.css" />
+  <link rel="stylesheet" type="text/css" th:href="@{/css/searchEmployees.css}" href="../../static/css/searchEmployees.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <script type="text/javascript" th:src="@{/js/jquery.min.js}" src="../js/jquery.min.js"></script>
+  <script type="text/javascript" th:src="@{/js/searchEmployees.js}" src="../js/searchEmployees.js"></script>
+  <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.js"></script>
+</head>
+
+<body>
+  <div class="container">
+    <table>
+      <form th:action="@{/searchEmployees}" th:method="post">
+        <h3>檢索条件</h3>
+        <tr>
+          <td>
+            <p>従業員氏名</p>
+            <input type="text" name="name" placeholder="氏名">
+          </td>
+          <td>
+            <p>ステータス</p>
+            <div>
+              <select name="status">
+                <option >在籍中</option>
+                <option>離籍</option>
+                <option>休職中</option>
+              </select>
+            </div>
+          </td>
+          <td>
+            <p>所属部署名</p>
+            <div>
+              <select name="departmentId">
+                <option> </option>
+                <option th:each="department:${departmentList}" 
+                th:value="${department.value}" th:text="${department.name}"></option>
+              </select>
+            </div>
+          </td>
+          <td></td>
+          <td></td>
+          <td>
+            <p></p>
+            <input class="search" type="submit" value="檢索">
+          </td>
+          </td>
+        </tr>
+    </table>
+  </div>
+  </form>
+  <div class="container" th:unless="${#lists.isEmpty(Emp)}">
+    <table class="searchResult myTable display" id="searchResultTable">
+      <h3>檢索結果</h3>
+      <thead>
+        <tr class="resultTitle">
+          <th><i class="fa-solid fa-arrow-down-wide-short"> 氏名</i></th>
+          <th><i class="fa-solid fa-arrow-down-wide-short"> ステータス</i></th>
+          <th><i class="fa-solid fa-arrow-down-wide-short"> 性別</i></th>
+          <th><i class="fa-solid fa-arrow-down-wide-short"> 所属部署名</i></th>
+          <th><i class="fa-solid fa-arrow-down-wide-short"> 役職名</i></th>
+          <th>詳細</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr th:each="emp : ${Emp}">
+          <td th:text="${emp.name}"></td>
+          <td th:text="${emp.status}"></td>
+          <td th:text="${emp.gender}"></td>
+          <td th:text="${emp.departmentName}"></td>
+          <td th:text="${emp.positionName}"></td>
+          <td><button class="detail" id="detail" type="button" th:data-parameter1="${emp.id}"><i class="fa-solid fa-pen-to-square"></i></button></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  
+<div class="container profile" id="profile">
+    <div class="row">
+      <div class="col-5">
+        <div class="profile-photo">
+          <img
+            src="https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&h=640&w=950"
+            alt="Jmnathan Smith" />
+        </div>
+      </div>
+      <div class="col-7" >
+        <div class="cell6">
+          <span class="close" id="closePopup">&times;</span>
+        </div>
+        <div class="profile-info">
+          <div class="flex-container">
+            <h3 class="profile-number">社員番号<span class="cont empId" ></span></h3>       
+          </div>
+          <div class="flex-container">
+            <h1 class="profile-title empName"></h1>
+          </div>
+          <div class="flex-container">
+            <h3 class="profile-number empbirth"></h3>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="detailInfo">
+      <div class="Businessinfo">
+        <div class="Businessinfo-1">
+          <h3>業務情報</h3>
+          <button type="button" class="changeInfo"><i class="fa-solid fa-gear"></i></button>
+        </div>
+        <ul class="profile-list">
+          <li class="clearfix">
+            <strong class="title">所属部署</strong>
+            <span class="cont departmentName"  style="margin-left: 100px;"></span>
+          </li>
+          <li class="clearfix">
+            <strong class="title">ステータス</strong>
+            <span class="cont status" style="margin-left: 83px;"></span>
+          </li>
+          <li class="clearfix">
+            <strong class="title">入社日</strong>
+            <span class="cont hireDate" style="margin-left: 115px;"></span>
+          </li>
+        </ul>
+      </div>
+      <div class="Businessinfo">
+        <div class="Businessinfo-1">
+          <h3>連絡先と住所</h3>
+        </div>
+        <ul class="profile-list">
+          <li class="clearfix">
+            <strong class="title">連絡先</strong>
+            <span class="cont phoneNumber" style="margin-left: 115px;"></span>
+          </li>
+          <li class="clearfix">
+            <strong class="title">住所</strong>
+            <span class="cont address"style="margin-left: 131px;"></span>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+</body>
+
+</html>
