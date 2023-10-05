@@ -98,7 +98,7 @@ public class EmployeesController {
 	@PostMapping("/changePwd")
 	public ModelAndView changePwd(HttpServletRequest request, HttpSession session) {
 		String employee = (String) session.getAttribute("user");
-		service.pwdChange(request.getParameter("pwdregister"),employee);
+		service.changePwd(request.getParameter("pwdregister"),employee);
 		Employees EmpsInfo = service.getEmployeesByUserid(employee);
 		ModelAndView mav = new ModelAndView("empInfo");
 		mav.addObject("EmpsInfo", EmpsInfo);
@@ -113,9 +113,11 @@ public class EmployeesController {
 	 *
 	 */
 	@PostMapping("/resetPwd")
+	@ResponseBody
 	public String resetPwd(HttpServletRequest request, HttpSession session) {
 		String employee = (String) session.getAttribute("user");
-		service.pwdChange(request.getParameter("defultPwd"),employee);
+		service.changePwd(request.getParameter("defultPwd"),employee);
+		
 		return "true";
 	}
 	
@@ -149,15 +151,47 @@ public class EmployeesController {
 	public ModelAndView select(Search search) {
 		ModelAndView mav = new ModelAndView("searchEmployees");
 		List<Employees> Emp = service.searchEmp(search);
+		List<SystemSeting> departmentList = sysService.getListByCode("departmentId");
+		List<SystemSeting> positionList = sysService.getListByCode("positionId");
+
+		mav.addObject("departmentList", departmentList);
+		mav.addObject("positionList", positionList);
 		mav.addObject("Emp", Emp);
 		return mav;
 	}
 	
 	
+	/**
+	 * 密碼驗證成功後可邏輯刪除員工資訊
+	 * 
+	 * @param Search search (檢索條件)
+     * @return Employees類，並將資訊加載到前端
+	 *
+	 */
+	@PostMapping("/empDelete")
+	@ResponseBody
+	public boolean delete(String empId) {
+		return service.deleteById(empId);
+	}
 	
 	
 	
-	
+	/**
+	 * 密碼驗證成功後可編輯員工資訊
+	 * 
+	 * @param Search search (檢索條件)
+     * @return result，顯示執行是否成功
+	 *
+	 */
+	@PostMapping("/updateEmpinfo")
+	@ResponseBody
+	public ModelAndView  updateEmpinfo(Employees employee) {
+		ModelAndView mav = new ModelAndView("searchEmployees");
+		System.out.println("updateEmpinfo method  parameter emp = "+employee);
+		service.updateEmpinfo(employee);
+		return mav;
+	}
+
 	@GetMapping("/detail")
 	public ModelAndView detail(String id, HttpSession session) {
 		//顯示各員工詳細
@@ -182,33 +216,9 @@ public class EmployeesController {
 	
 	
 	
-	@PostMapping("/detailChange")
-	public ModelAndView detailChange(Employees employee) {
-		//變更員工資訊
-		ModelAndView mav = new ModelAndView("detail");
-		System.out.println(employee);
-		service.setData(employee);
-		String loginId = employee.getId();
-		Employees EmpsInfo = service.getEmployeesByUserid(loginId);
-		//showButton2是用來顯示detail的p標籤用的，當資料更改完成時會顯示
-		boolean showButton2 = true;
-		mav.addObject("showButton2", showButton2);
-		mav.addObject("EmpsInfo", EmpsInfo);
-
-		return mav;
-	}
 	
 	
 	
-	@PostMapping("/detailDelete")
-	public ModelAndView detailDelete(String id) {
-		//刪除員工
-		ModelAndView mav = new ModelAndView("detail");
-		service.deleteById(id);
-		boolean delete = true;
-		mav.addObject("delete", delete);
-		return mav;
-	}
 	
 	
 	

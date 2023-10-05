@@ -1,191 +1,222 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<!--命名空間 實現與Mapper接口綁定-->
+<!--命名空間 實現與Mapper接口綁定 -->
 <mapper namespace="jp.co.hrms.mapper.EmployeesMapper">
-	<!--id屬性與Mapper接口中方法綁定  -->
-	
+	<!--id屬性與Mapper接口中方法綁定 -->
+
 	<!-- 抓取登入頁面之員工信息 -->
-	<select id ="getEmployeesByUserid" resultType="Employees" parameterType ="String">
-		SELECT 
-			E.ID
-			, E.NAME
-			, E.GENDER
-			, E.BIRTH
-			, E.ADDRESS
-			, E.PHONE_NUMBER
-			, E.STATUS
-			, D.NAME AS DEPARTMENT_NAME
-		    , P.NAME AS POSITION_NAME
-		    , E.HIRE_DATE
-		    , E.PASSWORD
-		FROM 
-			EMPLOYEES E
-		INNER JOIN 
-			DEPARTMENTS D 
-		ON 
-			E.DEPARTMENT_ID = D.ID
-		INNER JOIN 
-			POSITIONS P 
-		ON 
-			E.POSITION_ID = P.ID
+	<select id="getEmployeesByUserid" resultType="Employees"
+		parameterType="String">
+		SELECT
+		E.ID
+		, E.NAME
+		, E.GENDER
+		, E.BIRTH
+		, E.ADDRESS
+		, E.PHONE_NUMBER
+		, E.STATUS
+		, D.NAME AS DEPARTMENT_NAME
+		, P.NAME AS POSITION_NAME
+		, E.HIRE_DATE
+		, E.PASSWORD
+		FROM
+		EMPLOYEES E
+		INNER JOIN
+		DEPARTMENTS D
+		ON
+		E.DEPARTMENT_ID = D.ID
+		INNER JOIN
+		POSITIONS P
+		ON
+		E.POSITION_ID = P.ID
 		WHERE E.ID = #{loginId};
 	</select>
-	
-	<!-- 驗證舊密碼-->
-	<select id ="registerCurrentPwd" resultType="String" parameterType ="String">
-		SELECT PASSWORD FROM EMPLOYEES WHERE PASSWORD = #{password} AND ID =#{loginId} ;
+
+	<!-- 驗證舊密碼 -->
+	<select id="registerCurrentPwd" resultType="String"
+		parameterType="String">
+		SELECT PASSWORD FROM EMPLOYEES WHERE PASSWORD =
+		#{password} AND ID =#{loginId} ;
 	</select>
-	
-	<!-- 更新員工密碼-->
-	<update id="changePwd" parameterType ="String">
-		UPDATE EMPLOYEES SET PASSWORD = #{newPassword} WHERE ID = #{loginId};
+
+	<!-- 更新員工密碼 -->
+	<update id="changePwd" parameterType="String">
+		UPDATE EMPLOYEES SET
+		PASSWORD = #{newPassword} WHERE ID = #{loginId};
 	</update>
-	
-	<!-- 獲取符合條件員工資訊-->
-	<select id ="searchEmp" resultType="Employees" parameterType ="Search">
+
+	<!-- 獲取符合條件員工資訊 -->
+	<select id="searchEmp" resultType="Employees"
+		parameterType="Search">
 		SELECT
-			E.ID
-		    ,E.NAME
-		    , E.GENDER
-		    , E.STATUS
-		    , D.NAME AS DEPARTMENT_NAME
-		    , P.NAME AS POSITION_NAME
+		E.ID
+		,E.NAME
+		, E.GENDER
+		, E.STATUS
+		, D.NAME AS DEPARTMENT_NAME
+		, P.NAME AS POSITION_NAME
 		FROM
-		    EMPLOYEES E 
-		INNER JOIN DEPARTMENTS D 
-		    ON E.DEPARTMENT_ID = D.ID 
-		INNER JOIN POSITIONS P 
-		    ON E.POSITION_ID = P.ID
-		WHERE 
-			0 = 0 
-			<if test="name != ''">
-				AND E.NAME LIKE CONCAT('%',#{name},'%')			
-			</if>
-			<if test="status != ''">
-				AND E.STATUS = #{status}			
-			</if>
-			<if test="departmentId != ''">
-				AND E.DEPARTMENT_ID =#{departmentId}			
-			</if>
+		EMPLOYEES E
+		INNER JOIN DEPARTMENTS D
+		ON E.DEPARTMENT_ID = D.ID
+		INNER JOIN POSITIONS P
+		ON E.POSITION_ID = P.ID
+		WHERE
+		0 = 0
+		<if test="name != ''">
+			AND E.NAME LIKE CONCAT('%',#{name},'%')
+		</if>
+		<if test="status != ''">
+			AND E.STATUS = #{status}
+		</if>
+		<if test="departmentId != ''">
+			AND E.DEPARTMENT_ID =#{departmentId}
+		</if>
 	</select>
-	<!-- 獲取職位ID-->
-	<select id ="getPositionIdByName" resultType="String" parameterType ="String">
+
+	<!-- 刪除員工，將status轉為離職 -->
+	<update id="deleteById">
+		UPDATE
+		EMPLOYEES
+		SET
+		STATUS = '離職'
+		WHERE
+		ID = #{id};
+	</update>
+
+	<!-- 獲取職位ID -->
+	<select id="getPositionIdByName" resultType="String"
+		parameterType="String">
 		SELECT ID FROM POSITIONS WHERE NAME = #{position};
 	</select>
-		<!-- 獲取部門ID-->
-	<select id ="getDepartmentIdByName" resultType="String" parameterType ="String">
+
+	<!-- 獲取部門ID -->
+	<select id="getDepartmentIdByName" resultType="String"
+		parameterType="String">
 		SELECT ID FROM DEPARTMENTS WHERE NAME = #{department};
 	</select>
-	<update id="setData">
-		UPDATE 
-    		EMPLOYEES 
-		SET 
-		    NAME = #{name}
-		    , ADDRESS = #{address}
-		    , PHONE_NUMBER = #{phoneNumber}
-		    , STATUS = #{status}
-		    , DEPARTMENT_ID = #{departmentId}
-		    , POSITION_ID = #{positionId}
-		WHERE 
-		    ID = #{id};
-    </update>
-        <update id="deleteById">
-		UPDATE 
-    		EMPLOYEES 
-		SET 
-		    STATUS = '離職'
-		WHERE 
-		    ID = #{id};
-    </update>
-	<insert id="insertEmp"  parameterType="Employees" >
-		INSERT INTO 
-			EMPLOYEES(
-				NAME
-				, GENDER
-				, BIRTH
-				, ADDRESS
-				, PHONE_NUMBER
-				, STATUS
-				, DEPARTMENT_ID
-				, POSITION_ID
-				, HIRE_DATE
-				, PASSWORD) 
-			VALUE (
-			  #{name}
-			, #{gender}
-			, #{birth}
-			, #{address}
-			, #{phoneNumber}
-			, #{status}
-			, #{departmentId}
-			, #{positionId}
-			, #{hireDate}
-			, #{password}); 	
-	</insert>
-    <select id ="getLastId" resultType="int" >
-		SELECT ID FROM EMPLOYEES ORDER BY ID DESC LIMIT 1;
-	</select>
-	 <select id ="getPositionIdById" resultType="String" parameterType ="String" >
-		SELECT POSITION_ID FROM EMPLOYEES WHERE ID = #{loginId};
-	</select>
-	<!-- 抓取部門所有員工-->
-	<select id ="selectEmps" resultType="Employees" parameterType ="String">
-		SELECT ID,NAME FROM EMPLOYEES WHERE DEPARTMENT_ID = #{departmentId};
-	</select>
-	<select id ="getAttendenceByCondition" resultType="Attendance" parameterType ="Condition">		 
-		SELECT
-	       d.NAME AS DEPARTMENT
-		    , a.EMPLOYEE_ID
-		    , e.NAME
-		    , MAX(a.DATE_) AS DATE_
-		    , MAX(a.CHECK_IN) AS CHECK_IN
-		    , MAX(a.CHECK_OUT) AS CHECK_OUT
-		    , MAX(a.REST_IN) AS REST_IN
-		    , MAX(a.REST_OUT) AS REST_OUT 
-	    FROM
-	        ATTENDANCE a 
-		JOIN EMPLOYEES e ON a.EMPLOYEE_ID = e.ID 
-		JOIN DEPARTMENTS d ON e.DEPARTMENT_ID = d.ID 
-	    WHERE
-	        1 = 1
-	        <if test="date != ''">
-	            AND a.DATE_ LIKE CONCAT(#{date},'%')
-	        </if>
-	        <if test="departmentId != ''">
-	            AND d.ID = #{departmentId}
-	        </if>
-	        <if test="id != ''">
-	            AND a.EMPLOYEE_ID = #{id}
-	        </if>
-	    GROUP BY
-	        d.NAME,
-	        a.EMPLOYEE_ID;
-	</select>
-    
-	<select id = "getEmployeeIdBySalaryRules" resultType ="SalaryRules"	parameterType ="String">
-		SELECT * FROM SALARY_RULES WHERE EMPLOYEE_ID = #{id}  ORDER BY ID DESC LIMIT 1; 
-	</select>
-	<insert id="setRulesData"  parameterType="SalaryRules">
-	INSERT
-	INTO
-		SALARY_RULES(
-			EMPLOYEE_ID
-			, RULE_NAME
-			, BASE_SALARY
-			, BONUS_RATE
-			, ALLOWANCE_RATE
-			, SOCAIL_INSURANCE_RATE
-			, HOUSING_FUND_RATE
-			, TAX_RATE )
+
+	<!-- 更新員工資訊 -->
+	<update id="updateEmpinfo">
+		UPDATE EMPLOYEES
+		SET
+		<trim prefix="" suffixOverrides=",">
+			<if test="address != ''">
+				ADDRESS = #{address},
+			</if>
+			<if test="phoneNumber != ''">
+				PHONE_NUMBER = #{phoneNumber},
+			</if>
+			<if test="status != ''">
+				STATUS = #{status},
+			</if>
+			<if test="departmentId != ''">
+				DEPARTMENT_ID = #{departmentId},
+			</if>
+			<if test="positionId != ''">
+				POSITION_ID = #{positionId},
+			</if>
+		</trim>
+		WHERE ID = #{id};
+	</update>
+
+	<insert id="insertEmp" parameterType="Employees">
+		INSERT INTO
+		EMPLOYEES(
+		NAME
+		, GENDER
+		, BIRTH
+		, ADDRESS
+		, PHONE_NUMBER
+		, STATUS
+		, DEPARTMENT_ID
+		, POSITION_ID
+		, HIRE_DATE
+		, PASSWORD)
 		VALUE (
-			#{employeeId}
-			, #{ruleName}
-			, #{baseSalary}
-			, #{bonusRate}
-			, #{allowanceRate}
-			, #{socailInsuranceRate}
-			, #{housingFundRate}
-			, #{taxRate}
+		#{name}
+		, #{gender}
+		, #{birth}
+		, #{address}
+		, #{phoneNumber}
+		, #{status}
+		, #{departmentId}
+		, #{positionId}
+		, #{hireDate}
+		, #{password});
+	</insert>
+	<select id="getLastId" resultType="int">
+		SELECT ID FROM EMPLOYEES
+		ORDER BY ID DESC LIMIT 1;
+	</select>
+	<select id="getPositionIdById" resultType="String"
+		parameterType="String">
+		SELECT POSITION_ID FROM EMPLOYEES WHERE ID =
+		#{loginId};
+	</select>
+	<!-- 抓取部門所有員工 -->
+	<select id="selectEmps" resultType="Employees"
+		parameterType="String">
+		SELECT ID,NAME FROM EMPLOYEES WHERE DEPARTMENT_ID =
+		#{departmentId};
+	</select>
+	<select id="getAttendenceByCondition" resultType="Attendance"
+		parameterType="Condition">
+		SELECT
+		d.NAME AS DEPARTMENT
+		, a.EMPLOYEE_ID
+		, e.NAME
+		, MAX(a.DATE_) AS DATE_
+		, MAX(a.CHECK_IN) AS CHECK_IN
+		, MAX(a.CHECK_OUT) AS CHECK_OUT
+		, MAX(a.REST_IN) AS REST_IN
+		, MAX(a.REST_OUT) AS REST_OUT
+		FROM
+		ATTENDANCE a
+		JOIN EMPLOYEES e ON a.EMPLOYEE_ID = e.ID
+		JOIN DEPARTMENTS d ON e.DEPARTMENT_ID = d.ID
+		WHERE
+		1 = 1
+		<if test="date != ''">
+			AND a.DATE_ LIKE CONCAT(#{date},'%')
+		</if>
+		<if test="departmentId != ''">
+			AND d.ID = #{departmentId}
+		</if>
+		<if test="id != ''">
+			AND a.EMPLOYEE_ID = #{id}
+		</if>
+		GROUP BY
+		d.NAME,
+		a.EMPLOYEE_ID;
+	</select>
+
+	<select id="getEmployeeIdBySalaryRules" resultType="SalaryRules"
+		parameterType="String">
+		SELECT * FROM SALARY_RULES WHERE EMPLOYEE_ID = #{id}
+		ORDER BY ID DESC LIMIT 1;
+	</select>
+	<insert id="setRulesData" parameterType="SalaryRules">
+		INSERT
+		INTO
+		SALARY_RULES(
+		EMPLOYEE_ID
+		, RULE_NAME
+		, BASE_SALARY
+		, BONUS_RATE
+		, ALLOWANCE_RATE
+		, SOCAIL_INSURANCE_RATE
+		, HOUSING_FUND_RATE
+		, TAX_RATE )
+		VALUE (
+		#{employeeId}
+		, #{ruleName}
+		, #{baseSalary}
+		, #{bonusRate}
+		, #{allowanceRate}
+		, #{socailInsuranceRate}
+		, #{housingFundRate}
+		, #{taxRate}
 		);
 	</insert>
 

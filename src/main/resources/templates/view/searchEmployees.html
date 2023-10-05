@@ -13,44 +13,45 @@
   <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.js"></script>
 </head>
 
-<body>
+
+  <body>
   <div class="container">
     <table>
-      <form th:action="@{/searchEmployees}" th:method="post">
-        <h3>檢索条件</h3>
-        <tr>
-          <td>
-            <p>従業員氏名</p>
-            <input type="text" name="name" placeholder="氏名">
-          </td>
-          <td>
-            <p>ステータス</p>
-            <div>
-              <select name="status">
-                <option >在籍中</option>
-                <option>離籍</option>
-                <option>休職中</option>
-              </select>
-            </div>
-          </td>
-          <td>
-            <p>所属部署名</p>
-            <div>
-              <select name="departmentId">
-                <option> </option>
-                <option th:each="department:${departmentList}" 
-                th:value="${department.value}" th:text="${department.name}"></option>
-              </select>
-            </div>
-          </td>
-          <td></td>
-          <td></td>
-          <td>
-            <p></p>
-            <input class="search" type="submit" value="檢索">
-          </td>
-          </td>
-        </tr>
+     <form th:action="@{/searchEmployees}" th:method="post">
+      <h3>檢索条件</h3>
+      <tr class="choose">
+        <td>
+          <p>従業員氏名</p>
+          <input type="text" name="name" placeholder="氏名">
+        </td>
+        <td>
+          <p>ステータス</p>
+          <div>
+            <select name="status">
+              <option>在籍中</option>
+              <option>離籍</option>
+              <option>休職中</option>
+            </select>
+          </div>
+        </td>
+        <td>
+          <p>所属部署名</p>
+          <div>
+            <select name="departmentId">
+              <option> </option>
+              <option th:each="department:${departmentList}" th:value="${department.value}"
+                th:text="${department.name}"></option>
+            </select>
+          </div>
+        </td>
+        <td></td>
+        <td></td>
+        <td>
+          <p></p>
+          <input class="search" type="submit" value="檢索">
+        </td>
+        </td>
+      </tr>
     </table>
   </div>
   </form>
@@ -74,13 +75,14 @@
           <td th:text="${emp.gender}"></td>
           <td th:text="${emp.departmentName}"></td>
           <td th:text="${emp.positionName}"></td>
-          <td><button class="detail" id="detail" type="button" th:data-parameter1="${emp.id}"><i class="fa-solid fa-pen-to-square"></i></button></td>
+          <td><button class="detail" id="detail" type="button" th:data-parameter1="${emp.id}"><i
+                class="fa-solid fa-pen-to-square"></i></button></td>
         </tr>
       </tbody>
     </table>
   </div>
-  
-<div class="container profile" id="profile">
+
+  <div class="container profile" id="profile">
     <div class="row">
       <div class="col-5">
         <div class="profile-photo">
@@ -89,13 +91,13 @@
             alt="Jmnathan Smith" />
         </div>
       </div>
-      <div class="col-7" >
+      <div class="col-7">
         <div class="cell6">
           <span class="close" id="closePopup">&times;</span>
         </div>
         <div class="profile-info">
           <div class="flex-container">
-            <h3 class="profile-number">社員番号<span class="cont empId" ></span></h3>       
+            <h3 class="profile-number">社員番号<span class="cont empId"></span></h3>
           </div>
           <div class="flex-container">
             <h1 class="profile-title empName"></h1>
@@ -103,6 +105,18 @@
           <div class="flex-container">
             <h3 class="profile-number empbirth"></h3>
           </div>
+          <div>
+            <form id="updateEmpinfo"th:action="@{/updateEmpinfo}" th:method="post">
+              <input type="hidden" name="id" value="employeeId"> 
+              <input type="hidden" name="positionId" value="positionId">
+              <input type="hidden" name="status" value="status">
+              <input type="hidden" name="departmentId" value="departmentId">
+              <input type="hidden" name="phoneNumber" value="phoneNumber">
+              <input type="hidden" name="address" value="address">
+            </form>
+          </div>
+          <button type="button" class="btn-01" id="safebtn">保存</button>
+          <button type="button" class="btn-01" id="destruction">破棄</button>
         </div>
       </div>
     </div>
@@ -111,22 +125,42 @@
         <div class="Businessinfo-1">
           <h3>業務情報</h3>
           <button type="button" class="changeInfo" id="optionsButton"><i class="fa-solid fa-gear"></i></button>
-            <div class="optionsMenu" id="optionsMenu">
-              <ul>
-                <li><a href="#" id="editInfo">編集</a></li>
-                <li><a href="#" id="deleteInfo">削除</a></li>
-                <li><a href="#" id="resetPassword">パスワードリセット</a></li>
-              </ul>
-            </div>
+
+          <div class="optionsMenu" id="optionsMenu">
+            <ul>
+              <li class="edit"><a href="#" id="editInfo">編集</a></li>
+              <li class="notice"><a href="#" id="deleteInfo">削除</a></li>
+              <li class="notice"><a href="#" id="resetPassword">パスワードリセット</a></li>
+            </ul>
+          </div>
         </div>
         <ul class="profile-list">
           <li class="clearfix">
             <strong class="title">所属部署</strong>
-            <span class="cont departmentName"  style="margin-left: 100px;"></span>
+            <span class="cont departmentName" style="margin-left: 100px;" contentEditable="false"></span>
+            <select name="departmentId" id="departmentId" class="statusEdit" style="margin-left:100px;display: none;">
+              <option> </option>
+              <option th:each="department:${departmentList}" th:value="${department.value}"
+                th:text="${department.name}"></option>
+            </select>
+          </li>
+          <li class="clearfix">
+            <strong class="title">役職</strong>
+            <span class="cont positionName" style="margin-left: 131px;" contentEditable="false"></span>
+            <select name="positionId" id="positionId" class="statusEdit " style="margin-left: 131px; display:none">
+              <option value=""></option>
+              <option th:value="3">一般社員</option>
+              <option th:value="2">部長</option>
+              <option th:value="1" th:if="${pId}==1">社長</option>
+            </select>
           </li>
           <li class="clearfix">
             <strong class="title">ステータス</strong>
-            <span class="cont status" style="margin-left: 83px;"></span>
+            <span class="cont status" style="margin-left: 83px;" contentEditable="false"></span>
+            <select id="status-1" class="statusEdit" style="margin-left:83px;display: none;">
+              <option value="在籍中">在職</option>
+              <option value="休職">休職</option>
+            </select>
           </li>
           <li class="clearfix">
             <strong class="title">入社日</strong>
@@ -141,17 +175,16 @@
         <ul class="profile-list">
           <li class="clearfix">
             <strong class="title">連絡先</strong>
-            <span class="cont phoneNumber" style="margin-left: 115px;"></span>
+            <span class="cont phoneNumber" style="margin-left: 115px;" contentEditable="false">3142341234</span>
           </li>
           <li class="clearfix">
             <strong class="title">住所</strong>
-            <span class="cont address"style="margin-left: 131px;"></span>
+            <span class="cont address" style="margin-left: 131px;" contentEditable="false">3142341234</span>
           </li>
         </ul>
       </div>
     </div>
   </div>
-
 </body>
 
 </html>

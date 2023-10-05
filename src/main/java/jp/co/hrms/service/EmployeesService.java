@@ -28,14 +28,33 @@ public class EmployeesService {
 	}
 
 	//變更密碼
-	public void pwdChange(String newPassword,String loginId) {
+	public void changePwd(String newPassword,String loginId) {
 		mapper.changePwd(newPassword,loginId);
 	}
-
-	public void deleteById(String id) {
-		mapper.deleteById(id);
+	
+	//刪除員工
+	public boolean deleteById(String id) {
+		Employees emp = mapper.getEmployeesByUserid(id);
+		if(emp.getStatus().equals("在籍中") && emp!=null ) {
+			mapper.deleteById(id);	
+			return true;
+		}else{
+			return false;
+		}
 	}
 
+	//依照檢索條件查找符合條件之員工資訊
+	public List<Employees> searchEmp(Search search) {
+		return mapper.searchEmp(search);
+	}
+
+	//更新員工資訊
+	public void updateEmpinfo(Employees employee) {
+		System.out.println("修改数据：" + employee);
+		mapper.updateEmpinfo(employee);
+	}
+	
+	
 	public String insertEmp(Employees employee) {
 		employee.setPositionId(mapper.getPositionIdByName("一般員工"));
 		employee.setStatus("在籍中");
@@ -48,24 +67,8 @@ public class EmployeesService {
 	public String getPositionIdById(String loginId) {
 		return mapper.getPositionIdById(loginId);
 	}
+	
 
-	public List<Employees> searchEmp(Search search) {
-		List<Employees> EMP = mapper.searchEmp(search);
-		System.out.println("service = "+EMP);
-		return mapper.searchEmp(search);
-
-	}
-
-	public void setData(Employees employee) {
-		String department = employee.getDepartmentName();
-		String position = employee.getPositionName();
-		employee.setPositionId(mapper.getPositionIdByName(position));
-		employee.setDepartmentId(mapper.getDepartmentIdByName(department));
-
-		System.out.println("修改数据：" + employee);
-		mapper.setData(employee);
-
-	}
 
 	public List<Employees> selectEmps(String departmentId) {
 		List<Employees> Emp = mapper.selectEmps(departmentId);

@@ -22,9 +22,14 @@ public interface EmployeesMapper {
 	//變更密碼
 	void changePwd(String newPassword,String loginId);
 
-	List<Employees> searchEmp(Search search);//取得員工基礎訊息
+	//取得員工基礎訊息
+	List<Employees> searchEmp(Search search);
 
-	void setData(Employees employee);//更新員工資料
+	//刪除員工資料
+	void deleteById(String id);
+	
+	//更新員工資料
+	void updateEmpinfo(Employees employee);
 
 	String getPositionIdByName(String position);//獲取職位ID
 
@@ -32,9 +37,8 @@ public interface EmployeesMapper {
 
 	List<SalaryRules>getEmployeeIdBySalaryRules(String salaryRules);//獲取薪資規則ID
 
+	
 	public List<Employees> getEmployeeByLoginId(String loginId);
-
-	void deleteById(String id);//刪除員工資料
 
 	public List<Employees> selectEmps(String departmentId);
 
