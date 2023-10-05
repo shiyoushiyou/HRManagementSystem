@@ -141,7 +141,7 @@
             <select name="departmentId" id="departmentId" class="statusEdit" style="margin-left:100px;display: none;">
               <option> </option>
               <option th:each="department:${departmentList}" th:value="${department.value}"
-                th:text="${department.name}"></option>
+                th:text="${department.name}" required></option>
             </select>
           </li>
           <li class="clearfix">
@@ -175,11 +175,11 @@
         <ul class="profile-list">
           <li class="clearfix">
             <strong class="title">連絡先</strong>
-            <span class="cont phoneNumber" style="margin-left: 115px;" contentEditable="false">3142341234</span>
+            <span class="cont phoneNumber" style="margin-left: 115px;" contentEditable="false" required pattern="^[0-9]{11}$"></span>
           </li>
           <li class="clearfix">
             <strong class="title">住所</strong>
-            <span class="cont address" style="margin-left: 131px;" contentEditable="false">3142341234</span>
+            <span class="cont address" style="margin-left: 131px;" contentEditable="false" required pattern="^[\p{L}\p{M}0-9-]{6,}$"></span>
           </li>
         </ul>
       </div>
