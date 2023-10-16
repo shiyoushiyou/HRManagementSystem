@@ -38,12 +38,12 @@ public class AttendanceService {
 				updateRecord.setStatus("出勤");
 				Mapper.setTimeCardRecord(updateRecord);
 			}else {
-				errorMsg = "已經有今天的打卡紀錄，不能打卡";
+				errorMsg = "今日既に出勤しております。二重打刻は出来ません。";
 			}
 			//下班操作
 			}else if(("checkout").equals(action)) {	
 				if(latestRecord==null) {
-					errorMsg = "今日沒有上班紀錄無法打下班卡";
+					errorMsg = "まだ出勤してないため、打刻処理不可。";
 				}else if(latestRecord!=null&&latestRecord.getCheckIn()!=null
 						&&latestRecord.getCheckOut()==null){
 					Attendance updateRecord = setEmpIdAndDate(employeeId,date);

@@ -45,7 +45,7 @@ $("#popupFormCurrentPwd").submit(function (e) {
         document.getElementById("popup1").style.display = "none";
       } else {
         // 當前密碼驗證失敗，顯示錯誤訊息
-        document.getElementById("msg").innerText = "當前密碼不正確。";
+        document.getElementById("msg").innerText = "パスワード正しくありません";
       }
     },
     error: function (xhr, status, error) {
